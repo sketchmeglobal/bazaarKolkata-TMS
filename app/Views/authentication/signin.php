@@ -51,7 +51,8 @@
                                 <span class="error"><?= (isset($validation) ? $validation['email'] : ''); ?></span>
                             </div>
                             <div class="form-floating mb-4">
-                                <input min="8" type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
+                                <!-- min="8" -->
+                                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
                                 <label for="floatingPassword">Password</label>
                                 <span class="error"><?= (isset($validation) ? $validation['password'] : ''); ?></span>
                             </div>

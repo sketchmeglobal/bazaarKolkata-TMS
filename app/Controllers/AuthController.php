@@ -33,7 +33,7 @@ class AuthController extends BaseController
                     $session->setFlashdata('msg', 'Wrong Input');
                     return redirect()->to('/login');
                 } else {
-                    echo 'here';
+                    //echo 'here';
                     $ses_data = [
                         'id'           => $data[0]->id,
                         'password'     => $data[0]->password,
