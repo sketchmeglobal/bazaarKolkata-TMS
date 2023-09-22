@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <title>SMG HELPDESK | Dashboard</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
-
-    <?= view('component/css') ?>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+<?= view('component/css') ?>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
 
 
 </head>
@@ -17,8 +7,7 @@
 <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
-        <div id="spinner"
-            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -35,19 +24,19 @@
             <!-- Navbar Start -->
             <?= view('component/top_nav') ?>
             <!-- Navbar End -->
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-5 col-md-6 col-10 bg-light py-2 text-center border-bottom-all-rd">
-            <h5 class="text-primary">Site Hierarchy</h5>
-        </div>
-    </div>
-</div>
             <div class="container">
-                
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-6 col-10 bg-light py-2 text-center border-bottom-all-rd">
+                        <h5 class="text-primary">Site Hierarchy</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+
                 <div class="row">
 
-                    
-                    
+
+
                     <div class="col-md-12 px-4 my-5">
                         <table id="myTable" class="display">
                             <thead>
@@ -56,7 +45,7 @@
                                     <th>Location</th>
                                     <th>Designation order</th>
                                     <th>Options</th>
-                                    
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -69,22 +58,22 @@
                                 <tr>
                                     <td>2 </td>
                                     <td>Barasat</td>
-                                    <td>Manager -> Operator	</td>
+                                    <td>Manager -> Operator </td>
                                     <td>- </td>
                                 </tr>
                                 <tr>
                                     <td>3 </td>
                                     <td>Jhargram</td>
-                                    <td>Manager -> Agent -> Operator	</td>
+                                    <td>Manager -> Agent -> Operator </td>
                                     <td>- </td>
                                 </tr>
                                 <tr>
                                     <td>4 </td>
                                     <td>Jalpaiguri</td>
-                                    <td>Admin -> Operator -> Agent	</td>
+                                    <td>Admin -> Operator -> Agent </td>
                                     <td>-</td>
                                 </tr>
-                                
+
 
                             </tbody>
                         </table>
@@ -101,8 +90,7 @@
                         </div>
                         <div class="col-12 col-sm-6 text-center text-sm-end">
 
-                            Distributed By <a class="border-bottom" href="https://sketchmeglobal.com/"
-                                target="_blank">SMG</a>
+                            Distributed By <a class="border-bottom" href="https://sketchmeglobal.com/" target="_blank">SMG</a>
                         </div>
                     </div>
                 </div>
@@ -120,13 +108,13 @@
     <?= view('component/js') ?>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <script>
-    let table = new DataTable('#myTable');
+        let table = new DataTable('#myTable');
     </script>
 
     <script>
-    $(function() {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     </script>
 
 </body>

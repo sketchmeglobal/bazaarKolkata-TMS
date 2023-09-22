@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <title>SMG HELPDESK | Dashboard</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
-
-    <?= view('component/css') ?>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+<?= view('component/css') ?>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
 
 
 </head>
@@ -17,8 +7,7 @@
 <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
-        <div id="spinner"
-            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -66,8 +55,7 @@
                                         <div class="col-md-6 col-12 ">
                                             <div class="form-group">
                                                 <label for="exampleFormControlInput1">Subject</label>
-                                                <input type="text" class="form-control" id="exampleFormControlInput1"
-                                                    placeholder="subject of the ticket">
+                                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="subject of the ticket">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-12 mt-4">
@@ -103,8 +91,7 @@
                                         <div class="col-md-6 col-12 mt-4">
                                             <div class="form-group">
                                                 <label for="exampleFormControlInput1">Purpose</label>
-                                                <input type="text" class="form-control" id="exampleFormControlInput1"
-                                                    placeholder="subject of the ticket">
+                                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="subject of the ticket">
                                             </div>
                                         </div>
                                         <div class="col-md-12 mt-4">
@@ -117,9 +104,7 @@
 
                                                 </div>
                                                 <div class="col-md-12 mt-4 float-right">
-                                                    <button class="btn btn-primary" id="reply"
-                                                        data-ticket-no="TIK-SMG-000113">Reply <i
-                                                            class="fa fa-reply"></i>
+                                                    <button class="btn btn-primary" id="reply" data-ticket-no="TIK-SMG-000113">Reply <i class="fa fa-reply"></i>
                                                     </button>
                                                 </div>
 
@@ -138,16 +123,13 @@
                                         <div class="card">
                                             <div class="card-header" id="headingOne">
                                                 <h5 class="mb-0">
-                                                    <button class="btn btn-link" data-toggle="collapse"
-                                                        data-target="#collapseOne" aria-expanded="true"
-                                                        aria-controls="collapseOne">
+                                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                         Category name1
                                                     </button>
                                                 </h5>
                                             </div>
 
-                                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                                                data-parent="#accordion">
+                                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                                 <div class="card-body">
                                                     Some placeholder content for the first accordion panel.
                                                 </div>
@@ -156,15 +138,12 @@
                                         <div class="card">
                                             <div class="card-header" id="headingTwo">
                                                 <h5 class="mb-0">
-                                                    <button class="btn btn-link collapsed" data-toggle="collapse"
-                                                        data-target="#collapseTwo" aria-expanded="false"
-                                                        aria-controls="collapseTwo">
+                                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                                         Category name 2
                                                     </button>
                                                 </h5>
                                             </div>
-                                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-                                                data-parent="#accordion">
+                                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                                                 <div class="card-body">
                                                     Some placeholder content for the second accordion panel. This panel
                                                     is hidden by default.
@@ -174,15 +153,12 @@
                                         <div class="card">
                                             <div class="card-header" id="headingThree">
                                                 <h5 class="mb-0">
-                                                    <button class="btn btn-link collapsed" data-toggle="collapse"
-                                                        data-target="#collapseThree" aria-expanded="false"
-                                                        aria-controls="collapseThree">
+                                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                                         Category name 3
                                                     </button>
                                                 </h5>
                                             </div>
-                                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                                                data-parent="#accordion">
+                                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
                                                 <div class="card-body">
 
                                                     And lastly, the placeholder content for the third and final
@@ -211,8 +187,7 @@
                         </div>
                         <div class="col-12 col-sm-6 text-center text-sm-end">
 
-                            Distributed By <a class="border-bottom" href="https://sketchmeglobal.com/"
-                                target="_blank">SMG</a>
+                            Distributed By <a class="border-bottom" href="https://sketchmeglobal.com/" target="_blank">SMG</a>
                         </div>
                     </div>
                 </div>
@@ -228,22 +203,19 @@
 
     <!-- JavaScript Libraries -->
     <?= view('component/js') ?>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
     <script>
-    ClassicEditor
-        .create(document.querySelector('#editor'))
-        .catch(error => {
-            console.error(error);
-        });
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
     </script>
 
 </body>
