@@ -1,4 +1,4 @@
-<?= view('component/css') ?>
+<?= view('component/header') ?>
 </head>
 
 <body>

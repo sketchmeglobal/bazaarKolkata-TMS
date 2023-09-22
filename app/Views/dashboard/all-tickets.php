@@ -1,4 +1,4 @@
-<?= view('component/css') ?>
+<?= view('component/header') ?>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
 
 
@@ -7,7 +7,8 @@
 <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div id="spinner"
+            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -37,7 +38,8 @@
                         <div class="row">
                             <div class=" col-md-3 form-group">
                                 <label class="control-label alpaca-control-label" for="alpaca3">Assigned To</label>
-                                <input type="text" id="alpaca3" name="assign_to" class="alpaca-control form-control" autocomplete="off">
+                                <input type="text" id="alpaca3" name="assign_to" class="alpaca-control form-control"
+                                    autocomplete="off">
                             </div>
                             <div class="col-lg-3 col-md-6 form-group">
                                 <label for="exampleFormControlSelect1">Example select</label>
@@ -112,15 +114,19 @@
                                     <td><span class="bg-red mx-1 px-1">Closed</span></td>
                                     <td>Network</td>
                                     <td><span>
-                                            <div data-toggle="tooltip" data-placement="top" title="User Demo @user.demo">
+                                            <div data-toggle="tooltip" data-placement="top"
+                                                title="User Demo @user.demo">
                                                 <span class="card-ud" style="padding:4px !important">UD</span>@user.demo
                                     </td>
                                     <td><span>
-                                            <div data-toggle="tooltip" data-placement="top" title="Admin Demo @admin.demo">
-                                                <span class="card-ud" style="padding:4px !important">AD</span>@agent.demo</td>
+                                            <div data-toggle="tooltip" data-placement="top"
+                                                title="Admin Demo @admin.demo">
+                                                <span class="card-ud"
+                                                    style="padding:4px !important">AD</span>@agent.demo</td>
                                     <td>2 months ago</td>
                                     <td class="d-flex">
-                                        <div><a href="<?= base_url('tickets-view/view1')  ?>"><i class="fa fa-eye"></i></a></div>
+                                        <div><a href="<?= base_url('tickets-view/view1')  ?>"><i
+                                                    class="fa fa-eye"></i></a></div>
                                         <div><a href="#"><i class="fa fa-repeat"></i></a></div>
                                     </td>
                                 </tr>
@@ -132,15 +138,19 @@
                                     <td><span class="bg-green mx-1 px-1">Open</span></td>
                                     <td>Network</td>
                                     <td><span>
-                                            <div data-toggle="tooltip" data-placement="top" title="User Demo @user.demo">
+                                            <div data-toggle="tooltip" data-placement="top"
+                                                title="User Demo @user.demo">
                                                 <span class="card-ud" style="padding:4px !important">UD</span>@user.demo
                                     </td>
                                     <td><span>
-                                            <div data-toggle="tooltip" data-placement="top" title="Admin Demo @admin.demo">
-                                                <span class="card-ud" style="padding:4px !important">AD</span>@agent.demo</td>
+                                            <div data-toggle="tooltip" data-placement="top"
+                                                title="Admin Demo @admin.demo">
+                                                <span class="card-ud"
+                                                    style="padding:4px !important">AD</span>@agent.demo</td>
                                     <td>2 months ago</td>
                                     <td class="d-flex">
-                                        <div><a href="<?= base_url('tickets-view/view2')  ?>"><i class="fa fa-eye"></i></a></div>
+                                        <div><a href="<?= base_url('tickets-view/view2')  ?>"><i
+                                                    class="fa fa-eye"></i></a></div>
                                         <div><a href="#"><i class="fa fa-repeat"></i></a></div>
                                     </td>
                                 </tr>
@@ -160,7 +170,8 @@
                         </div>
                         <div class="col-12 col-sm-6 text-center text-sm-end">
 
-                            Distributed By <a class="border-bottom" href="https://sketchmeglobal.com/" target="_blank">SMG</a>
+                            Distributed By <a class="border-bottom" href="https://sketchmeglobal.com/"
+                                target="_blank">SMG</a>
                         </div>
                     </div>
                 </div>
@@ -178,13 +189,13 @@
     <?= view('component/js') ?>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <script>
-        let table = new DataTable('#myTable');
+    let table = new DataTable('#myTable');
     </script>
 
     <script>
-        $(function() {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
     </script>
 
 </body>

@@ -7,7 +7,8 @@
 <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div id="spinner"
+            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -79,7 +80,8 @@
                         </div>
                         <div class="col-12 col-sm-6 text-center text-sm-end">
 
-                            Distributed By <a class="border-bottom" href="https://sketchmeglobal.com/" target="_blank">SMG</a>
+                            Distributed By <a class="border-bottom" href="https://sketchmeglobal.com/"
+                                target="_blank">SMG</a>
                         </div>
                     </div>
                 </div>
@@ -97,13 +99,13 @@
     <?= view('component/js') ?>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <script>
-        let table = new DataTable('#myTable');
+    let table = new DataTable('#myTable');
     </script>
 
     <script>
-        $(function() {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
     </script>
 
 </body>
