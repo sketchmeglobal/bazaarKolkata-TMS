@@ -43,7 +43,7 @@ class Routing extends BaseRouting
      *
      * Default: 'Home'
      */
-    public string $defaultController = 'AuthController';
+    public string $defaultController = 'Home';
 
     /**
      * The default method to call on the controller when no other
@@ -51,7 +51,7 @@ class Routing extends BaseRouting
      *
      * Default: 'index'
      */
-    public string $defaultMethod = 'login';
+    public string $defaultMethod = 'index';
 
     /**
      * Whether to translate dashes in URIs to underscores.

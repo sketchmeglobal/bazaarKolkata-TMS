@@ -4,9 +4,11 @@
     --light: #F3F6F9;
     --dark: #191C24;
 }
+
 .fa-ticket:before {
     content: "\f145";
 }
+
 .back-to-top {
     position: fixed;
     display: none;
@@ -68,9 +70,10 @@
 
 
 /*** Layout ***/
-.bg-glue-light{
+.bg-glue-light {
     background-color: #009CFF;
 }
+
 .sidebar {
     position: fixed;
     top: 0;
@@ -283,68 +286,84 @@
 }
 
 /* kkk */
-label{
+
+label {
     color: #009CFF;
 }
-.overflow-x-hidden{
+
+.overflow-x-hidden {
     overflow: hidden;
     overflow-x: scroll;
 }
+
 .fa-warning:before {
     content: "\f071";
 }
+
 .fa-folder-open:before {
     content: "\f07c";
 }
-.card-ud{
+
+.card-ud {
     padding: 10px;
     border-radius: 50px;
     background-color: #009CFF;
     color: white;
     font-weight: 600;
 }
-.card-body-text{
+
+.card-body-text {
     height: 800px;
     overflow: hidden;
     overflow-y: scroll;
     background-color: #F3F6F9;
 }
-.sticky-this{
+
+.sticky-this {
     position: sticky;
     top: 0;
 }
+
 .card-header {
     padding: 1rem 1.25rem;
     background-color: #F3F6F9;
     border-bottom: 1px solid #eee;
 }
-.text-bg-red{
-    background: #fe0000!important;
+
+.text-bg-red {
+    background: #fe0000 !important;
 }
-.text-bg-green{
-    background: #4de43b!important;
+
+.text-bg-green {
+    background: #4de43b !important;
 }
-.bg-yellow{
-    background: #edfa39!important;
+
+.bg-yellow {
+    background: #edfa39 !important;
     border-radius: 5px;
 }
-.bg-blue{
+
+.bg-blue {
     background: #85b4f2 !important;
     border-radius: 5px;
 }
+
 .fa-file-image-o:before {
     content: "\f1c5";
 }
-.border-top-all-rd{
+
+.border-top-all-rd {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 
 }
-.border-bottom-all-rd{
+
+.border-bottom-all-rd {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 
 }
+
 .edit-text {
     width: 30px;
     height: 30px;
@@ -359,45 +378,54 @@ label{
     justify-content: center;
     align-items: center;
 }
+
 .bg-red {
-    background: #fe0000!important;
+    background: #fe0000 !important;
     color: white;
     border-radius: 5px;
 }
+
 .bg-green {
-    background: #4de43b!important;
+    background: #4de43b !important;
     color: white;
     border-radius: 5px;
 }
-.fa-edit:before{
+
+.fa-edit:before {
     content: "\f044";
 }
-.ticked-head{
+
+.ticked-head {
     /* height: 80px; */
     background-color: #F3F6F9;
     border-radius: 5px;
 }
-.ticket{
+
+.ticket {
     width: 50px;
     height: 50px;
     border-radius: 50px;
     background-color: #F3F6F9;
     position: absolute;
-    top:5px;
+    top: 5px;
     left: -24px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.margin-l{
+
+.margin-l {
     margin-left: 50px;
 }
-.list-style-none{
+
+.list-style-none {
     list-style-type: none;
 }
-.comments-list{
+
+.comments-list {
     position: relative;
 }
+
 .comments-list:before {
     content: '';
     width: 2px;
@@ -407,13 +435,17 @@ label{
     left: 32px;
     top: 5px;
 }
-.hd-style{
-position: relative;
+
+.hd-style {
+    position: relative;
 }
-.comment-content{
+
+.comment-content {
     background-color: #F3F6F9;
 }
-.hd-style:before, .hd-style:after {
+
+.hd-style:before,
+.hd-style:after {
     content: '';
     height: 0;
     width: 0;
@@ -427,37 +459,43 @@ position: relative;
 }
 
 /* NEW CHANGEEE */
-@media (max-width: 1750px){
+@media (max-width: 1750px) {
     .content {
         margin-left: 65px !important;
         width: 100%;
     }
-    }
-@media (max-width: 1440px){
+}
+
+@media (max-width: 1440px) {
     .content {
         margin-left: 190px !important;
     }
+
     .content {
         width: 100% !important;
     }
-    
+
 }
-@media (max-width: 1409px){
-.content {
-    margin-left: 206px !important;
+
+@media (max-width: 1409px) {
+    .content {
+        margin-left: 206px !important;
+    }
 }
+
+@media (max-width: 1399px) {
+    .content {
+        margin-left: 252px !important;
+    }
 }
-@media (max-width: 1399px){
-.content {
-    margin-left: 252px !important;
-}
-}
-@media (max-width: 1831px){
+
+@media (max-width: 1831px) {
     .content {
         margin-left: 252px;
     }
 }
-@media (max-width: 992px){
+
+@media (max-width: 992px) {
     .content {
         margin-left: 0px !important;
     }

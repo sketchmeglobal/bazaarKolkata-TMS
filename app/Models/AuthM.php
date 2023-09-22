@@ -4,16 +4,16 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class UserM extends Model
+class AuthM extends Model
 {
     protected $DBGroup          = 'default';
     protected $table            = 'users';
-    protected $primaryKey       = 'users_id';
+    protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['username', 'email', 'password', 'users_status'];
+    protected $allowedFields    = ['username', 'email', 'password'];
 
     // Dates
     protected $useTimestamps = false;
@@ -44,9 +44,16 @@ class UserM extends Model
     {
         return $this->db->table('users')->select('*')->where(['row_status' => 1])->get()->getResult();
     }
-
-    public function check_user()
+    public function password_verify($email, $pass)
     {
-        return $this->db->table('users')->select('*')->where(['email' => 1])->get()->getResult();
+        $pass =  hash('sha512', $pass);
+        $resultset = $this->db->table('users')->where(['email' => $email, 'password' => $pass])->get()->getResult();
+        // echo $this->db->getLastQuery();
+
+        if (count($resultset) > 0) {
+            return $resultset;
+        } else {
+            return 'wrong';
+        }
     }
 }

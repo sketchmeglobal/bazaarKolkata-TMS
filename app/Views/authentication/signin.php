@@ -9,6 +9,13 @@
     <meta content="" name="description">
 
     <?= view('component/css') ?>
+    <style>
+        #login_form .error {
+            color: red !important;
+            position: relative;
+            padding: 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -33,16 +40,22 @@
                             </a>
                             <h3>Sign In</h3>
                         </div>
-                        <form action="<?= base_url('/do_login') ?>" method="post">
+                        <?php if (session()->getFlashdata('msg')) : ?>
+                            <div class="alert alert-danger"><?= session()->getFlashdata('msg') ?></div>
+                        <?php endif; ?>
+                        <form id="login_form" method="post">
+
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
+                                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" required>
                                 <label for="floatingInput">Email address</label>
+                                <span class="error"><?= (isset($validation) ? $validation['email'] : ''); ?></span>
                             </div>
                             <div class="form-floating mb-4">
-                                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+                                <input min="8" type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
                                 <label for="floatingPassword">Password</label>
+                                <span class="error"><?= (isset($validation) ? $validation['password'] : ''); ?></span>
                             </div>
-                            <h5>Error: <?= validation_list_errors() ?></h5>
+
                             <input class="btn btn-primary py-3 w-100 mb-4" type="submit" value="Sign In" name="submit">
                             <!-- <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Sign In</button> -->
                         </form>
@@ -56,6 +69,11 @@
 
     <!-- JavaScript Libraries -->
     <?= view('component/js') ?>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script>
+        $("#login_form").validate();
+    </script>
 </body>
 
 </html>
