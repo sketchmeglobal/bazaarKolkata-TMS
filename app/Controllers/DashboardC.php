@@ -10,10 +10,10 @@ class DashboardC extends BaseController
     {
         return view('dashboard/index');
     }
-    public function all_tickets()
-    {
-        return view('dashboard/all-tickets');
-    }
+    // public function all_tickets()
+    // {
+    //     return view('dashboard/all-tickets');
+    // }
     public function profile()
     {
         return view('dashboard/profile');

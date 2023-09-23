@@ -11,3 +11,5 @@
 
  <!-- Template Javascript -->
  <script src="<?= base_url('assets/js/main.js') ?>"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>

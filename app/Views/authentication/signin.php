@@ -36,17 +36,13 @@
                         <form id="login_form" method="post">
 
                             <div class="form-floating mb-3">
-                                <?php
-                                $email = isset($email) ? $email : '';
-                                $pass = isset($pass) ? $pass : '';
-                                ?>
-                                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" required value="<?= $email ?>">
+                                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" required value="<?=isset($email) ? $email : ''?>">
                                 <label for="floatingInput">Email address</label>
                                 <span class="error"><?= (isset($validation) ? $validation['email'] : ''); ?></span>
                             </div>
                             <div class="form-floating mb-4">
                                 <!-- min="8" -->
-                                <input minlength="8" type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required value="<?= $pass ?>">
+                                <input minlength="8" type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required value="<?=isset($pass) ? $pass : ''?>">
                                 <label for="floatingPassword">Password</label>
                                 <span class="error"><?= (isset($validation) ? $validation['password'] : ''); ?></span>
                             </div>
@@ -64,8 +60,6 @@
 
     <!-- JavaScript Libraries -->
     <?= view('component/js') ?>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
     <script>
         $("#login_form").validate();
     </script>
