@@ -16,12 +16,13 @@ class AuthController extends BaseController
     public function login()
     {
         if ($this->request->getVar('submit')) {
+            $datam = array();
             $session = session();
             $authModel = new AuthM();
             // Validation
             $rules = [
                 'email' => 'required|valid_email',
-                'password' => 'required'
+                'password' => 'required|min_length[8]'
                 //|min_length[8]
             ];
 
@@ -32,7 +33,9 @@ class AuthController extends BaseController
 
                 if ($data == 'wrong') {
                     $session->setFlashdata('msg', 'Wrong Input');
-                    return redirect()->to('/login');
+                    $datam['email'] = $email;
+                    $datam['pass'] = $password;
+                    return view('authentication/signin', $datam);
                 } else {
                     //echo 'here';
                     $ses_data = [
@@ -46,9 +49,8 @@ class AuthController extends BaseController
                 }
             } else {
                 $data['validation'] = $this->validator->getErrors();
-                echo '<pre>';
-                print_r($data);
-                die;
+                $data['email'] = $this->request->getVar('email');
+                $data['pass'] = $this->request->getVar('password');
                 return view('authentication/signin', $data);
             }
         } else {
