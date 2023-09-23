@@ -2,13 +2,13 @@
 <html lang="en">
 
 <head>
+    <title>Bazaar Kolkata</title>
     <meta charset="utf-8">
-    <title>DASHMIN - Bootstrap Admin Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
     <!-- Favicon -->
-    <link rel="shortcut icon" href="http://sudeshnaspeaks.in/demo-baazarkolkata/assets/img/favicon.ico">
+    <!-- <link rel="shortcut icon" href="http://sudeshnaspeaks.in/demo-baazarkolkata/assets/img/favicon.ico"> -->
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

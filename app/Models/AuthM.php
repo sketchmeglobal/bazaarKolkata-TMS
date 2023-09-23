@@ -44,10 +44,10 @@ class AuthM extends Model
     {
         return $this->db->table('users')->select('*')->where(['row_status' => 1])->get()->getResult();
     }
-    public function password_verify($email, $pass)
+    public function password_verify($email, $password)
     {
-        $pass =  hash('sha512', $pass);
-        $resultset = $this->db->table('users')->where(['email' => $email, 'password' => $pass])->get()->getResult();
+        //$pass =  hash('sha512', $pass);
+        $resultset = $this->db->table('users')->where(['email' => $email, 'password' => $password])->get()->getResult();
         // echo $this->db->getLastQuery();
 
         if (count($resultset) > 0) {

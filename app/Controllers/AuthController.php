@@ -46,9 +46,9 @@ class AuthController extends BaseController
                 }
             } else {
                 $data['validation'] = $this->validator->getErrors();
-                // echo '<pre>';
-                // print_r($data);
-                // die;
+                echo '<pre>';
+                print_r($data);
+                die;
                 return view('authentication/signin', $data);
             }
         } else {
