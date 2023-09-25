@@ -1,6 +1,4 @@
 <?= view('component/header') ?>
-
-
 </head>
 
 <body>
@@ -26,14 +24,14 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5 col-md-6 col-10 bg-light py-2 text-center border-bottom-all-rd">
-                        <h5 class="text-primary">All Tickets</h5>
+                        <h5 class="text-primary">Head Office</h5>
                     </div>
                 </div>
             </div>
             <div></div>
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12 my-5 px-4">
+                    <!-- <div class="col-md-12 my-5 px-4">
                         <div class="row">
                             <div class=" col-md-3 form-group">
                                 <label class="control-label alpaca-control-label" for="alpaca3">Assigned To</label>
@@ -86,69 +84,36 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-md-12 px-4">
+                        <button type="button" id="addNewRecord" class="btn btn-primary ms-2" style="float: right; margin-bottom: 5px;">Add New</button>
+
                         <table id="myTable" class="display">
                             <thead>
                                 <tr>
-                                    <th>Ticket No</th>
-                                    <th>Severity</th>
-                                    <th>Category</th>
-                                    <th>Subject</th>
-
-
-                                    <th>Status</th>
-
-                                    <th>Created By</th>
-                                    <th>Assigned To</th>
-                                    <th>Creared On</th>
+                                    <th>Sl No</th>
+                                    <th>Head Office Name</th>
+                                    <th>Head Office Location</th>
                                     <th>Acction</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>TIK-SMG-000113 </td>
-                                    <td><span class="bg-red mx-1 px-1">High</span></td>
+                                    <td>1 </td>
+                                    <td>Baazar Kolkata</td>
                                     <td>Network</td>
-                                    <td>Mouse problem</td>
-
-
-                                    <td><span class="bg-red mx-1 px-1">Closed</span></td>
-
-                                    <td><span>
-                                            <div data-toggle="tooltip" data-placement="top" title="User Demo @user.demo">
-                                                <span class="card-ud" style="padding:4px !important">UD</span>@user.demo
-                                    </td>
-                                    <td><span>
-                                            <div data-toggle="tooltip" data-placement="top" title="Admin Demo @admin.demo">
-                                                <span class="card-ud" style="padding:4px !important">AD</span>@agent.demo</td>
-                                    <td>2 months ago</td>
                                     <td class="d-flex justify-content-evenly">
-                                        <a href="<?= base_url('tickets-view/view1')  ?>"><i class="fa fa-eye"></i></a>
+                                        <a href="#" class="edit_class" data-table_id="1"><i class="fa fa-edit"></i></a>
                                         <a class="remove" href="#"><i class="fas fa-times"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>TIK-SMG-000112 </td>
-                                    <td><span class="bg-red mx-1 px-1">High</span></td>
-                                    <td>Network</td>
-                                    <td>Printer issue</td>
-
-
-                                    <td><span class="bg-green mx-1 px-1">Open</span></td>
-
-                                    <td><span>
-                                            <div data-toggle="tooltip" data-placement="top" title="User Demo @user.demo">
-                                                <span class="card-ud" style="padding:4px !important">UD</span>@user.demo
-                                    </td>
-                                    <td><span>
-                                            <div data-toggle="tooltip" data-placement="top" title="Admin Demo @admin.demo">
-                                                <span class="card-ud" style="padding:4px !important">AD</span>@agent.demo</td>
-                                    <td>2 months ago</td>
+                                    <td>2</td>
+                                    <td>Baazar Kolkata</td>
+                                    <td>Maidan</td>
                                     <td class="d-flex justify-content-evenly">
-                                        <a href="<?= base_url('tickets-view/view2')  ?>"><i class="fa fa-eye"></i></a>
+                                        <a href="#" class="edit_class" data-table_id="2"><i class="fa fa-edit"></i></a>
                                         <a class="remove" href="#"><i class="fas fa-times"></i></a>
-
                                     </td>
                                 </tr>
 
@@ -158,29 +123,51 @@
                 </div>
             </div>
 
-            <!-- Footer Start -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="bg-light rounded-top p-4">
-                    <div class="row">
-                        <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">Your Site Name</a>, All Right Reserved.
-                        </div>
-                        <div class="col-12 col-sm-6 text-center text-sm-end">
-
-                            Distributed By <a class="border-bottom" href="https://sketchmeglobal.com/" target="_blank">SMG</a>
+                <!-- Modal start -->
+                <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle"> Add/Edit Head office name</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModal1"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="needs-validation" novalidate name="s_myFormName" id="s_myFormName">
+                                    <div class="form-row">
+                                        <div class="col-md-4 mb-1">
+                                            <label for="headofficeName">Head office Name</label>
+                                            <input type="text" class="form-control" name="headofficeName" id="headofficeName" value="" > 
+                                        </div>  
+                                        <div class="col-md-4 mb-1">
+                                            <label for="headofficeLocation">Head office Location</label>
+                                            <input type="text" class="form-control" name="headofficeLocation" id="headofficeLocation" value="" > 
+                                        </div>                              
+                                        
+                                        <div class="col-md-4 pt-4">
+                                        <label for="s_parentDesignation">&nbsp;</label>
+                                            <button class="btn  btn-primary" type="button" id="s_submitForm">
+                                                <span class="spinner-border spinner-border-sm" role="status" style="display: none;" id="s_submitForm_spinner"></span>
+                                                <span class="load-text" style="display: none;" id="s_submitForm_spinner_text">Loading...</span>
+                                                <span class="btn-text" id="s_submitForm_text">Save</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="table_id" name="table_id" value="">
+                                </form>
+                                
+                            </div>
+                            <div class="modal-footer">   
+                                <div id="formValidMsg" class="invalid-feedback"> </div>                         
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModal">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            <!-- Modal end -->
+
+            <!-- Footer Start -->
+            <?= view('component/footer') ?>
             <!-- Footer End -->
-        </div>
-        <!-- Content End -->
-
-
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-    </div>
-
     <!-- JavaScript Libraries -->
 
     <?= view('component/js') ?>
@@ -188,6 +175,98 @@
         $(".remove").click(function() {
             $(this).closest('tr').remove();
         });
-    </script>
 
-    <?= view('component/footer') ?>
+        //Show Modal
+        $('#addNewRecord').on('click', function(){
+            $('#myModal').modal('show');
+        })
+        $('#closeModal1, #closeModal').on('click', function(){
+            $('#myModal').modal('hide');
+        })
+
+        
+        //Validation Form
+        function validateForm(){
+            $headofficeName = $('#headofficeName').val().replace(/^\s+|\s+$/gm,'');
+            $headofficeLocation = $('#headofficeLocation').val().replace(/^\s+|\s+$/gm,'');
+            
+            $status = true;
+            $formValidMsg = '';
+            
+            if($headofficeName == ''){
+                $status = false;
+                $formValidMsg += 'Please enter Head office name';
+                $('#headofficeName').removeClass('is-valid');
+                $('#headofficeName').addClass('is-invalid');
+            }else{
+                $('#headofficeName').removeClass('is-invalid');
+                $('#headofficeName').addClass('is-valid');
+            }
+
+            if($headofficeLocation == ''){
+                $status = false;
+                $formValidMsg += ', location';
+                $('#headofficeLocation').removeClass('is-valid');
+                $('#headofficeLocation').addClass('is-invalid');
+            }else{
+                $('#headofficeLocation').removeClass('is-invalid');
+                $('#headofficeLocation').addClass('is-valid');
+            } 
+
+            $('#formValidMsg').html($formValidMsg);
+
+            $('#s_submitForm_spinner').hide();
+            $('#s_submitForm_spinner_text').hide();
+            $('#s_submitForm_text').show();
+
+            return $status;
+        }//en validate form
+
+        //Submit Form
+        $('#s_submitForm').click(function(){
+            $('#s_submitForm_spinner').show();
+            $('#s_submitForm_spinner_text').show();
+            $('#s_submitForm_text').hide();
+            $('#formValidMsg').hide();
+
+            setTimeout(function(){
+                $formVallidStatus = validateForm();
+
+                if($formVallidStatus == true){
+                    console.log('form validated, save data & populate the data table')
+                    $('#formValidMsg').hide();
+                    $("#s_myFormName").trigger("reset");
+
+                    //Creat the row
+                    var row = $('<tr>')
+                        .append('<td>#</td>')
+                        .append('<td>Headoffice Bagnan</td>')
+                        .append('<td>Bagnan</td>')
+                        .append('<td class="d-flex justify-content-evenly"><a href="#" class="edit_class" data-table_id="3"><i class="fa fa-edit"></i></a> <a class="remove" href="#"><i class="fas fa-times"></i></a></td>')
+
+                    //Prepend row with Table
+                    //myTable.row.add(row);
+                    $('#myTable tbody').prepend(row);
+
+                    //Hide Modal
+                    $('#myModal').modal('hide');
+                }else{
+                    console.log('form validation Error')                    
+                    $('#formValidMsg').show();
+                }
+
+            }, 500)    
+        })
+
+        //Edit Function
+        $('#myTable').on('click', '.edit_class', function(){ 
+            $table_id = $(this).data('table_id');
+            $('#table_id').val($table_id);
+            $('#headofficeName').val('Baazar Kolkata');
+            $('#headofficeLocation').val('Newtown');
+            $('#myModal').modal('show');
+            
+        })
+
+    </script>
+    
