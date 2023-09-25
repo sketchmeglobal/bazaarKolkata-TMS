@@ -7,13 +7,13 @@ use CodeIgniter\Model;
 class HeadofficeM extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'users';
+    protected $table            = 'head_office';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['username', 'email', 'password'];
+    protected $allowedFields    = ['id','name', 'location'];
 
     // Dates
     protected $useTimestamps = false;
@@ -40,20 +40,9 @@ class HeadofficeM extends Model
     protected $afterDelete    = [];
 
 
-    public function index()
+    public function office($ins_data)
     {
-        return $this->db->table('users')->select('*')->where(['row_status' => 1])->get()->getResult();
-    }
-    public function password_verify($email, $password)
-    {
-        $pass =  hash('sha512', $password);
-        $resultset = $this->db->table('users')->where(['email' => $email, 'password' => $pass])->get()->getResult();
-        // echo $this->db->getLastQuery();
-
-        if (count($resultset) > 0) {
-            return $resultset;
-        } else {
-            return 'wrong';
-        }
+        $this->db->table('head_office')->insert($ins_data);
+        return true;
     }
 }

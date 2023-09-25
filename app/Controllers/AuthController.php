@@ -57,4 +57,9 @@ class AuthController extends BaseController
             return view('authentication/signin');
         }
     }
+    // public function logout()
+    // {
+    //     session()->destroy();
+    //     return redirect()->to(base_url('authentication/signin'));
+    // }
 }
