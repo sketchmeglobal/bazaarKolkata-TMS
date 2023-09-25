@@ -178,6 +178,7 @@
 
         //Show Modal
         $('#addNewRecord').on('click', function(){
+            $("#s_myFormName").trigger("reset");
             $('#myModal').modal('show');
         })
         $('#closeModal1, #closeModal').on('click', function(){
