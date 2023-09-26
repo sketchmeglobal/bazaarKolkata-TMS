@@ -16,6 +16,14 @@ $routes->match(['get', 'post'], '/all-tickets', 'DashboardC::all_tickets');
 $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'dashboard', 'DashboardC::index');
     $routes->match(['get', 'post'], 'head-office', 'Master\HeadofficeC::index');
+    $routes->match(['get', 'post'], 'warehouse', 'Master\WarehouseC::index');
+    $routes->match(['get', 'post'], 'outlet', 'Master\OutletC::index');
+    $routes->match(['get', 'post'], 'department', 'Master\DepartmentC::index');
+    $routes->match(['get', 'post'], 'hierarchy', 'Master\HierarchyC::index');
+    $routes->match(['get', 'post'], 'employee', 'Master\EmployeeC::index');
+    $routes->match(['get', 'post'], 'hardware-name', 'Master\HardwareNameC::index');
+    $routes->match(['get', 'post'], 'hardwarestockentry', 'Master\HardwareStockEntryC::index');
+
     $routes->match(['get', 'post'], 'all-tickets', 'DashboardC::all_tickets');
     $routes->match(['get', 'post'], 'profile', 'DashboardC::profile');
     $routes->match(['get', 'post'], 'sr-association', 'DashboardC::sr_association');

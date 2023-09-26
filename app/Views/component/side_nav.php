@@ -23,13 +23,13 @@
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Masters</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="<?= base_URL('admin/head-office')?>" class="dropdown-item">Head Office</a>
-                            <a href="<?= base_URL('admin/sr-association')?>" class="dropdown-item">Warehouse</a>
-                            <a href="<?= base_URL('admin/severity-mapping')?>" class="dropdown-item">Outlet</a>
-                            <a href="<?= base_URL('admin/intranet-massaging')?>" class="dropdown-item">Department</a>
-                            <a href="<?= base_URL('admin/intranet-massaging')?>" class="dropdown-item">Hierarchy</a>
-                            <a href="<?= base_URL('admin/intranet-massaging')?>" class="dropdown-item">Employee</a>
-                            <a href="<?= base_URL('admin/intranet-massaging')?>" class="dropdown-item">Hardware Name</a>
-                            <a href="<?= base_URL('admin/intranet-massaging')?>" class="dropdown-item">H/W Stock Entry</a>
+                            <a href="<?= base_URL('admin/warehouse')?>" class="dropdown-item">Warehouse</a>
+                            <a href="<?= base_URL('admin/outlet')?>" class="dropdown-item">Outlet</a>
+                            <a href="<?= base_URL('admin/department')?>" class="dropdown-item">Department</a>
+                            <a href="<?= base_URL('admin/hierarchy')?>" class="dropdown-item">Hierarchy</a>
+                            <a href="<?= base_URL('admin/employee')?>" class="dropdown-item">Employee</a>
+                            <a href="<?= base_URL('admin/hardware-name')?>" class="dropdown-item">Hardware Name</a>
+                            <a href="<?= base_URL('admin/hardwarestockentry')?>" class="dropdown-item">H/W Stock Entry</a>
                         </div>
                         <!-- <div class="dropdown-menu bg-transparent border-0">
                             <a href="<?= base_URL('admin/site-hierancy')?>" class="dropdown-item">Site Hierarchy</a>
