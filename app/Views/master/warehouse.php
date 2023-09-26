@@ -31,60 +31,6 @@
             <div></div>
             <div class="container">
                 <div class="row">
-                    <!-- <div class="col-md-12 my-5 px-4">
-                        <div class="row">
-                            <div class=" col-md-3 form-group">
-                                <label class="control-label alpaca-control-label" for="alpaca3">Assigned To</label>
-                                <input type="text" id="alpaca3" name="assign_to" class="alpaca-control form-control" autocomplete="off">
-                            </div>
-                            <div class="col-lg-3 col-md-6 form-group">
-                                <label for="exampleFormControlSelect1">Example select</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>None</option>
-                                    <option>Closed</option>
-                                    <option>In-progress</option>
-                                    <option>Open</option>
-
-                                </select>
-                            </div>
-                            <div class="col-lg-3 col-md-6 form-group">
-                                <label for="exampleFormControlSelect1">Priority</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>None</option>
-                                    <option>High</option>
-                                    <option>Low</option>
-                                    <option>Medium</option>
-
-                                </select>
-                            </div>
-                            <div class="col-lg-3 col-md-6 form-group">
-                                <label for="exampleFormControlSelect1">Severity</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>None</option>
-                                    <option>High</option>
-                                    <option>Low</option>
-                                    <option>Medium</option>
-
-                                </select>
-                            </div>
-                            <div class="col-lg-3 col-md-6 form-group mt-3">
-                                <label for="exampleFormControlSelect1">Category</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>Access and Authorization</option>
-                                    <option>Bug</option>
-                                    <option>Feature requests</option>
-                                    <option>Hardware</option>
-                                    <option>How to</option>
-                                    <option>Network</option>
-                                    <option>Password Reset</option>
-                                    <option>Software Troubleshooting</option>
-
-
-
-                                </select>
-                            </div>
-                        </div>
-                    </div> -->
                     <div class="col-md-12 px-4">
                         <button type="button" id="addNewRecord" class="btn btn-primary ms-2" style="float: right; margin-bottom: 5px;">Add New</button>
 
@@ -92,16 +38,16 @@
                             <thead>
                                 <tr>
                                     <th>Sl No</th>
-                                    <th>Head Office Name</th>
-                                    <th>Head Office Location</th>
+                                    <th>Warehouse Name</th>
+                                    <th>Warehouse Location</th>
                                     <th>Acction</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>1 </td>
-                                    <td>Baazar Kolkata</td>
-                                    <td>Network</td>
+                                    <td>WH Dunlop</td>
+                                    <td>Dunlop</td>
                                     <td class="d-flex justify-content-evenly">
                                         <a href="#" class="edit_class" data-table_id="1"><i class="fa fa-edit"></i></a>
                                         <a class="remove" href="#"><i class="fas fa-times"></i></a>
@@ -109,8 +55,8 @@
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td>Baazar Kolkata</td>
-                                    <td>Maidan</td>
+                                    <td>WH Santragachi</td>
+                                    <td>Santragachi</td>
                                     <td class="d-flex justify-content-evenly">
                                         <a href="#" class="edit_class" data-table_id="2"><i class="fa fa-edit"></i></a>
                                         <a class="remove" href="#"><i class="fas fa-times"></i></a>
@@ -128,19 +74,19 @@
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle"> Add/Edit Head office name</h5>
+                                <h5 class="modal-title" id="exampleModalLongTitle"> Add/Edit Warehouse name</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModal1"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
                                 <form class="needs-validation" novalidate name="s_myFormName" id="s_myFormName">
                                     <div class="form-row">
                                         <div class="col-md-4 mb-1">
-                                            <label for="headofficeName">Head office Name</label>
-                                            <input type="text" class="form-control" name="headofficeName" id="headofficeName" value="" > 
+                                            <label for="warehouseName">Warehouse Name</label>
+                                            <input type="text" class="form-control" name="warehouseName" id="warehouseName" value="" > 
                                         </div>  
                                         <div class="col-md-4 mb-1">
-                                            <label for="headofficeLocation">Head office Location</label>
-                                            <input type="text" class="form-control" name="headofficeLocation" id="headofficeLocation" value="" > 
+                                            <label for="warehouseLocation">Warehouse Location</label>
+                                            <input type="text" class="form-control" name="warehouseLocation" id="warehouseLocation" value="" > 
                                         </div>                              
                                         
                                         <div class="col-md-4 pt-4">
@@ -188,30 +134,30 @@
         
         //Validation Form
         function validateForm(){
-            $headofficeName = $('#headofficeName').val().replace(/^\s+|\s+$/gm,'');
-            $headofficeLocation = $('#headofficeLocation').val().replace(/^\s+|\s+$/gm,'');
+            $warehouseName = $('#warehouseName').val().replace(/^\s+|\s+$/gm,'');
+            $warehouseLocation = $('#warehouseLocation').val().replace(/^\s+|\s+$/gm,'');
             
             $status = true;
             $formValidMsg = '';
             
-            if($headofficeName == ''){
+            if($warehouseName == ''){
                 $status = false;
-                $formValidMsg += 'Please enter Head office name';
-                $('#headofficeName').removeClass('is-valid');
-                $('#headofficeName').addClass('is-invalid');
+                $formValidMsg += 'Please enter Warehouse name';
+                $('#warehouseName').removeClass('is-valid');
+                $('#warehouseName').addClass('is-invalid');
             }else{
-                $('#headofficeName').removeClass('is-invalid');
-                $('#headofficeName').addClass('is-valid');
+                $('#warehouseName').removeClass('is-invalid');
+                $('#warehouseName').addClass('is-valid');
             }
 
-            if($headofficeLocation == ''){
+            if($warehouseLocation == ''){
                 $status = false;
                 $formValidMsg += ', location';
-                $('#headofficeLocation').removeClass('is-valid');
-                $('#headofficeLocation').addClass('is-invalid');
+                $('#warehouseLocation').removeClass('is-valid');
+                $('#warehouseLocation').addClass('is-invalid');
             }else{
-                $('#headofficeLocation').removeClass('is-invalid');
-                $('#headofficeLocation').addClass('is-valid');
+                $('#warehouseLocation').removeClass('is-invalid');
+                $('#warehouseLocation').addClass('is-valid');
             } 
 
             $('#formValidMsg').html($formValidMsg);
@@ -241,7 +187,7 @@
                     //Creat the row
                     var row = $('<tr>')
                         .append('<td>#</td>')
-                        .append('<td>Headoffice Bagnan</td>')
+                        .append('<td>WH Bagnan</td>')
                         .append('<td>Bagnan</td>')
                         .append('<td class="d-flex justify-content-evenly"><a href="#" class="edit_class" data-table_id="3"><i class="fa fa-edit"></i></a> <a class="remove" href="#"><i class="fas fa-times"></i></a></td>')
 
@@ -263,8 +209,8 @@
         $('#myTable').on('click', '.edit_class', function(){ 
             $table_id = $(this).data('table_id');
             $('#table_id').val($table_id);
-            $('#headofficeName').val('Baazar Kolkata');
-            $('#headofficeLocation').val('Newtown');
+            $('#warehouseName').val('Baazar Kolkata');
+            $('#warehouseLocation').val('Newtown');
             $('#myModal').modal('show');
             
         })
