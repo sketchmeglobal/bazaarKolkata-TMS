@@ -7,6 +7,8 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->match(['get', 'post'], '/', 'AuthController::login');
 $routes->match(['get', 'post'], 'login', 'AuthController::login');
+/*logout*/
+$routes->match(['get', 'post'], '/logout', 'AuthController::logout'); 
 $routes->match(['get', 'post'], '/do_login', 'AuthController::do_login');
 
 $routes->match(['get', 'post'], '/auth', 'DashboardC::index');
@@ -31,6 +33,7 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'intranet-massaging', 'DashboardC::internet_masg');
     $routes->match(['get', 'post'], 'all-users', 'DashboardC::all_users');
     $routes->match(['get', 'post'], 'new-ticket', 'DashboardC::new_ticket');
+     
 });
 // FOR VIEW TICKETS ONLY
 $routes->group('tickets-view', static function ($routes) {

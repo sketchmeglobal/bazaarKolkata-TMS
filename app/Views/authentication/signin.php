@@ -1,17 +1,18 @@
 <?= view('component/header') ?>
 <style>
-    #login_form .error {
-        color: red !important;
-        position: relative;
-        padding: 0;
-    }
+#login_form .error {
+    color: red !important;
+    position: relative;
+    padding: 0;
+}
 </style>
 </head>
 
 <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div id="spinner"
+            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -31,18 +32,22 @@
                             <h3>Sign In</h3>
                         </div>
                         <?php if (session()->getFlashdata('msg')) : ?>
-                            <div class="alert alert-danger"><?= session()->getFlashdata('msg') ?></div>
+                        <div class="alert alert-danger"><?= session()->getFlashdata('msg') ?></div>
                         <?php endif; ?>
                         <form id="login_form" method="post">
 
                             <div class="form-floating mb-3">
-                                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" required value="<?=isset($email) ? $email : ''?>">
+                                <input type="email" class="form-control" id="floatingInput"
+                                    placeholder="name@example.com" name="email" required
+                                    value="<?=isset($email) ? $email : ''?>">
                                 <label for="floatingInput">Email address</label>
                                 <span class="error"><?= (isset($validation) ? $validation['email'] : ''); ?></span>
                             </div>
                             <div class="form-floating mb-4">
                                 <!-- min="8" -->
-                                <input minlength="8" type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required value="<?=isset($pass) ? $pass : ''?>">
+                                <input minlength="8" type="password" class="form-control" id="floatingPassword"
+                                    placeholder="Password" name="password" required
+                                    value="<?=isset($pass) ? $pass : ''?>">
                                 <label for="floatingPassword">Password</label>
                                 <span class="error"><?= (isset($validation) ? $validation['password'] : ''); ?></span>
                             </div>
@@ -61,7 +66,7 @@
     <!-- JavaScript Libraries -->
     <?= view('component/js') ?>
     <script>
-        $("#login_form").validate();
+    $("#login_form").validate();
     </script>
 </body>
 
