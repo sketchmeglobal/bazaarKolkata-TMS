@@ -114,11 +114,11 @@
                                     <div class="form-row">
                                         <div class="col-md-4 mb-1">
                                             <label for="departmentName">Department Name</label>
-                                                <select class="form-control" id="departmentName" name="departmentName">
-                                                    <option value="0">Select</option>
-                                                    <option value="1">Human Resource management</option>
-                                                    <option value="2">Customer Relationship Management</option>
-                                                </select>
+                                            <select class="form-control" id="departmentName" name="departmentName">
+                                                <option value="0">Select</option>
+                                                <option value="1">Human Resource management</option>
+                                                <option value="2">Customer Relationship Management</option>
+                                            </select>
                                         </div>  
                                         <div class="col-md-4 mb-1">
                                             <label for="deptPriority">Priority</label>

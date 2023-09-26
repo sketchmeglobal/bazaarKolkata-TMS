@@ -31,60 +31,7 @@
             <div></div>
             <div class="container">
                 <div class="row">
-                    <!-- <div class="col-md-12 my-5 px-4">
-                        <div class="row">
-                            <div class=" col-md-3 form-group">
-                                <label class="control-label alpaca-control-label" for="alpaca3">Assigned To</label>
-                                <input type="text" id="alpaca3" name="assign_to" class="alpaca-control form-control" autocomplete="off">
-                            </div>
-                            <div class="col-lg-3 col-md-6 form-group">
-                                <label for="exampleFormControlSelect1">Example select</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>None</option>
-                                    <option>Closed</option>
-                                    <option>In-progress</option>
-                                    <option>Open</option>
-
-                                </select>
-                            </div>
-                            <div class="col-lg-3 col-md-6 form-group">
-                                <label for="exampleFormControlSelect1">Priority</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>None</option>
-                                    <option>High</option>
-                                    <option>Low</option>
-                                    <option>Medium</option>
-
-                                </select>
-                            </div>
-                            <div class="col-lg-3 col-md-6 form-group">
-                                <label for="exampleFormControlSelect1">Severity</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>None</option>
-                                    <option>High</option>
-                                    <option>Low</option>
-                                    <option>Medium</option>
-
-                                </select>
-                            </div>
-                            <div class="col-lg-3 col-md-6 form-group mt-3">
-                                <label for="exampleFormControlSelect1">Category</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>Access and Authorization</option>
-                                    <option>Bug</option>
-                                    <option>Feature requests</option>
-                                    <option>Hardware</option>
-                                    <option>How to</option>
-                                    <option>Network</option>
-                                    <option>Password Reset</option>
-                                    <option>Software Troubleshooting</option>
-
-
-
-                                </select>
-                            </div>
-                        </div>
-                    </div> -->
+                    
                     <div class="col-md-12 px-4">
                         <button type="button" id="addNewRecord" class="btn btn-primary ms-2" style="float: right; margin-bottom: 5px;">Add New</button>
 
@@ -92,16 +39,16 @@
                             <thead>
                                 <tr>
                                     <th>Sl No</th>
-                                    <th>Head Office Name</th>
-                                    <th>Head Office Location</th>
+                                    <th>Device Name</th>
+                                    <th>Stock Quantity</th>
                                     <th>Acction</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>1 </td>
-                                    <td>Baazar Kolkata</td>
-                                    <td>Network</td>
+                                    <td>Keyboard</td>
+                                    <td>5</td>
                                     <td class="d-flex justify-content-evenly">
                                         <a href="#" class="edit_class" data-table_id="1"><i class="fa fa-edit"></i></a>
                                         <a class="remove" href="#"><i class="fas fa-times"></i></a>
@@ -109,8 +56,8 @@
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td>Baazar Kolkata</td>
-                                    <td>Maidan</td>
+                                    <td>Mouse</td>
+                                    <td>5</td>
                                     <td class="d-flex justify-content-evenly">
                                         <a href="#" class="edit_class" data-table_id="2"><i class="fa fa-edit"></i></a>
                                         <a class="remove" href="#"><i class="fas fa-times"></i></a>
@@ -135,12 +82,16 @@
                                 <form class="needs-validation" novalidate name="s_myFormName" id="s_myFormName">
                                     <div class="form-row">
                                         <div class="col-md-4 mb-1">
-                                            <label for="headofficeName">Head office Name</label>
-                                            <input type="text" class="form-control" name="headofficeName" id="headofficeName" value="" > 
+                                            <label for="deviceName">Device Name</label>
+                                            <select class="form-control" id="deviceName" name="deviceName">
+                                                <option value="0">Select</option>
+                                                <option value="1">Keyboard</option>
+                                                <option value="2">Mouse</option>
+                                            </select> 
                                         </div>  
                                         <div class="col-md-4 mb-1">
-                                            <label for="headofficeLocation">Head office Location</label>
-                                            <input type="text" class="form-control" name="headofficeLocation" id="headofficeLocation" value="" > 
+                                            <label for="deviceSerialNo">Serial No</label>
+                                            <input type="text" class="form-control" name="deviceSerialNo" id="deviceSerialNo" value="" > 
                                         </div>                              
                                         
                                         <div class="col-md-4 pt-4">
@@ -188,30 +139,30 @@
         
         //Validation Form
         function validateForm(){
-            $headofficeName = $('#headofficeName').val().replace(/^\s+|\s+$/gm,'');
-            $headofficeLocation = $('#headofficeLocation').val().replace(/^\s+|\s+$/gm,'');
+            $deviceName = $('#deviceName').val().replace(/^\s+|\s+$/gm,'');
+            $deviceSerialNo = $('#deviceSerialNo').val().replace(/^\s+|\s+$/gm,'');
             
             $status = true;
             $formValidMsg = '';
             
-            if($headofficeName == ''){
+            if($deviceName == ''){
                 $status = false;
-                $formValidMsg += 'Please enter Head office name';
-                $('#headofficeName').removeClass('is-valid');
-                $('#headofficeName').addClass('is-invalid');
+                $formValidMsg += 'Please Select Device Name';
+                $('#deviceName').removeClass('is-valid');
+                $('#deviceName').addClass('is-invalid');
             }else{
-                $('#headofficeName').removeClass('is-invalid');
-                $('#headofficeName').addClass('is-valid');
+                $('#deviceName').removeClass('is-invalid');
+                $('#deviceName').addClass('is-valid');
             }
 
-            if($headofficeLocation == ''){
+            if($deviceSerialNo == ''){
                 $status = false;
-                $formValidMsg += ', location';
-                $('#headofficeLocation').removeClass('is-valid');
-                $('#headofficeLocation').addClass('is-invalid');
+                $formValidMsg += ', Serial No';
+                $('#deviceSerialNo').removeClass('is-valid');
+                $('#deviceSerialNo').addClass('is-invalid');
             }else{
-                $('#headofficeLocation').removeClass('is-invalid');
-                $('#headofficeLocation').addClass('is-valid');
+                $('#deviceSerialNo').removeClass('is-invalid');
+                $('#deviceSerialNo').addClass('is-valid');
             } 
 
             $('#formValidMsg').html($formValidMsg);
@@ -241,8 +192,8 @@
                     //Creat the row
                     var row = $('<tr>')
                         .append('<td>#</td>')
-                        .append('<td>Headoffice Bagnan</td>')
-                        .append('<td>Bagnan</td>')
+                        .append('<td>Keyboard</td>')
+                        .append('<td>1</td>')
                         .append('<td class="d-flex justify-content-evenly"><a href="#" class="edit_class" data-table_id="3"><i class="fa fa-edit"></i></a> <a class="remove" href="#"><i class="fas fa-times"></i></a></td>')
 
                     //Prepend row with Table
@@ -263,8 +214,8 @@
         $('#myTable').on('click', '.edit_class', function(){ 
             $table_id = $(this).data('table_id');
             $('#table_id').val($table_id);
-            $('#headofficeName').val('Baazar Kolkata');
-            $('#headofficeLocation').val('Newtown');
+            $('#deviceName').val('1').trigger('change');
+            $('#deviceSerialNo').val('1');
             $('#myModal').modal('show');
             
         })
