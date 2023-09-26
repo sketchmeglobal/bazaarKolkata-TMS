@@ -102,6 +102,15 @@
                                         <div class="col-md-4 mb-1">
                                             <label for="employeeEmail">Email Id</label>
                                             <input type="email" class="form-control" name="employeeEmail" id="employeeEmail" value="" > 
+                                        </div>  
+                                        <div class="col-md-4 mb-1">
+                                            <label for="deviceName">User Type</label>
+                                            <select class="form-control" id="deviceName" name="deviceName">
+                                                <option value="0">Select</option>
+                                                <option value="1">Super Admin</option>
+                                                <option value="2">Manager</option>
+                                                <option value="3">Users</option>
+                                            </select> 
                                         </div>                            
                                         
                                         <div class="col-md-4 pt-4">
