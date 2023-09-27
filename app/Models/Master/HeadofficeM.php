@@ -45,4 +45,8 @@ class HeadofficeM extends Model
         $this->db->table('head_office')->insert($ins_data);
         return true;
     }
+    public function select()  
+      {  
+        return $this->db->table('head_office')->select('*')->where(['row_status' => 1])->get()->getResult();
+      } 
 }

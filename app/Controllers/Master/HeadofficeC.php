@@ -58,8 +58,10 @@ class HeadofficeC extends BaseController
             } 
       } else {
             $head_officeM = new HeadofficeM();
-            $f_data['head'] = $head_officeM->findAll();
-            return view('master/head-office', $f_data);
+            
+            $data['head'] = $head_officeM->findAll();
+            
+            return view('master/head-office', $data);
       }
    }
 }

@@ -1,5 +1,6 @@
 <?= view('component/header') ?>
 <!-- < ?= isset($validation) ? print_r($validation) : ''; die; ?> -->
+
 <style>
 #s_myFormName .error {
     color: red !important;
