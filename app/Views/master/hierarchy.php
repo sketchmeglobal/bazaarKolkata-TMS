@@ -249,7 +249,6 @@
             $('#deptPriority').val('Newtown');
             $('#myModal').modal('show');            
         })
-
         
         $('#filterDept').on('click', function(){ 
             $('#part_2').show();

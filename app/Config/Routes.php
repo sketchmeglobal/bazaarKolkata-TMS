@@ -33,6 +33,10 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'intranet-massaging', 'DashboardC::internet_masg');
     $routes->match(['get', 'post'], 'all-users', 'DashboardC::all_users');
     $routes->match(['get', 'post'], 'new-ticket', 'DashboardC::new_ticket');
+    
+    $routes->match(['get', 'post'], 'issue-hardware', 'IssuehardwareC::index');
+    $routes->match(['get', 'post'], 'return-hardware', 'ReturnhardwareC::index');
+
      
 });
 // FOR VIEW TICKETS ONLY

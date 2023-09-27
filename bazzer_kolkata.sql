@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 23, 2023 at 07:13 AM
+-- Generation Time: Sep 26, 2023 at 07:52 PM
 -- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,7 +42,9 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `version`, `class`, `group`, `namespace`, `time`, `batch`) VALUES
-(1, '2023-09-18-135651', 'App\\Database\\Migrations\\Users', 'default', 'App', 1695045743, 1);
+(1, '2023-09-18-135651', 'App\\Database\\Migrations\\Users', 'default', 'App', 1695446948, 1),
+(2, '2023-09-23-051946', 'App\\Database\\Migrations\\User', 'default', 'App', 1695446948, 1),
+(3, '2023-09-23-052303', 'App\\Database\\Migrations\\Users', 'default', 'App', 1695446965, 2);
 
 -- --------------------------------------------------------
 
@@ -58,16 +60,15 @@ CREATE TABLE `users` (
   `created_at` datetime DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `created_by` bigint(30) NOT NULL,
-  `updated_by` bigint(30) DEFAULT NULL,
-  `row_status` int(11) NOT NULL DEFAULT 1
+  `updated_by` bigint(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `created_at`, `updated_at`, `created_by`, `updated_by`, `row_status`) VALUES
-(1, 'admin', 'admin@gmail.com', '12b03226a6d8be9c6e8cd5e55dc6c7920caaa39df14aab92d5e3ea9340d1c8a4d3d0b8e4314f1f6ef131ba4bf1ceb9186ab87c801af0d5c95b1befb8cedae2b9', '2023-09-18 19:46:35', '2023-09-23 10:29:46', 0, NULL, 1);
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 'suman', 'sumanjana.6@gmail.com', 'fa585d89c851dd338a70dcf535aa2a92fee7836dd6aff1226583e88e0996293f16bc009c652826e0fc5c706695a03cddce372f139eff4d13959da6f1f5d3eabe', '2023-09-23 11:05:37', '2023-09-23 11:05:37', 0, 1);
 
 --
 -- Indexes for dumped tables
@@ -93,7 +94,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`

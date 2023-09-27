@@ -24,66 +24,35 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5 col-md-6 col-10 bg-light py-2 text-center border-bottom-all-rd">
-                        <h5 class="text-primary">Employee</h5>
+                        <h5 class="text-primary">Issue Hardware</h5>
                     </div>
                 </div>
             </div>
             <div></div>
             <div class="container">
                 <div class="row">
-                     <div class="col-md-12 my-5 px-4">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-6 form-group">
-                                <label for="departmentName">H.O Name</label>
-                                <select class="form-control" id="departmentName" name="departmentName">
-                                    <option value="0">Select</option>
-                                    <option value="1">Head Office Kolkata</option>
-                                    <option value="2">Head Office Bangalore</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-3 col-md-6 form-group">
-                                <label for="wareHouseName">W.H Name</label>
-                                <select class="form-control" id="wareHouseName" name="wareHouseName">
-                                    <option value="0">Select</option>
-                                    <option value="1">Ware House Kolkata</option>
-                                    <option value="2">Ware House Bangalore</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-3 col-md-6 form-group">
-                                <label for="outletName">Outlet Name</label>
-                                <select class="form-control" id="outletName" name="outletName">
-                                    <option value="0">Select</option>
-                                    <option value="1">Outlet Kolkata</option>
-                                    <option value="2">Outlet Bangalore</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-3 form-group mt-4">
-                                <button type="button" id="filterDept" name="filterDept" class="btn btn-primary ms-2" style="float: left; margin-bottom: 5px;">Search</button>                                
-                            </div>
-                        </div>
-                    </div> 
                     
-                    <div class="col-md-12 px-4" id="part_2" style="display: none">
+                    <div class="col-md-12 px-4">
                         <button type="button" id="addNewRecord" class="btn btn-primary ms-2" style="float: right; margin-bottom: 5px;">Add New</button>
 
                         <table id="myTable" class="display">
                             <thead>
                                 <tr>
                                     <th>Sl No</th>
-                                    <th>Employee Name</th>
-                                    <th>Primary Phone</th>
-                                    <th>Alternative Phone</th>
-                                    <th>Email</th>
+                                    <th>Ticket No</th>
+                                    <th>Device Name</th>
+                                    <th>Serial No</th>
+                                    <th>Issue Note</th>
                                     <th>Acction</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>1 </td>
-                                    <td>Rakesh Jha</td>
-                                    <td>9877456325</td>
-                                    <td>9674589632</td>
-                                    <td>rakesh@mail.com</td>
+                                    <td>TIK-SMG-000112</td>
+                                    <td>Keyboard</td>
+                                    <td>10005</td>
+                                    <td>Enter key was not working</td>
                                     <td class="d-flex justify-content-evenly">
                                         <a href="#" class="edit_class" data-table_id="1"><i class="fa fa-edit"></i></a>
                                         <a class="remove" href="#"><i class="fas fa-times"></i></a>
@@ -91,10 +60,10 @@
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td>Ramesh Jha</td>
-                                    <td>9876456325</td>
-                                    <td>9676589632</td>
-                                    <td>rakesh@mail.com</td>
+                                    <td>TIK-SMG-000114</td>
+                                    <td>Mouse</td>
+                                    <td>20005</td>
+                                    <td>Left click was not working</td>
                                     <td class="d-flex justify-content-evenly">
                                         <a href="#" class="edit_class" data-table_id="2"><i class="fa fa-edit"></i></a>
                                         <a class="remove" href="#"><i class="fas fa-times"></i></a>
@@ -112,38 +81,32 @@
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle"> Add/Edit Employee</h5>
+                                <h5 class="modal-title" id="exampleModalLongTitle">Manage Hardware</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModal1"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
                                 <form class="needs-validation" novalidate name="s_myFormName" id="s_myFormName">
-                                    <div class="form-row">
+                                    <div class="form-row"> 
                                         <div class="col-md-4 mb-1">
-                                            <label for="employeeName">Employee Name</label>
-                                            <input type="text" class="form-control" name="employeeName" id="employeeName" value="" > 
+                                            <label for="ticketNo">Ticket No</label>
+                                            <input type="text" class="form-control" name="ticketNo" id="ticketNo" value="" > 
                                         </div>  
                                         <div class="col-md-4 mb-1">
-                                            <label for="primaryPhNo">Primary Phone Number</label>
-                                            <input type="number" class="form-control" name="primaryPhNo" id="primaryPhNo" value="" > 
-                                        </div> 
-                                        <div class="col-md-4 mb-1">
-                                            <label for="alternativePhNo">Alternative Phone Number</label>
-                                            <input type="number" class="form-control" name="alternativePhNo" id="alternativePhNo" value="" > 
-                                        </div>   
-                                        <div class="col-md-4 mb-1">
-                                            <label for="employeeEmail">Email Id</label>
-                                            <input type="email" class="form-control" name="employeeEmail" id="employeeEmail" value="" > 
-                                        </div>  
-                                        <div class="col-md-4 mb-1">
-                                            <label for="deviceName">Designation</label>
+                                            <label for="deviceName">Device Name</label>
                                             <select class="form-control" id="deviceName" name="deviceName">
                                                 <option value="0">Select</option>
-                                                <option value="1">Manager</option>
-                                                <option value="2">Agent</option>
-                                                <option value="3">Admin</option>
-                                                <option value="4">Operator</option>
+                                                <option value="1">Keyboard</option>
+                                                <option value="2">Mouse</option>
                                             </select> 
-                                        </div>                            
+                                        </div>  
+                                        <div class="col-md-4 mb-1">
+                                            <label for="deviceSerialNo">Serial No</label>
+                                            <input type="text" class="form-control" name="deviceSerialNo" id="deviceSerialNo" value="" > 
+                                        </div>    
+                                        <div class="col-md-4 mb-1">
+                                            <label for="issueNote">Note</label>
+                                            <input type="text" class="form-control" name="issueNote" id="issueNote" value="" > 
+                                        </div>                              
                                         
                                         <div class="col-md-4 pt-4">
                                         <label for="s_parentDesignation">&nbsp;</label>
@@ -190,42 +153,30 @@
         
         //Validation Form
         function validateForm(){
-            $employeeName = $('#employeeName').val().replace(/^\s+|\s+$/gm,'');
-            $primaryPhNo = $('#primaryPhNo').val().replace(/^\s+|\s+$/gm,'');
-            $alternativePhNo = $('#alternativePhNo').val().replace(/^\s+|\s+$/gm,'');
-            $employeeEmail = $('#employeeEmail').val().replace(/^\s+|\s+$/gm,'');
-                        
+            $deviceName = $('#deviceName').val().replace(/^\s+|\s+$/gm,'');
+            $deviceSerialNo = $('#deviceSerialNo').val().replace(/^\s+|\s+$/gm,'');
+            
             $status = true;
             $formValidMsg = '';
             
-            if($employeeName == ''){
+            if($deviceName == ''){
                 $status = false;
-                $formValidMsg += 'Please enter Employee name';
-                $('#employeeName').removeClass('is-valid');
-                $('#employeeName').addClass('is-invalid');
+                $formValidMsg += 'Please Select Device Name';
+                $('#deviceName').removeClass('is-valid');
+                $('#deviceName').addClass('is-invalid');
             }else{
-                $('#employeeName').removeClass('is-invalid');
-                $('#employeeName').addClass('is-valid');
+                $('#deviceName').removeClass('is-invalid');
+                $('#deviceName').addClass('is-valid');
             }
 
-            if($primaryPhNo == ''){
+            if($deviceSerialNo == ''){
                 $status = false;
-                $formValidMsg += ', Primary Phone';
-                $('#primaryPhNo').removeClass('is-valid');
-                $('#primaryPhNo').addClass('is-invalid');
+                $formValidMsg += ', Serial No';
+                $('#deviceSerialNo').removeClass('is-valid');
+                $('#deviceSerialNo').addClass('is-invalid');
             }else{
-                $('#primaryPhNo').removeClass('is-invalid');
-                $('#primaryPhNo').addClass('is-valid');
-            } 
-
-            if($employeeEmail == ''){
-                $status = false;
-                $formValidMsg += ', Email';
-                $('#employeeEmail').removeClass('is-valid');
-                $('#employeeEmail').addClass('is-invalid');
-            }else{
-                $('#employeeEmail').removeClass('is-invalid');
-                $('#employeeEmail').addClass('is-valid');
+                $('#deviceSerialNo').removeClass('is-invalid');
+                $('#deviceSerialNo').addClass('is-valid');
             } 
 
             $('#formValidMsg').html($formValidMsg);
@@ -255,10 +206,10 @@
                     //Creat the row
                     var row = $('<tr>')
                         .append('<td>#</td>')
-                        .append('<td>Suman Jana</td>')
-                        .append('<td>9933569987</td>')
-                        .append('<td>9875632541</td>')
-                        .append('<td>sumanjana.6@gmail.com</td>')
+                        .append('<td>TIK-SMG-000110</td>')
+                        .append('<td>Monitor</td>')
+                        .append('<td>30005</td>')
+                        .append('<td>Horizontal crack lines</td>')
                         .append('<td class="d-flex justify-content-evenly"><a href="#" class="edit_class" data-table_id="3"><i class="fa fa-edit"></i></a> <a class="remove" href="#"><i class="fas fa-times"></i></a></td>')
 
                     //Prepend row with Table
@@ -279,15 +230,11 @@
         $('#myTable').on('click', '.edit_class', function(){ 
             $table_id = $(this).data('table_id');
             $('#table_id').val($table_id);
-            $('#employeeName').val('Suman Jana');
-            $('#primaryPhNo').val('9874563250');
-            $('#alternativePhNo').val('9874883250');
-            $('#employeeEmail').val('sumanjana@mail.com');
+            $('#ticketNo').val('TIK-SMG-000110');
+            $('#deviceName').val('1').trigger('change');
+            $('#deviceSerialNo').val('50001');
+            $('#issueNote').val('Horizontal crack lines');
             $('#myModal').modal('show');            
-        })
-        
-        $('#filterDept').on('click', function(){ 
-            $('#part_2').show();
         })
 
     </script>

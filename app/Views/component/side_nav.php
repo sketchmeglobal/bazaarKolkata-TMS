@@ -50,12 +50,22 @@
                             <a href="<?= base_url('admin/all-tickets')  ?>" class="dropdown-item">Following</a>
                         </div>
                     </div>
+
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Users</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="<?= base_url('admin/all-users') ?>" class="dropdown-item">All Users</a>
                         </div>
                     </div>
+
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Hardware</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="<?= base_url('admin/issue-hardware') ?>" class="dropdown-item">Issue</a>
+                            <a href="<?= base_url('admin/return-hardware') ?>" class="dropdown-item">Return</a>
+                        </div>
+                    </div>
+
                     <a href="<?= base_url('admin/profile')  ?>" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Profile</a>
                 </div>
             </nav>

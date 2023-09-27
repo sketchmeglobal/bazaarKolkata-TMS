@@ -1,7 +1,5 @@
 <?= view('component/header') ?>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
-
-
 </head>
 
 <body>
@@ -35,7 +33,7 @@
 
                 <div class="row justify-content-center align-items-center">
 
-                    <div class="col-md-10 bg-light mt-3" style="border-radius:5px;">
+                    <div class="col-md-12 bg-light mt-3" style="border-radius:5px;">
                         <div class="row py-4">
                             <div class="col-md-8">
                                 <form action="">
@@ -44,11 +42,13 @@
                                             <div class="form-group">
                                                 <label for="exampleFormControlSelect1">Topic Type</label>
                                                 <select class="form-control" id="exampleFormControlSelect1">
-                                                    <option>slect type</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
+                                                    <option value="0">Select</option>
+                                                    <option value="1">Hardware replacement</option>
+                                                    <option value="2">Software renewal</option>
+                                                    <option value="3">Mouse / keyboard failure</option>
+                                                    <option value="4">Other device failure</option>
+                                                    <option value="5">Others</option>
+                                                </select>
                                                 </select>
                                             </div>
                                         </div>
@@ -62,11 +62,15 @@
                                             <div class="form-group">
                                                 <label for="exampleFormControlSelect1">Category</label>
                                                 <select class="form-control" id="exampleFormControlSelect1">
-                                                    <option>slect category</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
+                                                    <option value="0" >Select</option>
+                                                    <option value="0" >Bug</option>
+                                                    <option value="1" >Feature requests</option>
+                                                    <option value="2" >Software Troubleshooting</option>
+                                                    <option value="3" >How to</option>
+                                                    <option value="4" >Password Reset</option>
+                                                    <option value="5" >Network</option>
+                                                    <option value="6" >Hardware</option>
+                                                    <option value="7" >Access and Authorization</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -74,11 +78,10 @@
                                             <div class="form-group">
                                                 <label for="exampleFormControlSelect1">Severity</label>
                                                 <select class="form-control" id="exampleFormControlSelect1">
-                                                    <option>slect severity</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
+                                                    <option value="0" >Select </option>
+                                                    <option value="1" >Low</option>
+                                                    <option value="2" >Medium</option>
+                                                    <option value="3" >High</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -99,10 +102,11 @@
                                                 <label for="exampleFormControlInput1">Message</label>
 
                                                 <textarea name="" id="editor" style="height: 195px;"></textarea>
+
                                                 <div class="custom-file mt-4">
                                                     <input id="fileInput" type="file" class="custom-file-input">
-
                                                 </div>
+
                                                 <div class="col-md-12 mt-4 float-right">
                                                     <button class="btn btn-primary" id="reply" data-ticket-no="TIK-SMG-000113">Reply <i class="fa fa-reply"></i>
                                                     </button>
