@@ -58,12 +58,12 @@
                                 <?php if ($head) : ?>
                                 <?php foreach ($head as $office) : ?>
                                 <tr>
-                                    <td><?= $office['id'] ?> </td>
-                                    <td><?= $office['name'] ?></td>
-                                    <td><?= $office['location'] ?></td>
+                                    <td><?=$office['id']?></td>
+                                    <td><?=$office['ho_name']?></td>
+                                    <td><?=$office['ho_location']?></td>
                                     <td class="d-flex justify-content-evenly">
-                                        <a href="#" class="edit_class" data-table_id="1"><i class="fa fa-edit"></i></a>
-                                        <a class="remove" href="#"><i class="fas fa-times"></i></a>
+                                        <a href="javascript: void(0);" class="edit_class" data-table_id="<?=$office['id']?>"><i class="fa fa-edit"></i></a>
+                                        <a class="remove" href="javascript: void(0);" data-table_id="<?=$office['id']?>"><i class="fas fa-times"></i></a>
                                     </td>
                                 </tr>
                                 <?php endforeach ?>
@@ -99,9 +99,9 @@
                                     <?php } ?>
                                     <div class="col-md-11 col-12 mb-2">
                                         <label for="headofficeName">Head office Name</label>
-                                        <input type="text" class="form-control" name="name" id="headofficeName" required
+                                        <input type="text" class="form-control" name="headofficeName" id="headofficeName" required
                                             value="<?= isset($name) ? $name : '' ?>">
-                                        <span class="error">
+                                        <span class="error" id="headofficeNameError">
                                             <?=(isset($validation['name']) ? $validation['name'] : '' ); ?>
                                         </span>
 
@@ -109,20 +109,18 @@
                                     </div>
                                     <div class="col-md-11 col-12 mb-2">
                                         <label for="headofficeLocation">Head office Location</label>
-                                        <input minlength="5" type="text" class="form-control" name="address"
+                                        <input minlength="5" type="text" class="form-control" name="headofficeLocation"
                                             id="headofficeLocation" required
                                             value="<?= isset($address) ? $address : '' ?>">
-                                        <span
-                                            class="error"><?= (isset($validation['address']) ? $validation['address'] : ''); ?></span>
+                                        <span class="error" id="headofficeLocationError"><?= (isset($validation['address']) ? $validation['address'] : ''); ?></span>
                                     </div>
 
                                     <div class="col-md-4 ">
                                         <label for="s_parentDesignation">&nbsp;</label>
-                                        <input class="btn btn-primary py-2 w-100 mb-1" type="submit" value="Save"
-                                            name="submit">
+                                        <input class="btn btn-primary py-2 w-100 mb-1" type="button" value="Save" name="submit" id="s_submitForm">
                                     </div>
                                 </div>
-                                <input type="hidden" id="table_id" name="table_id" value="">
+                                <input type="hidden" id="table_id" name="table_id" value="0">
                             </form>
 
                         </div>
@@ -143,18 +141,168 @@
 
             <?= view('component/js') ?>
             <script>
-            $("#s_myFormName").validate();
+            //Form Validation    
+            //$("#s_myFormName").validate();
+            //Validation Form
+            function validateForm(){
+                $headofficeName = $('#headofficeName').val().replace(/^\s+|\s+$/gm,'');
+                $headofficeLocation = $('#headofficeLocation').val().replace(/^\s+|\s+$/gm,'');
+                
+                $status = true;
+                $formValidMsg = '';
+                
+                if($headofficeName == ''){
+                    $status = false;
+                    $formValidMsg += 'Please enter Head office name';
+                    $('#headofficeName').removeClass('is-valid');
+                    $('#headofficeName').addClass('is-invalid');
+                }else{
+                    $('#headofficeName').removeClass('is-invalid');
+                    $('#headofficeName').addClass('is-valid');
+                }
 
-            $(".remove").click(function() {
-                $(this).closest('tr').remove();
-            });
+                if($headofficeLocation == ''){
+                    $status = false;
+                    $formValidMsg += ', location';
+                    $('#headofficeLocation').removeClass('is-valid');
+                    $('#headofficeLocation').addClass('is-invalid');
+                }else{
+                    $('#headofficeLocation').removeClass('is-invalid');
+                    $('#headofficeLocation').addClass('is-valid');
+                } 
 
-            //Show Modal
+                $('#formValidMsg').html($formValidMsg);
+
+                $('#s_submitForm_spinner').hide();
+                $('#s_submitForm_spinner_text').hide();
+                $('#s_submitForm_text').show();
+
+                return $status;
+            }//en validate form
+
+            //Submit Form
+            $('#s_submitForm').click(function(){
+                $('#s_submitForm_spinner').show();
+                $('#s_submitForm_spinner_text').show();
+                $('#s_submitForm_text').hide();
+                $('#formValidMsg').hide();
+
+                setTimeout(function(){
+                    $formVallidStatus = validateForm();
+
+                    if($formVallidStatus == true){
+                        $table_id = $('#table_id').val();
+                        $query = {
+                            headofficeName: $headofficeName,
+                            headofficeLocation: $headofficeLocation,
+                            table_id: $table_id
+                        };
+
+                        console.log('form validated, save data & populate the data table')
+                        $.ajax({  
+                            url: '<?php echo base_url('admin/formValidation'); ?>',
+                            type: 'post',
+                            dataType:'json',
+                            data:{query: $query},
+                            success:function(data){
+                                console.log(JSON.stringify(data));
+                                console.log('status: ' + data.status);
+                                if(data.status == true ){
+                                    $('#headofficeNameError').html('');
+                                    $('#headofficeLocationError').html('');
+                        
+                                    $('#formValidMsg').hide();
+                                    $("#s_myFormName").trigger("reset");
+
+                                    if(parseInt(data.ho_id) > 0){
+                                        //Creat the row
+                                        var row = $('<tr>')
+                                            .append('<td>'+data.ho_id+'</td>')
+                                            .append('<td>'+$headofficeName+'</td>')
+                                            .append('<td>'+$headofficeLocation+'</td>')
+                                            .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'+data.ho_id+'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'+data.ho_id+'"></i></a></td>')
+
+                                        //Prepend row with Table
+                                        //myTable.row.add(row);
+                                        $('#myTable tbody').prepend(row);
+                                    }
+
+                                    //Hide Modal
+                                    $('#myModal').modal('hide');
+                                }else{
+                                    console.log('validation' + JSON.stringify(data.validation));
+                                    $validation = data.validation;
+                                    for($i in $validation){
+                                        console.log($i + '' + $validation[$i])
+                                        $('#'+$i+'Error').html($validation[$i])
+                                    }
+                                }
+                            }  
+                        });
+                    }else{
+                        console.log('form validation Error')                    
+                        $('#formValidMsg').show();
+                    }
+
+                }, 500)    
+            })
+
+            //Add Data
             $('#addNewRecord').on('click', function() {
                 $("#s_myFormName").trigger("reset");
+                $('#table_id').val('0');
                 $('#myModal').modal('show');
             })
+
+            //Hide Modal
             $('#closeModal1, #closeModal').on('click', function() {
                 $('#myModal').modal('hide');
             })
+
+            //Delete Data
+            $(".remove").click(function() {
+                if(confirm("Are You Sure? This Process Can\'t be Undone.")){
+                    $table_id = $(this).data('table_id');
+                    $(this).closest('tr').remove();
+                    //console.log('Delete table_id: ' + $table_id);
+
+                    $.ajax({  
+                        url: '<?php echo base_url('admin/removeTableData'); ?>',
+                        type: 'post',
+                        dataType:'json',
+                        data:{table_id: $table_id},
+                        success:function(data){
+                            //console.log(JSON.stringify(data));
+                            //console.log('status: ' + data.status);
+                            if(data.status == true){
+                                //$(this).closest('tr').remove();
+                            }
+                        }  
+                    });//end ajak
+
+                }//end
+            });
+
+            //Edit Data
+            $(".edit_class").click(function() {
+                $table_id = $(this).data('table_id');
+                //console.log('Delete table_id: ' + $table_id);
+
+                $.ajax({  
+                    url: '<?php echo base_url('admin/getTableData'); ?>',
+                    type: 'post',
+                    dataType:'json',
+                    data:{table_id: $table_id},
+                    success:function(data){
+                        console.log(JSON.stringify(data));
+                        //console.log('status: ' + data.status);
+                        if(data.status == true ){
+                            $('#headofficeName').val(data.result.ho_name);
+                            $('#headofficeLocation').val(data.result.ho_location);
+                            $('#table_id').val(data.result.id);
+                            $('#myModal').modal('show');
+                        }
+                    }  
+                });//end ajak
+            });
             </script>
