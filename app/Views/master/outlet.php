@@ -1,10 +1,20 @@
 <?= view('component/header') ?>
+<!-- < ?= isset($validation) ? print_r($validation) : ''; die; ?> -->
+
+<style>
+#s_myFormName .error {
+    color: red !important;
+    position: relative;
+    padding: 0;
+}
+</style>
 </head>
 
 <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div id="spinner"
+            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -31,9 +41,9 @@
             <div></div>
             <div class="container">
                 <div class="row">
-                    
                     <div class="col-md-12 px-4">
-                        <button type="button" id="addNewRecord" class="btn btn-primary ms-2" style="float: right; margin-bottom: 5px;">Add New</button>
+                        <button type="button" id="addNewRecord" class="btn btn-primary ms-2"
+                            style="float: right; margin-bottom: 5px;">Add New</button>
 
                         <table id="myTable" class="display">
                             <thead>
@@ -45,24 +55,19 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php if ($rows) : ?>
+                                <?php foreach ($rows as $row) : ?>
                                 <tr>
-                                    <td>1 </td>
-                                    <td>Ol Sodepur</td>
-                                    <td>Sodepur</td>
+                                    <td><?=$row['ol_id']?></td>
+                                    <td><?=$row['ol_name']?></td>
+                                    <td><?=$row['ol_location']?></td>
                                     <td class="d-flex justify-content-evenly">
-                                        <a href="#" class="edit_class" data-table_id="1"><i class="fa fa-edit"></i></a>
-                                        <a class="remove" href="#"><i class="fas fa-times"></i></a>
+                                        <a href="javascript: void(0);" class="edit_class" data-table_id="<?=$row['ol_id']?>"><i class="fa fa-edit"></i></a>
+                                        <a class="remove" href="javascript: void(0);" data-table_id="<?=$row['ol_id']?>"><i class="fas fa-times"></i></a>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Ol Barrackpore </td>
-                                    <td>Barrackpore</td>
-                                    <td class="d-flex justify-content-evenly">
-                                        <a href="#" class="edit_class" data-table_id="2"><i class="fa fa-edit"></i></a>
-                                        <a class="remove" href="#"><i class="fas fa-times"></i></a>
-                                    </td>
-                                </tr>
+                                <?php endforeach ?>
+                                <?php endif ?>
 
                             </tbody>
                         </table>
@@ -70,151 +75,231 @@
                 </div>
             </div>
 
-                <!-- Modal start -->
-                <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle"> Add/Edit Outlet name</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModal1"><span aria-hidden="true">&times;</span></button>
-                            </div>
-                            <div class="modal-body">
-                                <form class="needs-validation" novalidate name="s_myFormName" id="s_myFormName">
-                                    <div class="form-row">
-                                        <div class="col-md-4 mb-1">
-                                            <label for="outletName">Outlet Name</label>
-                                            <input type="text" class="form-control" name="outletName" id="outletName" value="" > 
-                                        </div>  
-                                        <div class="col-md-4 mb-1">
-                                            <label for="outletLocation">Outlet Location</label>
-                                            <input type="text" class="form-control" name="outletLocation" id="outletLocation" value="" > 
-                                        </div>                              
-                                        
-                                        <div class="col-md-4 pt-4">
-                                        <label for="s_parentDesignation">&nbsp;</label>
-                                            <button class="btn  btn-primary" type="button" id="s_submitForm">
-                                                <span class="spinner-border spinner-border-sm" role="status" style="display: none;" id="s_submitForm_spinner"></span>
-                                                <span class="load-text" style="display: none;" id="s_submitForm_spinner_text">Loading...</span>
-                                                <span class="btn-text" id="s_submitForm_text">Save</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" id="table_id" name="table_id" value="">
-                                </form>
-                                
-                            </div>
-                            <div class="modal-footer">   
-                                <div id="formValidMsg" class="invalid-feedback"> </div>                         
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModal">Close</button>
-                            </div>
+            <!-- Modal start -->
+            <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="text-primary modal-title" id="exampleModalLongTitle">Outlet</h5>
+
+                            <button type="button" class=" btn btn-lg btn-primary btn-lg-square back-to-topclose" data-dismiss="modal" aria-label="Close" id="closeModal1"><span aria-hidden="true">&times;</span></button>
                         </div>
+                        <div class="modal-body">
+                            <form class="needs-validation" id="s_myFormName" method="post">
+                                <div class="form-row">
+                                    <?php
+                                    if (!empty(session()->getFlashdata('success'))) { ?>
+                                    <div class="alert alert-success">
+                                        <?php echo session()->getFlashdata('success'); ?>
+                                    </div>
+                                    <?php } ?>
+                                    <div class="col-md-11 col-12 mb-2">
+                                        <label for="ol_name">Outlet Name</label>
+                                        <input type="text" class="form-control" name="ol_name" id="ol_name" required
+                                            value="<?= isset($name) ? $name : '' ?>">
+                                        <span class="error" id="ol_nameError">
+                                            <?=(isset($validation['name']) ? $validation['name'] : '' ); ?>
+                                        </span>
+
+
+                                    </div>
+                                    <div class="col-md-11 col-12 mb-2">
+                                        <label for="ol_location">Outlet Location</label>
+                                        <input minlength="5" type="text" class="form-control" name="ol_location"
+                                            id="ol_location" required
+                                            value="<?= isset($address) ? $address : '' ?>">
+                                        <span class="error" id="ol_locationError"><?= (isset($validation['address']) ? $validation['address'] : ''); ?></span>
+                                    </div>
+
+                                    <div class="col-md-4 ">
+                                        <label for="s_parentDesignation">&nbsp;</label>
+                                        <input class="btn btn-primary py-2 w-100 mb-1" type="button" value="Save" name="submit" id="s_submitForm">
+                                    </div>
+                                </div>
+                                <input type="hidden" id="table_id" name="table_id" value="0">
+                            </form>
+
+                        </div>
+                        <!-- <div class="modal-footer">
+                            <div id="formValidMsg" class="invalid-feedback"> </div>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                id="closeModal">Close</button>
+                        </div> -->
                     </div>
                 </div>
+            </div>
             <!-- Modal end -->
 
             <!-- Footer Start -->
             <?= view('component/footer') ?>
             <!-- Footer End -->
-    <!-- JavaScript Libraries -->
+            <!-- JavaScript Libraries -->
 
-    <?= view('component/js') ?>
-    <script>
-        $(".remove").click(function() {
-            $(this).closest('tr').remove();
-        });
-
-        //Show Modal
-        $('#addNewRecord').on('click', function(){
-            $("#s_myFormName").trigger("reset");
-            $('#myModal').modal('show');
-        })
-        $('#closeModal1, #closeModal').on('click', function(){
-            $('#myModal').modal('hide');
-        })
-
-        
-        //Validation Form
-        function validateForm(){
-            $outletName = $('#outletName').val().replace(/^\s+|\s+$/gm,'');
-            $outletLocation = $('#outletLocation').val().replace(/^\s+|\s+$/gm,'');
-            
-            $status = true;
-            $formValidMsg = '';
-            
-            if($outletName == ''){
-                $status = false;
-                $formValidMsg += 'Please enter Outlet name';
-                $('#outletName').removeClass('is-valid');
-                $('#outletName').addClass('is-invalid');
-            }else{
-                $('#outletName').removeClass('is-invalid');
-                $('#outletName').addClass('is-valid');
-            }
-
-            if($outletLocation == ''){
-                $status = false;
-                $formValidMsg += ', location';
-                $('#outletLocation').removeClass('is-valid');
-                $('#outletLocation').addClass('is-invalid');
-            }else{
-                $('#outletLocation').removeClass('is-invalid');
-                $('#outletLocation').addClass('is-valid');
-            } 
-
-            $('#formValidMsg').html($formValidMsg);
-
-            $('#s_submitForm_spinner').hide();
-            $('#s_submitForm_spinner_text').hide();
-            $('#s_submitForm_text').show();
-
-            return $status;
-        }//en validate form
-
-        //Submit Form
-        $('#s_submitForm').click(function(){
-            $('#s_submitForm_spinner').show();
-            $('#s_submitForm_spinner_text').show();
-            $('#s_submitForm_text').hide();
-            $('#formValidMsg').hide();
-
-            setTimeout(function(){
-                $formVallidStatus = validateForm();
-
-                if($formVallidStatus == true){
-                    console.log('form validated, save data & populate the data table')
-                    $('#formValidMsg').hide();
-                    $("#s_myFormName").trigger("reset");
-
-                    //Creat the row
-                    var row = $('<tr>')
-                        .append('<td>#</td>')
-                        .append('<td>Ol Bagnan</td>')
-                        .append('<td>Bagnan</td>')
-                        .append('<td class="d-flex justify-content-evenly"><a href="#" class="edit_class" data-table_id="3"><i class="fa fa-edit"></i></a> <a class="remove" href="#"><i class="fas fa-times"></i></a></td>')
-
-                    //Prepend row with Table
-                    //myTable.row.add(row);
-                    $('#myTable tbody').prepend(row);
-
-                    //Hide Modal
-                    $('#myModal').modal('hide');
+            <?= view('component/js') ?>
+            <script>
+            //Form Validation    
+            //$("#s_myFormName").validate();
+            //Validation Form
+            function validateForm(){
+                $ol_name = $('#ol_name').val().replace(/^\s+|\s+$/gm,'');
+                $ol_location = $('#ol_location').val().replace(/^\s+|\s+$/gm,'');
+                
+                $status = true;
+                $formValidMsg = '';
+                
+                if($ol_name == ''){
+                    $status = false;
+                    $formValidMsg += 'Please enter Outlet name';
+                    $('#ol_name').removeClass('is-valid');
+                    $('#ol_name').addClass('is-invalid');
                 }else{
-                    console.log('form validation Error')                    
-                    $('#formValidMsg').show();
+                    $('#ol_name').removeClass('is-invalid');
+                    $('#ol_name').addClass('is-valid');
                 }
 
-            }, 500)    
-        })
+                if($ol_location == ''){
+                    $status = false;
+                    $formValidMsg += ', location';
+                    $('#ol_location').removeClass('is-valid');
+                    $('#ol_location').addClass('is-invalid');
+                }else{
+                    $('#ol_location').removeClass('is-invalid');
+                    $('#ol_location').addClass('is-valid');
+                } 
 
-        //Edit Function
-        $('#myTable').on('click', '.edit_class', function(){ 
-            $table_id = $(this).data('table_id');
-            $('#table_id').val($table_id);
-            $('#outletName').val('Baazar Kolkata');
-            $('#outletLocation').val('Newtown');
-            $('#myModal').modal('show');
-            
-        })
+                $('#formValidMsg').html($formValidMsg);
 
-    </script>
-    
+                $('#s_submitForm_spinner').hide();
+                $('#s_submitForm_spinner_text').hide();
+                $('#s_submitForm_text').show();
+
+                return $status;
+            }//en validate form
+
+            //Submit Form
+            $('#s_submitForm').click(function(){
+                $('#s_submitForm_spinner').show();
+                $('#s_submitForm_spinner_text').show();
+                $('#s_submitForm_text').hide();
+                $('#formValidMsg').hide();
+
+                setTimeout(function(){
+                    $formVallidStatus = validateForm();
+
+                    if($formVallidStatus == true){
+                        $table_id = $('#table_id').val();
+                        $query = {
+                            ol_name: $ol_name,
+                            ol_location: $ol_location,
+                            table_id: $table_id
+                        };
+
+                        console.log('form validated, save data & populate the data table')
+                        $.ajax({  
+                            url: '<?php echo base_url('admin/formValidationOL'); ?>',
+                            type: 'post',
+                            dataType:'json',
+                            data:{query: $query},
+                            success:function(data){
+                                console.log(JSON.stringify(data));
+                                console.log('status: ' + data.status);
+                                if(data.status == true ){
+                                    $('#ol_nameError').html('');
+                                    $('#ol_locationError').html('');
+                        
+                                    $('#formValidMsg').hide();
+                                    $("#s_myFormName").trigger("reset");
+
+                                    if(parseInt(data.ho_id) > 0){
+                                        //Creat the row
+                                        var row = $('<tr>')
+                                            .append('<td>'+data.ho_id+'</td>')
+                                            .append('<td>'+$ol_name+'</td>')
+                                            .append('<td>'+$ol_location+'</td>')
+                                            .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'+data.ho_id+'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'+data.ho_id+'"></i></a></td>')
+
+                                        //Prepend row with Table
+                                        //myTable.row.add(row);
+                                        $('#myTable tbody').prepend(row);
+                                    }
+
+                                    //Hide Modal
+                                    $('#myModal').modal('hide');
+                                }else{
+                                    console.log('validation' + JSON.stringify(data.validation));
+                                    $validation = data.validation;
+                                    for($i in $validation){
+                                        console.log($i + '' + $validation[$i])
+                                        $('#'+$i+'Error').html($validation[$i])
+                                    }
+                                }
+                            }  
+                        });
+                    }else{
+                        console.log('form validation Error')                    
+                        $('#formValidMsg').show();
+                    }
+
+                }, 500)    
+            })
+
+            //Add Data
+            $('#addNewRecord').on('click', function() {
+                $("#s_myFormName").trigger("reset");
+                $('#table_id').val('0');
+                $('#myModal').modal('show');
+            })
+
+            //Hide Modal
+            $('#closeModal1, #closeModal').on('click', function() {
+                $('#myModal').modal('hide');
+            })
+
+            //Delete Data
+            $(".remove").click(function() {
+                if(confirm("Are You Sure? This Process Can\'t be Undone.")){
+                    $table_id = $(this).data('table_id');
+                    $(this).closest('tr').remove();
+                    //console.log('Delete table_id: ' + $table_id);
+
+                    $.ajax({  
+                        url: '<?php echo base_url('admin/removeTableDataOL'); ?>',
+                        type: 'post',
+                        dataType:'json',
+                        data:{table_id: $table_id},
+                        success:function(data){
+                            //console.log(JSON.stringify(data));
+                            //console.log('status: ' + data.status);
+                            if(data.status == true){
+                                //$(this).closest('tr').remove();
+                            }
+                        }  
+                    });//end ajak
+
+                }//end
+            });
+
+            //Edit Data
+            $(".edit_class").click(function() {
+                $table_id = $(this).data('table_id');
+                //console.log('Delete table_id: ' + $table_id);
+
+                $.ajax({  
+                    url: '<?php echo base_url('admin/getTableDataOL'); ?>',
+                    type: 'post',
+                    dataType:'json',
+                    data:{table_id: $table_id},
+                    success:function(data){
+                        console.log(JSON.stringify(data));
+                        //console.log('status: ' + data.status);
+                        if(data.status == true ){
+                            $('#ol_name').val(data.result.ol_name);
+                            $('#ol_location').val(data.result.ol_location);
+                            $('#table_id').val(data.result.ol_id);
+                            $('#myModal').modal('show');
+                        }
+                    }  
+                });//end ajak
+            });
+            </script>
