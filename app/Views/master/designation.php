@@ -45,32 +45,43 @@
                 <div class="col-md-12 my-5 px-4">
                         <div class="row">
                             <div class="col-lg-3 col-md-6 form-group">
-                                <label for="departmentName">H.O Name</label>
-                                <select class="form-control" id="departmentName" name="departmentName">
+                                <label for="ho_id">H.O Name</label>
+                                <select class="form-control" id="ho_id" name="ho_id">
                                     <option value="0">Select</option>
-                                    <option value="1">Head Office Kolkata</option>
-                                    <option value="2">Head Office Bangalore</option>
+                                    <?php if($ho_rows): ?>
+                                    <?php foreach($ho_rows as $ho_row): ?>
+                                    <option value="<?=$ho_row->id?>"><?=$ho_row->ho_name?> (<?=$ho_row->ho_location?>)</option>
+                                    <?php endforeach ?>
+                                    <?php endif ?>
                                 </select>
                             </div>
                             <div class="col-lg-3 col-md-6 form-group">
-                                <label for="wareHouseName">W.H Name</label>
-                                <select class="form-control" id="wareHouseName" name="wareHouseName">
+                                <label for="wh_id">W.H Name</label>
+                                <select class="form-control" id="wh_id" name="wh_id">
                                     <option value="0">Select</option>
-                                    <option value="1">Ware House Kolkata</option>
-                                    <option value="2">Ware House Bangalore</option>
+                                    <?php if($wh_rows): ?>
+                                    <?php foreach($wh_rows as $wh_row): ?>
+                                    <option value="<?=$wh_row->wh_id?>"><?=$wh_row->wh_name?> (<?=$wh_row->wh_location?>)</option>
+                                    <?php endforeach ?>
+                                    <?php endif ?>
                                 </select>
                             </div>
                             <div class="col-lg-3 col-md-6 form-group">
-                                <label for="outletName">Outlet Name</label>
-                                <select class="form-control" id="outletName" name="outletName">
+                                <label for="ol_id">Outlet Name</label>
+                                <select class="form-control" id="ol_id" name="ol_id">
                                     <option value="0">Select</option>
-                                    <option value="1">Outlet Kolkata</option>
-                                    <option value="2">Outlet Bangalore</option>
+                                    <?php if($ol_rows): ?>
+                                    <?php foreach($ol_rows as $ol_row): ?>
+                                    <option value="<?=$ol_row->ol_id?>"><?=$ol_row->ol_name?> (<?=$ol_row->ol_location?>)</option>
+                                    <?php endforeach ?>
+                                    <?php endif ?>
                                 </select>
                             </div>
                             <div class="col-lg-3 form-group mt-4">
                                 <button type="button" id="filterDept" name="filterDept" class="btn btn-primary ms-2" style="float: left; margin-bottom: 5px;">Search</button>                                
                             </div>
+                            <span class="error" id="desigSearchError"></span>
+
                         </div>
                     </div> 
 
@@ -217,11 +228,18 @@
                     $formVallidStatus = validateForm();
 
                     if($formVallidStatus == true){
-                        $table_id = $('#table_id').val();
+                        $table_id = $('#table_id').val();                        
+                        $ho_id = $('#ho_id').val();
+                        $wh_id = $('#wh_id').val();
+                        $ol_id = $('#ol_id').val();
+                        
                         $query = {
                             desig_name: $desig_name,
                             desig_priority: $desig_priority,
-                            table_id: $table_id
+                            table_id: $table_id,
+                            ho_id: $ho_id,
+                            wh_id: $wh_id,
+                            ol_id: $ol_id
                         };
 
                         console.log('form validated, save data & populate the data table')
@@ -240,13 +258,13 @@
                                     $('#formValidMsg').hide();
                                     $("#s_myFormName").trigger("reset");
 
-                                    if(parseInt(data.ho_id) > 0){
+                                    if(parseInt(data.dg_id) > 0){
                                         //Creat the row
                                         var row = $('<tr>')
-                                            .append('<td>'+data.ho_id+'</td>')
+                                            .append('<td>'+data.dg_id+'</td>')
                                             .append('<td>'+$desig_name+'</td>')
                                             .append('<td>'+$desig_priority+'</td>')
-                                            .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'+data.ho_id+'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'+data.ho_id+'"></i></a></td>')
+                                            .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'+data.dg_id+'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'+data.dg_id+'"></i></a></td>')
 
                                         //Prepend row with Table
                                         //myTable.row.add(row);
@@ -335,6 +353,79 @@
             
         
             $('#filterDept').on('click', function(){ 
-                $('#part_2').show();
+                $ho_id = $('#ho_id').val();
+                $wh_id = $('#wh_id').val();
+                $ol_id = $('#ol_id').val();
+                $counter = 0;
+                $('#desigSearchError').html('');
+
+                if(parseInt($ho_id) == 0 && parseInt($wh_id) == 0 && parseInt($ol_id) == 0){
+                    $('#desigSearchError').html('Please choose Head Office or Ware House or Outlet');
+                }else{
+                    if(parseInt($ho_id) > 0){
+                        $counter++;
+                    }
+                    if(parseInt($wh_id) > 0){
+                        $counter++;
+                    }
+                    if(parseInt($ol_id) > 0){
+                        $counter++;
+                    }
+                    console.log('counter: ' + $counter);
+                    if(parseInt($counter) > 1){
+                        $('#desigSearchError').html('Please choose any one of Head Office or Ware House or Outlet');
+                    }else{
+                        populateDataTable();
+                        $('#part_2').show();
+                    }
+
+                }
             })
+            
+            function populateDataTable(){
+                $('#myDataTable').dataTable().fnClearTable();
+                $('#myDataTable').dataTable().fnDestroy();
+
+                $('#myDataTable').DataTable({ 
+                    responsive: true,
+                    serverMethod: 'GET',
+                    ajax: {'url': 'features/voluntary_savings/approval_vs/function.php?fn=getTableData' },
+                    dom: 'Blfrtip',
+                    buttons: [
+                        {
+                            extend:    'copyHtml5',
+                            text:      '<i class="fa fa-files-o"></i>',
+                            titleAttr: 'Copy'
+                        },
+                        {
+                            extend:    'excelHtml5',
+                            text:      '<i class="fa fa-file-excel-o"></i>',
+                            titleAttr: 'Excel'
+                        },
+                        {
+                            extend:    'csvHtml5',
+                            text:      '<i class="fa fa-file-text-o"></i>',
+                            titleAttr: 'CSV'
+                        },
+                        {
+                            extend:    'pdfHtml5',
+                            text:      '<i class="fa fa-file-pdf-o"></i>',
+                            titleAttr: 'PDF'
+                        },
+                        {
+                            extend: 'print',
+                            text: '<i class="fa fa-print"></i>',
+                            titleAttr: 'Print',
+                            exportOptions: {
+                                columns: [0,1,2] //Your Column value those you want
+                            }
+                        },
+                    ],
+                    order: [[0, 'asc']],
+                    "lengthMenu": [20, 40, 60, 80, 100],
+                    "pageLength": 20,
+
+                });
+            }//end fun
+
             </script>

@@ -10,7 +10,10 @@ class DesignationC extends BaseController
 {
    public function index(){      
       $head_officeM = new DesignationM();            
-      $data['rows'] = $head_officeM->findAll();            
+      $data['rows'] = $head_officeM->findAll();           
+      $data['ho_rows'] = $head_officeM->getAllHeadOffice();           
+      $data['wh_rows'] = $head_officeM->getAllWareHouse();           
+      $data['ol_rows'] = $head_officeM->getAllOutlet();            
       return view('master/designation', $data);
    }
 
@@ -20,6 +23,9 @@ class DesignationC extends BaseController
          $desig_name = $query['desig_name'];
          $desig_priority = $query['desig_priority'];
          $table_id = $query['table_id'];
+         $ho_id = $query['ho_id'];
+         $wh_id = $query['wh_id'];
+         $ol_id = $query['ol_id'];
 
          $return_data = array();
          $status = true;
@@ -30,13 +36,19 @@ class DesignationC extends BaseController
          $validation->setRules([
             'desig_name' => 'required|min_length[5]',
             'desig_priority' => 'required|min_length[1]',
-            'table_id' => 'required'
+            'table_id' => 'required',
+            'ho_id' => 'required',
+            'wh_id' => 'required',
+            'ol_id' => 'required'
          ]);
 
          $data = [
             'desig_name'   => $desig_name,
             'desig_priority'   => $desig_priority,
-            'table_id' => $table_id
+            'table_id' => $table_id,
+            'ho_id' => $ho_id,
+            'wh_id' => $wh_id,
+            'ol_id' => $ol_id
          ];
          $validatedData = array();
 
@@ -44,15 +56,11 @@ class DesignationC extends BaseController
             $validatedData = $validation->getValidated(); 
             //print_r($validatedData);
             $result = $officeM->insertTableData($validatedData);
-
-            //echo '****** return form model *******';
-            //echo json_encode($result);
-            //echo 'ho id: ' . $result['ho_id'];
-            $ho_id = 0;
+            
             if($result['status'] == true){
                $status = true;
-               $ho_id = $result['ho_id'];
-               $return_data['ho_id'] = $ho_id;
+               $dg_id = $result['dg_id'];
+               $return_data['dg_id'] = $dg_id;
             }else{
                $status = false; 
             }

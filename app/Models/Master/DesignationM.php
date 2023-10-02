@@ -50,10 +50,16 @@ class DesignationM extends Model
       $return_data = array();
       $ho_id = 0;
       $table_id = $validatedData['table_id'];
+      $ho_id = $validatedData['ho_id'];
+      $wh_id = $validatedData['wh_id'];
+      $ol_id = $validatedData['ol_id'];
 
       $fields_array = [
-        'desig_name'     => $validatedData['desig_name'],
-        'desig_priority'  => $validatedData['desig_priority'],
+        'ho_id' => $ho_id,
+        'wh_id' => $wh_id,
+        'ol_id' => $ol_id,
+        'desig_name' => $validatedData['desig_name'],
+        'desig_priority' => $validatedData['desig_priority'],
       ];
 
       if($table_id > 0){
@@ -62,8 +68,8 @@ class DesignationM extends Model
       }else{
         //insert query
         $this->db->table('designation')->insert($fields_array);
-        $ho_id = $this->db->insertID();
-        if($ho_id > 0){
+        $dg_id = $this->db->insertID();
+        if($dg_id > 0){
           $status = true;          
         }else{
           $status = false;
@@ -71,7 +77,7 @@ class DesignationM extends Model
       }
 
       $return_data['status'] = $status;
-      $return_data['ho_id'] = $ho_id;
+      $return_data['dg_id'] = $dg_id;
       return $return_data;
     }
 
@@ -95,4 +101,25 @@ class DesignationM extends Model
       $return_data['row'] = $row;
       return $return_data;
     }//end function
+    
+
+    public function getAllHeadOffice(){
+      $ho_rows = $this->db->table('head_office')->select('*')->where(['row_status' => 1])->get()->getResult();
+      
+      return $ho_rows;
+    }//end function
+
+    public function getAllWareHouse(){
+      $wh_rows = $this->db->table('ware_house')->select('*')->where(['row_status' => 1])->get()->getResult();
+
+      return $wh_rows;
+    }//end function
+
+    public function getAllOutlet(){
+      $ol_rows = $this->db->table('oultlet')->select('*')->where(['row_status' => 1])->get()->getResult();
+
+      return $ol_rows;
+    }//end function
+
+
 }
