@@ -24,6 +24,10 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'getTableData', 'Master\HeadofficeC::getTableData');
 
     $routes->match(['get', 'post'], 'warehouse', 'Master\WarehouseC::index');
+    $routes->match(['get', 'post'], 'formValidationWH', 'Master\WarehouseC::formValidationWH');
+    $routes->match(['get', 'post'], 'removeTableDataWH', 'Master\WarehouseC::removeTableDataWH');
+    $routes->match(['get', 'post'], 'getTableDataWH', 'Master\WarehouseC::getTableDataWH');
+
     $routes->match(['get', 'post'], 'outlet', 'Master\OutletC::index');
     $routes->match(['get', 'post'], 'department', 'Master\DepartmentC::index');
     $routes->match(['get', 'post'], 'hierarchy', 'Master\HierarchyC::index');
