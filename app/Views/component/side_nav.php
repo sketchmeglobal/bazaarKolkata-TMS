@@ -26,7 +26,7 @@
                             <a href="<?= base_URL('admin/warehouse')?>" class="dropdown-item">Warehouse</a>
                             <a href="<?= base_URL('admin/outlet')?>" class="dropdown-item">Outlet</a>
                             <a href="<?= base_URL('admin/department')?>" class="dropdown-item">Department</a>
-                            <a href="<?= base_URL('admin/hierarchy')?>" class="dropdown-item">Hierarchy</a>
+                            <a href="<?= base_URL('admin/designation')?>" class="dropdown-item">Designation</a>
                             <a href="<?= base_URL('admin/employee')?>" class="dropdown-item">Employee</a>
                             <a href="<?= base_URL('admin/hardware-name')?>" class="dropdown-item">Hardware Name</a>
                             <a href="<?= base_URL('admin/hardwarestockentry')?>" class="dropdown-item">H/W Stock Entry</a>
