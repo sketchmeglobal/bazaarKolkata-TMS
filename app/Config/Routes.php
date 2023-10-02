@@ -34,6 +34,10 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'getTableDataOL', 'Master\OutletC::getTableDataOL');
 
     $routes->match(['get', 'post'], 'department', 'Master\DepartmentC::index');
+    $routes->match(['get', 'post'], 'formValidationDE', 'Master\DepartmentC::formValidationDE');
+    $routes->match(['get', 'post'], 'removeTableDataDE', 'Master\DepartmentC::removeTableDataDE');
+    $routes->match(['get', 'post'], 'getTableDataDE', 'Master\DepartmentC::getTableDataDE');
+
     $routes->match(['get', 'post'], 'hierarchy', 'Master\HierarchyC::index');
     $routes->match(['get', 'post'], 'employee', 'Master\EmployeeC::index');
     $routes->match(['get', 'post'], 'hardware-name', 'Master\HardwareNameC::index');
