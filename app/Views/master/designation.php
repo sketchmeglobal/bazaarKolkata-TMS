@@ -95,24 +95,10 @@
                                     <th>Sl No</th>
                                     <th>Designation Name</th>
                                     <th>Designation Priority</th>
-                                    <th>Acction</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if ($rows) : ?>
-                                <?php foreach ($rows as $row) : ?>
-                                <tr>
-                                    <td><?=$row['dg_id']?></td>
-                                    <td><?=$row['desig_name']?></td>
-                                    <td><?=$row['desig_priority']?></td>
-                                    <td class="d-flex justify-content-evenly">
-                                        <a href="javascript: void(0);" class="edit_class" data-table_id="<?=$row['dg_id']?>"><i class="fa fa-edit"></i></a>
-                                        <a class="remove" href="javascript: void(0);" data-table_id="<?=$row['dg_id']?>"><i class="fas fa-times"></i></a>
-                                    </td>
-                                </tr>
-                                <?php endforeach ?>
-                                <?php endif ?>
-
                             </tbody>
                         </table>
                     </div>
@@ -382,50 +368,50 @@
                 }
             })
             
-            function populateDataTable(){
-                $('#myDataTable').dataTable().fnClearTable();
-                $('#myDataTable').dataTable().fnDestroy();
+            function populateDataTable(){                
+                $ho_id = $('#ho_id').val();
+                $wh_id = $('#wh_id').val();
+                $ol_id = $('#ol_id').val();
 
-                $('#myDataTable').DataTable({ 
-                    responsive: true,
-                    serverMethod: 'GET',
-                    ajax: {'url': 'features/voluntary_savings/approval_vs/function.php?fn=getTableData' },
-                    dom: 'Blfrtip',
-                    buttons: [
-                        {
-                            extend:    'copyHtml5',
-                            text:      '<i class="fa fa-files-o"></i>',
-                            titleAttr: 'Copy'
-                        },
-                        {
-                            extend:    'excelHtml5',
-                            text:      '<i class="fa fa-file-excel-o"></i>',
-                            titleAttr: 'Excel'
-                        },
-                        {
-                            extend:    'csvHtml5',
-                            text:      '<i class="fa fa-file-text-o"></i>',
-                            titleAttr: 'CSV'
-                        },
-                        {
-                            extend:    'pdfHtml5',
-                            text:      '<i class="fa fa-file-pdf-o"></i>',
-                            titleAttr: 'PDF'
-                        },
-                        {
-                            extend: 'print',
-                            text: '<i class="fa fa-print"></i>',
-                            titleAttr: 'Print',
-                            exportOptions: {
-                                columns: [0,1,2] //Your Column value those you want
+                $('#myTable').dataTable().fnClearTable();
+                $('#myTable').dataTable().fnDestroy();
+                
+                $('#myTable').DataTable( {
+                    "processing": true,
+                    "language": {
+                        processing: '<img src="<?=base_url('assets/img/ellipsis.gif')?>"><span class="sr-only">Processing...</span>',
+                    },
+                    "serverSide": true,
+                    "ajax": {
+                        "url": "<?=base_url('admin/getDesigTableData')?>",
+                        "type": "POST",
+                        "dataType": "json",
+                        data: {
+                            ho_id: function () {
+                                return $ho_id;
+                            },
+                            wh_id: function () {
+                                return $wh_id;
+                            },
+                            ol_id: function () {
+                                return $ol_id;
                             }
                         },
+                    },
+                    //will get these values from JSON 'data' variable
+                    "columns": [
+                        { "data": "slNo" },
+                        { "data": "desigName" },
+                        { "data": "desigPriority" },
+                        { "data": "action" },
                     ],
-                    order: [[0, 'asc']],
-                    "lengthMenu": [20, 40, 60, 80, 100],
-                    "pageLength": 20,
-
+                    //column initialisation properties
+                    "columnDefs": [{
+                        "targets": [0, 1, 2, 3],
+                        "orderable": false,
+                    }]
                 });
+                
             }//end fun
 
             </script>

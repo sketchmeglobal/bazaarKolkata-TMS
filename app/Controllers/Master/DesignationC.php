@@ -118,4 +118,33 @@ class DesignationC extends BaseController
       echo json_encode($return_data);
    }//end 
 
+   public function getDesigTableData(){
+      if($this->request->isAJAX()) {
+         $return_data = array();
+         $status = true;
+         $officeM = new DesignationM();
+
+         $ho_id = service('request')->getPost('ho_id');
+         $wh_id = service('request')->getPost('wh_id');
+         $ol_id = service('request')->getPost('ol_id');
+
+         $result = $officeM->getDesigTableData($ho_id, $wh_id, $ol_id);
+         echo json_encode($result);
+         
+         // if($result['status'] == true){
+         //    $status = true;
+         //    $row = $result['row'];
+         //    echo json_encode($row);
+         //    $result = $row[0];
+         //    $return_data['result'] = $result;
+         // }else{
+         //    $status = false;
+         // }
+      }
+
+      // $return_data['status'] = $status;
+      // echo json_encode($return_data);
+      
+   }//end 
+
 }

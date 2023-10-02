@@ -51,12 +51,12 @@
                         </div>
                     </div>
 
-                    <div class="nav-item dropdown">
+                    <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Users</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="<?= base_url('admin/all-users') ?>" class="dropdown-item">All Users</a>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Hardware</a>
