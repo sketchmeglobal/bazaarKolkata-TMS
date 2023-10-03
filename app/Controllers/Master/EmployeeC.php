@@ -24,6 +24,7 @@ class EmployeeC extends BaseController
          $primary_phone = $query['primary_phone'];
          $secondary_phone = $query['secondary_phone'];
          $email_id = $query['email_id'];
+         $dg_id = $query['dg_id'];
          $table_id = $query['table_id'];
          $ho_id = $query['ho_id'];
          $wh_id = $query['wh_id'];
@@ -58,6 +59,7 @@ class EmployeeC extends BaseController
             'primary_phone' => $primary_phone,
             'secondary_phone' => $secondary_phone,
             'email_id' => $email_id,
+            'dg_id' => $dg_id,
             'table_id' => $table_id,
             'ho_id' => $ho_id,
             'wh_id' => $wh_id,
@@ -109,20 +111,47 @@ class EmployeeC extends BaseController
       echo json_encode($return_data);
    }//end 
 
-   public function getTableDataDG(){
+   public function getTableDataEM(){
       if($this->request->isAJAX()) {
          $return_data = array();
          $status = true;
          $officeM = new EmployeeM();
 
          $table_id = service('request')->getPost('table_id');
-         $result = $officeM->getTableDataDG($table_id);
+         $result = $officeM->getTableDataEM($table_id);
          if($result['status'] == true){
             $status = true;
             $row = $result['row'];
             //echo json_encode($row);
             $result = $row[0];
             $return_data['result'] = $result;
+         }else{
+            $status = false;
+         }
+      }
+
+      $return_data['status'] = $status;
+      echo json_encode($return_data);
+   }//end 
+   
+
+   public function getDesignationEM(){
+      if($this->request->isAJAX()) {
+         $return_data = array();
+         $status = true;
+         $officeM = new EmployeeM();
+
+         $ho_id = service('request')->getPost('ho_id');
+         $wh_id = service('request')->getPost('wh_id');
+         $ol_id = service('request')->getPost('ol_id');
+
+         $result = $officeM->getDesignationEM($ho_id, $wh_id, $ol_id);
+         if($result['status'] == true){
+            $status = true;
+            $option_text = $result['option_text'];
+            $return_data['option_text'] = $option_text;
+            //echo json_encode($row);
+            
          }else{
             $status = false;
          }

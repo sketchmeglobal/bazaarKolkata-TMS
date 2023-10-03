@@ -61,7 +61,8 @@ class EmployeeM extends Model
         'emp_name' => $validatedData['emp_name'],
         'primary_phone' => $validatedData['primary_phone'],
         'secondary_phone' => $validatedData['secondary_phone'],
-        'email_id' => $validatedData['email_id']
+        'email_id' => $validatedData['email_id'],
+        'dg_id' => $validatedData['dg_id']
       ];
 
       if($table_id > 0){
@@ -93,7 +94,7 @@ class EmployeeM extends Model
       return $return_data;
     }//end function
 
-    public function getTableDataDG($table_id){
+    public function getTableDataEM($table_id){
       $status = true;
       $return_data = array();
 
@@ -103,6 +104,25 @@ class EmployeeM extends Model
       $return_data['row'] = $row;
       return $return_data;
     }//end function
+    
+
+    public function getDesignationEM($ho_id, $wh_id, $ol_id){
+      $status = true;
+      $return_data = array();
+
+      $row = $this->db->table('designation')->select('*')->where(['row_status' => 1, 'ho_id' => $ho_id, 'wh_id' => $wh_id, 'ol_id' => $ol_id])->get()->getResult();
+
+      $option_text = '<option value="0">Select</option>';
+      for($i = 0; $i < sizeof($row); $i++){
+        $option_text .= '<option value="'.$row[$i]->dg_id.'">'.$row[$i]->desig_name.'</option>';
+      }//end for
+
+      $return_data['status'] = $status;
+      $return_data['option_text'] = $option_text;
+
+      return $return_data;
+    }//end function
+
 
     public function getDesigTableDataEM(){
       $request = \Config\Services::request();

@@ -126,30 +126,37 @@
                                         <?php echo session()->getFlashdata('success'); ?>
                                     </div>
                                     <?php } ?>
-                                    <div class="col-md-11 col-12 mb-2">
+                                    <div class="col-md-6 col-6 mb-2">
                                         <label for="emp_name">Employee Name</label>
                                         <input type="text" class="form-control" name="emp_name" id="emp_name" required value="">
                                         <span class="error" id="emp_nameError"> </span>
                                     </div>
-                                    <div class="col-md-11 col-12 mb-2">
+                                    <div class="col-md-6 col-6 mb-2">
                                         <label for="primary_phone">Primary Phone</label>
                                         <input type="number" class="form-control" name="primary_phone"
                                             id="primary_phone" required value="">
                                         <span class="error" id="primary_phoneError"> </span>
                                     </div>
-                                    <div class="col-md-11 col-12 mb-2">
+                                    <div class="col-md-6 col-6 mb-2">
                                         <label for="secondary_phone">Secondary Phone</label>
                                         <input type="number" class="form-control" name="secondary_phone"
                                             id="secondary_phone" required value="">
                                         <span class="error" id="secondary_phoneError"> </span>
                                     </div>
-                                    <div class="col-md-11 col-12 mb-2">
+                                    <div class="col-md-6 col-6 mb-2">
                                         <label for="email_id">Email ID</label>
                                         <input type="email" class="form-control" name="email_id" id="email_id" required value="">
                                         <span class="error" id="email_idError"> </span>
                                     </div>
+                                    
+                                    <div class="col-md-6 col-6 mb-2">
+                                        <label for="dg_id">Outlet Name</label>
+                                        <select class="form-control" id="dg_id" name="dg_id">
+                                            <option value="0">Select</option>
+                                        </select>
+                                    </div>
 
-                                    <div class="col-md-4 ">
+                                    <div class="col-md-6 ">
                                         <label for="s_parentDesignation">&nbsp;</label>
                                         <input class="btn btn-primary py-2 w-100 mb-1" type="button" value="Save" name="submit" id="s_submitForm">
                                     </div>
@@ -231,12 +238,14 @@
                         $ol_id = $('#ol_id').val();
                         $secondary_phone = $('#secondary_phone').val();
                         $email_id = $('#email_id').val();
+                        $dg_id = $('#dg_id').val();
                         
                         $query = {
                             emp_name: $emp_name,
                             primary_phone: $primary_phone,
                             secondary_phone: $secondary_phone,
                             email_id: $email_id,
+                            dg_id: $dg_id,
                             table_id: $table_id,
                             ho_id: $ho_id,
                             wh_id: $wh_id,
@@ -333,10 +342,10 @@
             //Edit Data
             $(".edit_class").click(function() {
                 $table_id = $(this).data('table_id');
-                //console.log('Delete table_id: ' + $table_id);
+                console.log('Edit table_id: ' + $table_id);
 
                 $.ajax({  
-                    url: '<?php echo base_url('admin/getTableDataDG'); ?>',
+                    url: '<?php echo base_url('admin/getTableDataEM'); ?>',
                     type: 'post',
                     dataType:'json',
                     data:{table_id: $table_id},
@@ -381,6 +390,7 @@
                         $('#desigSearchError').html('Please choose any one of Head Office or Ware House or Outlet');
                     }else{
                         populateDataTable();
+                        getDesignationEM();
                         $('#part_2').show();
                     }
 
@@ -433,6 +443,26 @@
                     }]
                 });
                 
+            }//end fun
+
+            function getDesignationEM(){               
+                $ho_id = $('#ho_id').val();
+                $wh_id = $('#wh_id').val();
+                $ol_id = $('#ol_id').val();
+
+                $.ajax({  
+                    url: '<?php echo base_url('admin/getDesignationEM'); ?>',
+                    type: 'post',
+                    dataType:'json',
+                    data:{ho_id: $ho_id, wh_id: $wh_id, ol_id: $ol_id },
+                    success:function(data){
+                        console.log(JSON.stringify(data));
+                        
+                        if(data.status == true ){
+                            $('#dg_id').html(data.option_text);
+                        }
+                    }  
+                });//end ajak                
             }//end fun
 
             </script>
