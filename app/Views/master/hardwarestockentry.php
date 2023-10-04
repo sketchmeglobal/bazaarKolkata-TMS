@@ -1,10 +1,20 @@
 <?= view('component/header') ?>
+<!-- < ?= isset($validation) ? print_r($validation) : ''; die; ?> -->
+
+<style>
+#s_myFormName .error {
+    color: red !important;
+    position: relative;
+    padding: 0;
+}
+</style>
 </head>
 
 <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div id="spinner"
+            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -24,45 +34,40 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5 col-md-6 col-10 bg-light py-2 text-center border-bottom-all-rd">
-                        <h5 class="text-primary">H/W Stock Entry</h5>
+                        <h5 class="text-primary">Hardware Stock Entry</h5>
                     </div>
                 </div>
             </div>
             <div></div>
             <div class="container">
                 <div class="row">
-                    
                     <div class="col-md-12 px-4">
-                        <button type="button" id="addNewRecord" class="btn btn-primary ms-2" style="float: right; margin-bottom: 5px;">Add New</button>
+                        <button type="button" id="addNewRecord" class="btn btn-primary ms-2"
+                            style="float: right; margin-bottom: 5px;">Add New</button>
 
                         <table id="myTable" class="display">
                             <thead>
                                 <tr>
                                     <th>Sl No</th>
                                     <th>Device Name</th>
-                                    <th>Stock Quantity</th>
+                                    <th>Device Serial No</th>
                                     <th>Acction</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php if ($rows) : ?>
+                                <?php foreach ($rows as $row) : ?>
                                 <tr>
-                                    <td>1 </td>
-                                    <td>Keyboard</td>
-                                    <td>5</td>
+                                    <td><?=$row['hw_sl_id']?></td>
+                                    <td><?=$row['hw_id']?></td>
+                                    <td><?=$row['serial_no']?></td>
                                     <td class="d-flex justify-content-evenly">
-                                        <a href="#" class="edit_class" data-table_id="1"><i class="fa fa-edit"></i></a>
-                                        <a class="remove" href="#"><i class="fas fa-times"></i></a>
+                                        <a href="javascript: void(0);" class="edit_class" data-table_id="<?=$row['hw_sl_id']?>"><i class="fa fa-edit"></i></a>
+                                        <a class="remove" href="javascript: void(0);" data-table_id="<?=$row['hw_sl_id']?>"><i class="fas fa-times"></i></a>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Mouse</td>
-                                    <td>5</td>
-                                    <td class="d-flex justify-content-evenly">
-                                        <a href="#" class="edit_class" data-table_id="2"><i class="fa fa-edit"></i></a>
-                                        <a class="remove" href="#"><i class="fas fa-times"></i></a>
-                                    </td>
-                                </tr>
+                                <?php endforeach ?>
+                                <?php endif ?>
 
                             </tbody>
                         </table>
@@ -70,155 +75,236 @@
                 </div>
             </div>
 
-                <!-- Modal start -->
-                <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle"> Add/Edit Head office name</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModal1"><span aria-hidden="true">&times;</span></button>
-                            </div>
-                            <div class="modal-body">
-                                <form class="needs-validation" novalidate name="s_myFormName" id="s_myFormName">
-                                    <div class="form-row">
-                                        <div class="col-md-4 mb-1">
-                                            <label for="deviceName">Device Name</label>
-                                            <select class="form-control" id="deviceName" name="deviceName">
-                                                <option value="0">Select</option>
-                                                <option value="1">Keyboard</option>
-                                                <option value="2">Mouse</option>
-                                            </select> 
-                                        </div>  
-                                        <div class="col-md-4 mb-1">
-                                            <label for="deviceSerialNo">Serial No</label>
-                                            <input type="text" class="form-control" name="deviceSerialNo" id="deviceSerialNo" value="" > 
-                                        </div>                              
-                                        
-                                        <div class="col-md-4 pt-4">
-                                        <label for="s_parentDesignation">&nbsp;</label>
-                                            <button class="btn  btn-primary" type="button" id="s_submitForm">
-                                                <span class="spinner-border spinner-border-sm" role="status" style="display: none;" id="s_submitForm_spinner"></span>
-                                                <span class="load-text" style="display: none;" id="s_submitForm_spinner_text">Loading...</span>
-                                                <span class="btn-text" id="s_submitForm_text">Save</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" id="table_id" name="table_id" value="">
-                                </form>
-                                
-                            </div>
-                            <div class="modal-footer">   
-                                <div id="formValidMsg" class="invalid-feedback"> </div>                         
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModal">Close</button>
-                            </div>
+            <!-- Modal start -->
+            <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="text-primary modal-title" id="exampleModalLongTitle">Hardware Stock Entry</h5>
+
+                            <button type="button" class=" btn btn-lg btn-primary btn-lg-square back-to-topclose" data-dismiss="modal" aria-label="Close" id="closeModal1"><span aria-hidden="true">&times;</span></button>
                         </div>
+                        <div class="modal-body">
+                            <form class="needs-validation" id="s_myFormName" method="post">
+                                <div class="form-row">
+                                    <?php
+                                    if (!empty(session()->getFlashdata('success'))) { ?>
+                                    <div class="alert alert-success">
+                                        <?php echo session()->getFlashdata('success'); ?>
+                                    </div>
+                                    <?php } ?>
+                                    <div class="col-md-11 col-12 mb-2">
+                                        <label for="hw_id">Device Name</label>
+                                        <select class="form-control" id="hw_id" name="hw_id">
+                                            <option value="0">Select</option>
+                                            <?php if($hw_rows): ?>
+                                            <?php foreach($hw_rows as $hw_row): ?>
+                                            <option value="<?=$hw_row->hw_id?>"><?=$hw_row->hw_name?> (<?=$hw_row->hw_code?>)</option>
+                                            <?php endforeach ?>
+                                            <?php endif ?>
+                                        </select>
+                                        <!-- <input type="text" class="form-control" name="hw_id" id="hw_id" required value=""> -->
+                                        <span class="error" id="hw_idError"> </span>
+
+
+                                    </div>
+                                    <div class="col-md-11 col-12 mb-2">
+                                        <label for="serial_no">Device Serial No</label>
+                                        <input minlength="5" type="text" class="form-control" name="serial_no" id="serial_no" required value="">
+                                        <span class="error" id="serial_noError"> </span>
+                                    </div>
+
+                                    <div class="col-md-4 ">
+                                        <label for="s_parentDesignation">&nbsp;</label>
+                                        <input class="btn btn-primary py-2 w-100 mb-1" type="button" value="Save" name="submit" id="s_submitForm">
+                                    </div>
+                                </div>
+                                <input type="hidden" id="table_id" name="table_id" value="0">
+                            </form>
+
+                        </div>
+                        <!-- <div class="modal-footer">
+                            <div id="formValidMsg" class="invalid-feedback"> </div>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                id="closeModal">Close</button>
+                        </div> -->
                     </div>
                 </div>
+            </div>
             <!-- Modal end -->
 
             <!-- Footer Start -->
             <?= view('component/footer') ?>
             <!-- Footer End -->
-    <!-- JavaScript Libraries -->
+            <!-- JavaScript Libraries -->
 
-    <?= view('component/js') ?>
-    <script>
-        $(".remove").click(function() {
-            $(this).closest('tr').remove();
-        });
-
-        //Show Modal
-        $('#addNewRecord').on('click', function(){
-            $("#s_myFormName").trigger("reset");
-            $('#myModal').modal('show');
-        })
-        $('#closeModal1, #closeModal').on('click', function(){
-            $('#myModal').modal('hide');
-        })
-
-        
-        //Validation Form
-        function validateForm(){
-            $deviceName = $('#deviceName').val().replace(/^\s+|\s+$/gm,'');
-            $deviceSerialNo = $('#deviceSerialNo').val().replace(/^\s+|\s+$/gm,'');
-            
-            $status = true;
-            $formValidMsg = '';
-            
-            if($deviceName == ''){
-                $status = false;
-                $formValidMsg += 'Please Select Device Name';
-                $('#deviceName').removeClass('is-valid');
-                $('#deviceName').addClass('is-invalid');
-            }else{
-                $('#deviceName').removeClass('is-invalid');
-                $('#deviceName').addClass('is-valid');
-            }
-
-            if($deviceSerialNo == ''){
-                $status = false;
-                $formValidMsg += ', Serial No';
-                $('#deviceSerialNo').removeClass('is-valid');
-                $('#deviceSerialNo').addClass('is-invalid');
-            }else{
-                $('#deviceSerialNo').removeClass('is-invalid');
-                $('#deviceSerialNo').addClass('is-valid');
-            } 
-
-            $('#formValidMsg').html($formValidMsg);
-
-            $('#s_submitForm_spinner').hide();
-            $('#s_submitForm_spinner_text').hide();
-            $('#s_submitForm_text').show();
-
-            return $status;
-        }//en validate form
-
-        //Submit Form
-        $('#s_submitForm').click(function(){
-            $('#s_submitForm_spinner').show();
-            $('#s_submitForm_spinner_text').show();
-            $('#s_submitForm_text').hide();
-            $('#formValidMsg').hide();
-
-            setTimeout(function(){
-                $formVallidStatus = validateForm();
-
-                if($formVallidStatus == true){
-                    console.log('form validated, save data & populate the data table')
-                    $('#formValidMsg').hide();
-                    $("#s_myFormName").trigger("reset");
-
-                    //Creat the row
-                    var row = $('<tr>')
-                        .append('<td>#</td>')
-                        .append('<td>Keyboard</td>')
-                        .append('<td>1</td>')
-                        .append('<td class="d-flex justify-content-evenly"><a href="#" class="edit_class" data-table_id="3"><i class="fa fa-edit"></i></a> <a class="remove" href="#"><i class="fas fa-times"></i></a></td>')
-
-                    //Prepend row with Table
-                    //myTable.row.add(row);
-                    $('#myTable tbody').prepend(row);
-
-                    //Hide Modal
-                    $('#myModal').modal('hide');
+            <?= view('component/js') ?>
+            <script>
+            //Form Validation    
+            //$("#s_myFormName").validate();
+            //Validation Form
+            function validateForm(){
+                $hw_id = $('#hw_id').val();
+                $serial_no = $('#serial_no').val().replace(/^\s+|\s+$/gm,'');
+                
+                $status = true;
+                $formValidMsg = '';
+                
+                if($hw_id == '0'){
+                    $status = false;
+                    $formValidMsg += 'Please select Hardware Name';
+                    $('#hw_id').removeClass('is-valid');
+                    $('#hw_id').addClass('is-invalid');
                 }else{
-                    console.log('form validation Error')                    
-                    $('#formValidMsg').show();
+                    $('#hw_id').removeClass('is-invalid');
+                    $('#hw_id').addClass('is-valid');
                 }
 
-            }, 500)    
-        })
+                if($serial_no == ''){
+                    $status = false;
+                    $formValidMsg += ', Serial No';
+                    $('#serial_no').removeClass('is-valid');
+                    $('#serial_no').addClass('is-invalid');
+                }else{
+                    $('#serial_no').removeClass('is-invalid');
+                    $('#serial_no').addClass('is-valid');
+                } 
 
-        //Edit Function
-        $('#myTable').on('click', '.edit_class', function(){ 
-            $table_id = $(this).data('table_id');
-            $('#table_id').val($table_id);
-            $('#deviceName').val('1').trigger('change');
-            $('#deviceSerialNo').val('1');
-            $('#myModal').modal('show');
-            
-        })
+                $('#formValidMsg').html($formValidMsg);
 
-    </script>
-    
+                $('#s_submitForm_spinner').hide();
+                $('#s_submitForm_spinner_text').hide();
+                $('#s_submitForm_text').show();
+
+                return $status;
+            }//en validate form
+
+            //Submit Form
+            $('#s_submitForm').click(function(){
+                $('#s_submitForm_spinner').show();
+                $('#s_submitForm_spinner_text').show();
+                $('#s_submitForm_text').hide();
+                $('#formValidMsg').hide();
+
+                setTimeout(function(){
+                    $formVallidStatus = validateForm();
+
+                    if($formVallidStatus == true){
+                        $table_id = $('#table_id').val();
+                        $hw_id = $('#hw_id').val();
+                        console.log('hw_id:' + $hw_id);
+                        $query = {
+                            hw_id: $hw_id,
+                            serial_no: $serial_no,
+                            table_id: $table_id
+                        };
+
+                        console.log('form validated, save data & populate the data table')
+                        $.ajax({  
+                            url: '<?php echo base_url('admin/formValidationHWS'); ?>',
+                            type: 'post',
+                            dataType:'json',
+                            data:{query: $query},
+                            success:function(data){
+                                console.log(JSON.stringify(data));
+                                console.log('status: ' + data.status);
+                                if(data.status == true ){
+                                    $('#hw_idError').html('');
+                                    $('#serial_noError').html('');
+                        
+                                    $('#formValidMsg').hide();
+                                    $("#s_myFormName").trigger("reset");
+
+                                    if(parseInt(data.ho_id) > 0){
+                                        //Creat the row
+                                        var row = $('<tr>')
+                                            .append('<td>'+data.ho_id+'</td>')
+                                            .append('<td>'+$hw_id+'</td>')
+                                            .append('<td>'+$serial_no+'</td>')
+                                            .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'+data.ho_id+'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'+data.ho_id+'"></i></a></td>')
+
+                                        //Prepend row with Table
+                                        //myTable.row.add(row);
+                                        $('#myTable tbody').prepend(row);
+                                    }
+
+                                    //Hide Modal
+                                    $('#myModal').modal('hide');
+                                }else{
+                                    console.log('validation' + JSON.stringify(data.validation));
+                                    $validation = data.validation;
+                                    for($i in $validation){
+                                        console.log($i + '' + $validation[$i])
+                                        $('#'+$i+'Error').html($validation[$i])
+                                    }
+                                }
+                            }  
+                        });
+                    }else{
+                        console.log('form validation Error')                    
+                        $('#formValidMsg').show();
+                    }
+
+                }, 500)    
+            })
+
+            //Add Data
+            $('#addNewRecord').on('click', function() {
+                $("#s_myFormName").trigger("reset");
+                $('#table_id').val('0');
+                $('#myModal').modal('show');
+            })
+
+            //Hide Modal
+            $('#closeModal1, #closeModal').on('click', function() {
+                $('#myModal').modal('hide');
+            })
+
+            //Delete Data
+            $(".remove").click(function() {
+                if(confirm("Are You Sure? This Process Can\'t be Undone.")){
+                    $table_id = $(this).data('table_id');
+                    $(this).closest('tr').remove();
+                    //console.log('Delete table_id: ' + $table_id);
+
+                    $.ajax({  
+                        url: '<?php echo base_url('admin/removeTableDataHWS'); ?>',
+                        type: 'post',
+                        dataType:'json',
+                        data:{table_id: $table_id},
+                        success:function(data){
+                            //console.log(JSON.stringify(data));
+                            //console.log('status: ' + data.status);
+                            if(data.status == true){
+                                //$(this).closest('tr').remove();
+                            }
+                        }  
+                    });//end ajak
+
+                }//end
+            });
+
+            //Edit Data
+            $(".edit_class").click(function() {
+                $table_id = $(this).data('table_id');
+                //console.log('Delete table_id: ' + $table_id);
+
+                $.ajax({  
+                    url: '<?php echo base_url('admin/getTableDataHWS'); ?>',
+                    type: 'post',
+                    dataType:'json',
+                    data:{table_id: $table_id},
+                    success:function(data){
+                        console.log(JSON.stringify(data));
+                        //console.log('status: ' + data.status);
+                        if(data.status == true ){
+                            $('#hw_id').val(data.result.hw_id);
+                            $('#serial_no').val(data.result.serial_no);
+                            $('#table_id').val(data.result.hw_sl_id);
+                            $('#myModal').modal('show');
+                        }
+                    }  
+                });//end ajak
+            });
+            </script>

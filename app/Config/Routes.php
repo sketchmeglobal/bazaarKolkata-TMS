@@ -52,7 +52,14 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'getDesignationEM', 'Master\EmployeeC::getDesignationEM');
 
     $routes->match(['get', 'post'], 'hardware-name', 'Master\HardwareNameC::index');
+    $routes->match(['get', 'post'], 'formValidationHW', 'Master\HardwareNameC::formValidationHW');
+    $routes->match(['get', 'post'], 'removeTableDataHW', 'Master\HardwareNameC::removeTableDataHW');
+    $routes->match(['get', 'post'], 'getTableDataHW', 'Master\HardwareNameC::getTableDataHW');
+
     $routes->match(['get', 'post'], 'hardwarestockentry', 'Master\HardwareStockEntryC::index');
+    $routes->match(['get', 'post'], 'formValidationHWS', 'Master\HardwareStockEntryC::formValidationHWS');
+    $routes->match(['get', 'post'], 'removeTableDataHWS', 'Master\HardwareStockEntryC::removeTableDataHWS');
+    $routes->match(['get', 'post'], 'getTableDataHWS', 'Master\HardwareStockEntryC::getTableDataHWS');
 
     $routes->match(['get', 'post'], 'all-tickets', 'DashboardC::all_tickets');
     $routes->match(['get', 'post'], 'profile', 'DashboardC::profile');
