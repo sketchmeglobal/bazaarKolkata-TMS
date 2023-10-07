@@ -70,6 +70,13 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'new-ticket', 'DashboardC::new_ticket');
     
     $routes->match(['get', 'post'], 'issue-hardware', 'IssuehardwareC::index');
+    $routes->match(['get', 'post'], 'check-ticket-status', 'IssuehardwareC::checkTicketStatus');
+    $routes->match(['get', 'post'], 'get-hw-serial', 'IssuehardwareC::getHwSerialNo');
+    $routes->match(['get', 'post'], 'formValidationHIS', 'IssuehardwareC::formValidationHIS');
+    $routes->match(['get', 'post'], 'removeTableDataHIS', 'IssuehardwareC::removeTableDataHIS');
+    $routes->match(['get', 'post'], 'getTableDataHIS', 'IssuehardwareC::getTableDataHIS');
+    $routes->match(['get', 'post'], 'getDeviceSerialonHIS', 'IssuehardwareC::getDeviceSerialonHIS');
+
     $routes->match(['get', 'post'], 'return-hardware', 'ReturnhardwareC::index');
 
      

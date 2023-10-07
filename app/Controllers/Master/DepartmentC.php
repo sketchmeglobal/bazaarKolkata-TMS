@@ -79,7 +79,6 @@ class DepartmentC extends BaseController
          $table_id = service('request')->getPost('table_id');
          $result = $officeM->removeTableDataDE($table_id);
          if($result['status'] == true){
-
          }
       }
 

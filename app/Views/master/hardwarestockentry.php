@@ -106,8 +106,6 @@
                                         </select>
                                         <!-- <input type="text" class="form-control" name="hw_id" id="hw_id" required value=""> -->
                                         <span class="error" id="hw_idError"> </span>
-
-
                                     </div>
                                     <div class="col-md-11 col-12 mb-2">
                                         <label for="serial_no">Device Serial No</label>
@@ -202,7 +200,7 @@
 
                         console.log('form validated, save data & populate the data table')
                         $.ajax({  
-                            url: '<?php echo base_url('admin/formValidationHWS'); ?>',
+                            url: '<?php echo base_url('admin/formValidationHIS'); ?>',
                             type: 'post',
                             dataType:'json',
                             data:{query: $query},

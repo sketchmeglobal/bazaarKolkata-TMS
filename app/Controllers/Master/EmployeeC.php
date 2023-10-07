@@ -132,8 +132,7 @@ class EmployeeC extends BaseController
 
       $return_data['status'] = $status;
       echo json_encode($return_data);
-   }//end 
-   
+   }//end    
 
    public function getDesignationEM(){
       if($this->request->isAJAX()) {
