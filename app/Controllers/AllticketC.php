@@ -4,57 +4,62 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\AuthM;
-use App\Models\IssuehardwareM;
+use App\Models\AllticketM;
 
-class IssuehardwareC extends BaseController
+class AllticketC extends BaseController
 {
    public function index(){       
-      $head_officeM = new IssuehardwareM();                
-      $data['rows'] = $head_officeM->getAllIssuedHardware();    
-      $data['hw_rows'] = $head_officeM->getDeviceNameList(); 
-      return view('issuehardware', $data);
+      $head_officeM = new AllticketM();                
+      $data['rows'] = $head_officeM->getAllTickets();
+      return view('tickets/all-tickets', $data);
    }   
 
-   public function formValidationHIS(){
+   public function formValidationTIC(){
       if($this->request->isAJAX()) {
          $query = service('request')->getPost('query');
-         $ticketNo = $query['ticketNo'];
-         $hw_id = $query['hw_id'];
-         $hw_sl_id = $query['hw_sl_id'];
-         $issueNote = $query['issueNote'];
-         $table_id = $query['table_id'];
+         $topic_id = $query['topic_id'];
+         $ticket_subject = $query['ticket_subject'];
+         $ticket_category = $query['ticket_category'];
+         $ticket_severity = $query['ticket_severity'];
+         $authority_cc = $query['authority_cc'];
+         $ticket_purpose = $query['ticket_purpose'];
+         $ticket_description = $query['ticket_description'];
+
+         $topic_name = $query['topic_name'];
+         $ticket_category_name = $query['ticket_category_name'];
+         $ticket_severity_name = $query['ticket_severity_name'];
 
          $return_data = array();
          $status = true;
          $session = session();
-         $officeM = new IssuehardwareM();
+         $officeM = new AllticketM();
             
          $validation = \Config\Services::validation();
          $validation->setRules([
-            'ticketNo' => 'required',
-            'hw_id' => 'required',
-            'hw_sl_id' => 'required',
-            'table_id' => 'required'
+            'topic_id' => 'required',
+            'ticket_subject' => 'required'
          ]);
 
          $data = [
-            'ticketNo' => $ticketNo,
-            'hw_id' => $hw_id,
-            'hw_sl_id' => $hw_sl_id,
-            'table_id' => $table_id
+            'topic_id' => $topic_id,
+            'ticket_subject' => $ticket_subject
          ];
          $validatedData = array();
 
          if ($validation->run($data)) {
             $validatedData = $validation->getValidated(); 
-            //print_r($validatedData);            
 
             $post_data = [
-               'ticketNo' => $ticketNo,
-               'hw_id' => $hw_id,
-               'hw_sl_id' => $hw_sl_id,
-               'issueNote' => $issueNote,
-               'table_id' => $table_id
+               'topic_id' => $topic_id,
+               'topic_name' => $topic_name,
+               'ticket_subject' => $ticket_subject,
+               'ticket_category' => $ticket_category,
+               'ticket_category_name' => $ticket_category_name,
+               'ticket_severity' => $ticket_severity,
+               'ticket_severity_name' => $ticket_severity_name,
+               'authority_cc' => $authority_cc,
+               'ticket_purpose' => $ticket_purpose,
+               'ticket_description' => $ticket_description
             ];
             
             $result = $officeM->insertTableData($post_data);
@@ -62,16 +67,14 @@ class IssuehardwareC extends BaseController
             //echo '****** return form model *******';
             //echo json_encode($result);
             //echo 'ho id: ' . $result['ho_id'];
-            $issue_return_id = 0;
+            $ticket_id = 0;
             if($result['status'] == true){
                $status = true;
-               $issue_return_id = $result['issue_return_id'];
-               $return_data['issue_return_id'] = $issue_return_id;
+               $ticket_id = $result['ticket_id'];
+               $return_data['ticket_id'] = $ticket_id;
             }else{
                $status = false; 
             }
-
-            
          }else {
             $return_data['validation'] = $validation->getErrors();
             $status = false;
@@ -89,7 +92,7 @@ class IssuehardwareC extends BaseController
          $return_data = array();
          $status = true;
          $message = '';
-         $officeM = new IssuehardwareM();
+         $officeM = new AllticketM();
 
          $ticketNo = service('request')->getPost('ticketNo');
          $result = $officeM->checkTicketStatus($ticketNo);
@@ -112,7 +115,7 @@ class IssuehardwareC extends BaseController
          $return_data = array();
          $status = true;
          $message = '';
-         $officeM = new IssuehardwareM();
+         $officeM = new AllticketM();
 
          $hw_id = service('request')->getPost('hw_id');
          $result = $officeM->getHwSerialNo($hw_id);
@@ -133,7 +136,7 @@ class IssuehardwareC extends BaseController
       if($this->request->isAJAX()) {
          $return_data = array();
          $status = true;
-         $officeM = new IssuehardwareM();
+         $officeM = new AllticketM();
 
          $table_id = service('request')->getPost('table_id');
          $result = $officeM->removeTableDataHIS($table_id);
@@ -149,7 +152,7 @@ class IssuehardwareC extends BaseController
       if($this->request->isAJAX()) {
          $return_data = array();
          $status = true;
-         $officeM = new IssuehardwareM();
+         $officeM = new AllticketM();
 
          $table_id = service('request')->getPost('table_id');
          $result = $officeM->getTableDataHIS($table_id);
@@ -172,7 +175,7 @@ class IssuehardwareC extends BaseController
       if($this->request->isAJAX()) {
          $return_data = array();
          $status = true;
-         $officeM = new IssuehardwareM();
+         $officeM = new AllticketM();
 
          $hw_id = service('request')->getPost('hw_id');
 

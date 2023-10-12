@@ -4,16 +4,16 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class IssuehardwareM extends Model
+class AllticketM extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'hw_issue_return';
-    protected $primaryKey       = 'issue_return_id';
+    protected $table            = 'ticket_details';
+    protected $primaryKey       = 'ticket_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['issue_return_id','ticket_id', 'ticket_no', 'hw_id', 'hw_sl_id', 'issue_return_note', 'issue_or_return'];
+    protected $allowedFields    = ['ticket_id','topic_id', 'topic_name', 'ticket_subject', 'ticket_category', 'ticket_category_name', 'ticket_severity', 'ticket_severity_name', 'authority_cc', 'ticket_purpose', 'ticket_description', 'ticket_status'];
 
     // Dates
     protected $useTimestamps = false;
@@ -39,48 +39,50 @@ class IssuehardwareM extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getAllIssuedHardware(){
-      $rows = $this->db->table('hw_issue_return')->select('hw_issue_return.issue_return_id, hw_issue_return.ticket_id, hw_issue_return.ticket_no, hw_issue_return.hw_id, hw_issue_return.hw_sl_id,  hw_issue_return.issue_return_note, hardware.hw_name, hardware.hw_code, hardware_serial.serial_no')->join('hardware', 'hardware.hw_id = hw_issue_return.hw_id')->join('hardware_serial', 'hardware_serial.hw_id = hw_issue_return.hw_id')->where(['hw_issue_return.row_status' => 1, 'hw_issue_return.issue_or_return' => 1])->limit(100)->get()->getResult();
-      return $rows;
-    }//end function 
+    public function getAllTickets(){
+      $hw_rows = $this->db->table('ticket_details')->select('ticket_details.ticket_id, ticket_details.topic_id, ticket_details.ticket_subject, ticket_details.ticket_category, ticket_details.ticket_severity, ticket_details.ticket_category, ticket_severity_master.ticket_severity_name, ticket_category_master.ticket_category_name')->join('ticket_severity_master', 'ticket_severity_master.ticket_severity_id = ticket_details.ticket_severity')->join('ticket_category_master', 'ticket_category_master.ticket_category_id = ticket_details.ticket_category')->where(['ticket_details.row_status' => 1])->orderBy('ticket_details.ticket_id', 'DESC')->limit(100)->get()->getResult();
+      return $hw_rows;
+    }//end function  
 
     public function insertTableData($validatedData){
       $status = true;
       $return_data = array();
-      $ho_id = 0;
-      $table_id = $validatedData['table_id'];
-      $ticketNo = $validatedData['ticketNo'];
-      $hw_id = $validatedData['hw_id'];
-      $hw_sl_id = $validatedData['hw_sl_id'];
-      $issueNote = $validatedData['issueNote'];
-      $issue_or_return = 1;
-      $ticket_id = 0;
-      $issue_return_id = 0;
+      
+      $topic_id = $validatedData['topic_id'];
+      $ticket_subject = $validatedData['ticket_subject'];
+      $ticket_category = $validatedData['ticket_category'];
+      $ticket_severity = $validatedData['ticket_severity'];
+      $authority_cc = $validatedData['authority_cc'];
+      $ticket_purpose = $validatedData['ticket_purpose'];
+      $ticket_description = $validatedData['ticket_description'];
+
+      $topic_name = $validatedData['topic_name'];
+      $ticket_category_name = $validatedData['ticket_category_name'];
+      $ticket_severity_name = $validatedData['ticket_severity_name'];
 
       $fields_array = [
-        'ticket_id' => $ticket_id,
-        'ticket_no' => $ticketNo,
-        'hw_id' => $hw_id,
-        'hw_sl_id' => $hw_sl_id,
-        'issue_return_note' => $issueNote,
-        'issue_or_return' => $issue_or_return
+        'topic_id' => $topic_id,
+        'topic_name' => $topic_name,
+        'ticket_subject' => $ticket_subject,
+        'ticket_category' => $ticket_category,
+        'ticket_category_name' => $ticket_category_name,
+        'ticket_severity' => $ticket_severity,
+        'ticket_severity_name' => $ticket_severity_name,
+        'authority_cc' => $authority_cc,
+        'ticket_purpose' => $ticket_purpose,
+        'ticket_description' => $ticket_description
       ];
-
-      if($table_id > 0){
-        //update query
-        $this->db->table('hw_issue_return')->update($fields_array, ['issue_return_id' => $table_id]);
+      
+      //insert query
+      $this->db->table('ticket_details')->insert($fields_array);
+      $ticket_id = $this->db->insertID();
+      if($ticket_id > 0){
+        $status = true;          
       }else{
-        //insert query
-        $this->db->table('hw_issue_return')->insert($fields_array);
-        $issue_return_id = $this->db->insertID();
-        if($issue_return_id > 0){
-          $status = true;          
-        }else{
-          $status = false;
-        }
+        $status = false;
       }
 
-      $return_data['issue_return_id'] = $issue_return_id;
+      $return_data['ticket_id'] = $ticket_id;
       $return_data['status'] = $status;
       return $return_data;
     }
@@ -89,7 +91,7 @@ class IssuehardwareM extends Model
       $status = true;
       $return_data = array();
 
-      $this->db->table('hw_issue_return')->where('issue_return_id', $table_id)->delete();
+      $this->db->table('ticket_details')->where('ticket_id', $table_id)->delete();
 
       $return_data['status'] = $status;
       return $return_data;
@@ -99,7 +101,7 @@ class IssuehardwareM extends Model
       $status = true;
       $return_data = array();
 
-      $row = $this->db->table('hw_issue_return')->select('*')->where(['row_status' => 1, 'issue_return_id' => $table_id])->get()->getResult();
+      $row = $this->db->table('ticket_details')->select('*')->where(['row_status' => 1, 'ticket_id' => $table_id])->get()->getResult();
 
       $return_data['status'] = $status;
       $return_data['row'] = $row;
@@ -136,7 +138,7 @@ class IssuehardwareM extends Model
       $invoice_details = array();
       $inv_paymentHistory = array();
 
-      $result = $this->db->table('hw_issue_return')->select('*')->where(['ho_id' => $ho_id, 'wh_id' => $wh_id, 'ol_id' => $ol_id, 'row_status' => 1 ])->get()->getResult();
+      $result = $this->db->table('ticket_details')->select('*')->where(['ho_id' => $ho_id, 'wh_id' => $wh_id, 'ol_id' => $ol_id, 'row_status' => 1 ])->get()->getResult();
 
       //echo json_encode($result);
 
@@ -148,7 +150,7 @@ class IssuehardwareM extends Model
           $nestedData['primary_phone'] = $result[$i]->primary_phone;
           $nestedData['secondary_phone'] = $result[$i]->secondary_phone;
           $nestedData['email_id'] = $result[$i]->email_id;
-          $nestedData['action'] = '<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'.$result[$i]->issue_return_id.'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'.$result[$i]->issue_return_id.'"></i></a></td>';
+          $nestedData['action'] = '<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'.$result[$i]->ticket_id.'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'.$result[$i]->ticket_id.'"></i></a></td>';
 
           $counter++;
           array_push($data, $nestedData);
@@ -168,7 +170,7 @@ class IssuehardwareM extends Model
       $message = 'Invallid ticket number';
       $return_data = array();
 
-      //$this->db->table('hw_issue_return')->where('issue_return_id', $table_id)->delete();
+      //$this->db->table('ticket_details')->where('ticket_id', $table_id)->delete();
 
       $return_data['status'] = $status;
       $return_data['message'] = $message;
@@ -190,18 +192,13 @@ class IssuehardwareM extends Model
       $return_data['option_text'] = $option_text;
 
       return $return_data;
-    }//end function
-
-    public function getDeviceNameList(){
-      $hw_rows = $this->db->table('hardware')->select('*')->where(['row_status' => 1])->get()->getResult();
-      return $hw_rows;
-    }//end function    
+    }//end function  
 
     public function removeTableDataHIS($table_id){
       $status = true;
       $return_data = array();
 
-      $this->db->table('hw_issue_return')->where('issue_return_id', $table_id)->delete();
+      $this->db->table('ticket_details')->where('ticket_id', $table_id)->delete();
 
       $return_data['status'] = $status;
       return $return_data;

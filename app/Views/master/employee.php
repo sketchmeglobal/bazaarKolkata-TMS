@@ -97,6 +97,7 @@
                                     <th>Primary Phone</th>
                                     <th>Secondary Phone</th>
                                     <th>Email</th>
+                                    <th>Designation</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -150,7 +151,7 @@
                                     </div>
                                     
                                     <div class="col-md-6 col-6 mb-2">
-                                        <label for="dg_id">Outlet Name</label>
+                                        <label for="dg_id">Designation Name</label>
                                         <select class="form-control" id="dg_id" name="dg_id">
                                             <option value="0">Select</option>
                                         </select>
@@ -239,6 +240,7 @@
                         $secondary_phone = $('#secondary_phone').val();
                         $email_id = $('#email_id').val();
                         $dg_id = $('#dg_id').val();
+                        $desig_name = $('#dg_id option:selected').text();
                         
                         $query = {
                             emp_name: $emp_name,
@@ -276,6 +278,7 @@
                                             .append('<td>'+$primary_phone+'</td>')
                                             .append('<td>'+$secondary_phone+'</td>')
                                             .append('<td>'+$email_id+'</td>')
+                                            .append('<td>'+$desig_name+'</td>')
                                             .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'+data.emp_id+'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'+data.emp_id+'"></i></a></td>')
 
                                         //Prepend row with Table
@@ -434,6 +437,7 @@
                         { "data": "primary_phone" },
                         { "data": "secondary_phone" },
                         { "data": "email_id" },
+                        { "data": "desig_name" },
                         { "data": "action" },
                     ],
                     //column initialisation properties

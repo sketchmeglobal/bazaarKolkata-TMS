@@ -37,13 +37,12 @@ class HardwareStockEntryM extends Model
     protected $beforeFind     = [];
     protected $afterFind      = [];
     protected $beforeDelete   = [];
-    protected $afterDelete    = [];
+    protected $afterDelete    = [];       
 
-
-    public function office($ins_data){
-      $this->db->table('hardware_serial')->insert($ins_data);
-      return true;
-    }
+    public function getHwWithSerialNo(){
+      $rows = $this->db->table('hardware_serial')->select('hardware_serial.hw_sl_id, hardware_serial.serial_no, hardware.hw_name, hardware.hw_code')->join('hardware', 'hardware.hw_id = hardware_serial.hw_id')->where(['hardware_serial.row_status' => 1])->limit(100)->get()->getResult();
+      return $rows;
+    }//end function
 
     public function insertTableData($validatedData){
       $status = true;

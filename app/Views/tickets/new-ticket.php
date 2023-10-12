@@ -1,0 +1,335 @@
+<?= view('component/header') ?>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- SIDE-NAV-START -->
+        <?= view('component/side_nav') ?>
+        <!-- SIDE-NAV-END -->
+
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <?= view('component/top_nav') ?>
+            <!-- Navbar End -->
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-6 col-10 bg-light py-2 text-center border-bottom-all-rd">
+                        <h5 class="text-primary">New Ticket</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+
+                <div class="row justify-content-center align-items-center">
+
+                    <div class="col-md-12 bg-light mt-3" style="border-radius:5px;">
+                        <div class="row py-4">
+                            <div class="col-md-8">
+                                <form class="needs-validation" novalidate name="s_myFormName" id="s_myFormName">
+                                    <div class="row">
+                                        <div class="col-md-6 col-12 ">
+                                            <div class="form-group">
+                                                <label for="topic_id">Topic Type</label>
+                                                <select class="form-control" id="topic_id" name="topic_id">
+                                                    <option value="0">Select</option>
+                                                    <?php if ($topic_rows) : ?>
+                                                        <?php foreach ($topic_rows as $topic_row) : ?>
+                                                            <option value="<?=$topic_row->topic_id?>"><?=$topic_row->topic_name?></option>
+                                                        <?php endforeach ?>
+                                                    <?php endif ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12 ">
+                                            <div class="form-group">
+                                                <label for="ticket_subject">Subject</label>
+                                                <input type="text" class="form-control" id="ticket_subject" name="ticket_subject" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12 mt-4">
+                                            <div class="form-group">
+                                                <label for="ticket_category">Category</label>
+                                                <select class="form-control" id="ticket_category" name="ticket_category">
+                                                    <option value="0" >Select</option>
+                                                    <?php if ($category_rows) : ?>
+                                                        <?php foreach ($category_rows as $category_row) : ?>
+                                                            <option value="<?=$category_row->ticket_category_id?>"><?=$category_row->ticket_category_name?></option>
+                                                        <?php endforeach ?>
+                                                    <?php endif ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12 mt-4">
+                                            <div class="form-group">
+                                                <label for="ticket_severity">Severity</label>
+                                                <select class="form-control" id="ticket_severity" name="ticket_severity">
+                                                    <option value="0" >Select </option>
+                                                    <option value="1" >Low</option>
+                                                    <option value="2" >Medium</option>
+                                                    <option value="3" >High</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12 mt-4">
+                                            <div class="form-group">
+                                                <label for="authority_cc">Authority CC</label>
+                                                <input type="text" class="form-control" id="authority_cc" name="authority_cc">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12 mt-4">
+                                            <div class="form-group">
+                                                <label for="ticket_purpose">Purpose</label>
+                                                <input type="text" class="form-control" id="ticket_purpose" name="ticket_purpose" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-4">
+                                            <div class="">
+                                                <label for="exampleFormControlInput1">Description</label>
+                                                <textarea name="ticket_description" id="ticket_description" style="min-height: 150px;min-width: 550px;"></textarea>
+
+                                                <div class="custom-file mt-4">
+                                                    <input id="fileInput" type="file" class="custom-file-input">
+                                                </div>
+
+                                                <div class="col-md-12 mt-4 float-right">
+                                                    <button class="btn btn-primary" type="button" id="s_submitForm" >Reply <i class="fa fa-reply"></i>
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <span class="col-md-12 mt-4 float-left" id="formValidMsg" style="color: #f00;"></apan>
+
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <div class="card-header text-center">
+                                    <h6 class="text-primary">Read Knowledge Base Before Inquiring</h6>
+                                </div>
+                                <div>
+                                    <div id="accordion">
+                                        <div class="card">
+                                            <div class="card-header" id="headingOne">
+                                                <h5 class="mb-0">
+                                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                        Category name1
+                                                    </button>
+                                                </h5>
+                                            </div>
+
+                                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <div class="card-body">
+                                                    Some placeholder content for the first accordion panel.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header" id="headingTwo">
+                                                <h5 class="mb-0">
+                                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                        Category name 2
+                                                    </button>
+                                                </h5>
+                                            </div>
+                                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                                <div class="card-body">
+                                                    Some placeholder content for the second accordion panel. This panel
+                                                    is hidden by default.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header" id="headingThree">
+                                                <h5 class="mb-0">
+                                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                        Category name 3
+                                                    </button>
+                                                </h5>
+                                            </div>
+                                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                                                <div class="card-body">
+
+                                                    And lastly, the placeholder content for the third and final
+                                                    accordion panel. This panel is hidden by default.
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <!-- Footer Start -->
+            <?= view('component/footer') ?>
+            <!-- Footer End -->
+        </div>
+        <!-- Content End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <?= view('component/js') ?>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script> -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+
+    <!-- <script>
+        ClassicEditor
+            .create(document.querySelector('#ticket_description'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script> -->
+    
+    <script>        
+        //Validation Form
+        function validateForm(){
+            $topic_id = $('#topic_id').val();
+            $topic_name = $('#topic_id option:selected').text();
+            $ticket_subject = $('#ticket_subject').val().replace(/^\s+|\s+$/gm,'');
+            $ticket_category = $('#ticket_category').val();
+            $ticket_category_name = $('#ticket_category option:selected').text();
+            $ticket_severity = $('#ticket_severity').val();
+            $ticket_severity_name = $('#ticket_severity option:selected').text();
+            $authority_cc = $('#authority_cc').val().replace(/^\s+|\s+$/gm,'');
+            $ticket_purpose = $('#ticket_purpose').val().replace(/^\s+|\s+$/gm,'');
+            $ticket_description = $('#ticket_description').val();
+            console.log('ticket_description: ' + $ticket_description)
+            
+            $status = true;
+            $formValidMsg = 'Please enter';
+            
+            if($topic_id == '0'){
+                $status = false;
+                $formValidMsg += ', Topic Type';
+                $('#topic_id').removeClass('is-valid');
+                $('#topic_id').addClass('is-invalid');
+            }else{
+                $('#topic_id').removeClass('is-invalid');
+                $('#topic_id').addClass('is-valid');
+            }
+
+            if($ticket_subject == ''){
+                $status = false;
+                $formValidMsg += ', Subject';
+                $('#ticket_subject').removeClass('is-valid');
+                $('#ticket_subject').addClass('is-invalid');
+            }else{
+                $('#ticket_subject').removeClass('is-invalid');
+                $('#ticket_subject').addClass('is-valid');
+            } 
+            
+            if($ticket_category == '0'){
+                $status = false;
+                $formValidMsg += ', Category';
+                $('#ticket_category').removeClass('is-valid');
+                $('#ticket_category').addClass('is-invalid');
+            }else{
+                $('#ticket_category').removeClass('is-invalid');
+                $('#ticket_category').addClass('is-valid');
+            }
+            
+            /*if($ticket_description == ''){
+                $status = false;
+                $formValidMsg += ', Description';
+                $('#ticket_description').removeClass('is-valid');
+                $('#ticket_description').addClass('is-invalid');
+            }else{
+                $('#ticket_description').removeClass('is-invalid');
+                $('#ticket_description').addClass('is-valid');
+            }*/
+
+            $('#formValidMsg').html($formValidMsg);
+
+            $('#s_submitForm_spinner').hide();
+            $('#s_submitForm_spinner_text').hide();
+            $('#s_submitForm_text').show();
+
+            return $status;
+        }//en validate form
+
+        //Submit Form
+        $('#s_submitForm').click(function(){
+            $('#s_submitForm_spinner').show();
+            $('#s_submitForm_spinner_text').show();
+            $('#s_submitForm_text').hide();
+            $('#formValidMsg').hide();
+
+            setTimeout(function(){
+                $formVallidStatus = validateForm();
+
+                if($formVallidStatus == true){                    
+                    $query = {
+                        topic_id: $topic_id,
+                        ticket_subject: $ticket_subject,
+                        ticket_category: $ticket_category,
+                        ticket_severity: $ticket_severity,
+                        authority_cc: $authority_cc,
+                        ticket_purpose: $ticket_purpose,
+                        ticket_description: $ticket_description
+                    };
+                    
+                    $.ajax({  
+                        url: '<?php echo base_url('admin/formValidationTIC'); ?>',
+                        type: 'post',
+                        dataType:'json',
+                        data:{query: $query},
+                        success:function(data){
+                            console.log(JSON.stringify(data));
+                            console.log('status: ' + data.status);
+                            if(data.status == true ){
+                                if(parseInt(data.ticket_id) > 0){
+                                    $('#s_myFormName')[0].reset();
+                                    alert('Your Request save successfully.')
+                                }
+                                
+                            }else{
+                                console.log('validation' + JSON.stringify(data.validation));
+                                $validation = data.validation;
+                                /*for($i in $validation){
+                                    console.log($i + '' + $validation[$i])
+                                    $('#'+$i+'Error').html($validation[$i])
+                                }*/
+                            }
+                        }  
+                    });
+                }else{
+                    console.log('form validation Error')                    
+                    $('#formValidMsg').show();
+                }
+
+            }, 500)    
+        })
+    </script>
+
+</body>
+
+</html>

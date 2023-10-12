@@ -135,7 +135,7 @@ class EmployeeM extends Model
       $invoice_details = array();
       $inv_paymentHistory = array();
 
-      $result = $this->db->table('employee')->select('*')->where(['ho_id' => $ho_id, 'wh_id' => $wh_id, 'ol_id' => $ol_id, 'row_status' => 1 ])->get()->getResult();
+      $result = $this->db->table('employee')->select('employee.emp_id, employee.emp_name, employee.primary_phone, employee.secondary_phone, employee.email_id, designation.desig_name')->join('designation', 'designation.dg_id = employee.dg_id')->where(['employee.ho_id' => $ho_id, 'employee.wh_id' => $wh_id, 'employee.ol_id' => $ol_id, 'employee.row_status' => 1 ])->get()->getResult();
 
       //echo json_encode($result);
 
@@ -147,6 +147,7 @@ class EmployeeM extends Model
           $nestedData['primary_phone'] = $result[$i]->primary_phone;
           $nestedData['secondary_phone'] = $result[$i]->secondary_phone;
           $nestedData['email_id'] = $result[$i]->email_id;
+          $nestedData['desig_name'] = $result[$i]->desig_name;
           $nestedData['action'] = '<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'.$result[$i]->emp_id.'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'.$result[$i]->emp_id.'"></i></a></td>';
 
           $counter++;
