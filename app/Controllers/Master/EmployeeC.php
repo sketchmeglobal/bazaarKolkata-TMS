@@ -10,10 +10,11 @@ class EmployeeC extends BaseController
 {
    public function index(){      
       $head_officeM = new EmployeeM();            
-      //$data['rows'] = $head_officeM->findAll();           
       $data['ho_rows'] = $head_officeM->getAllHeadOffice();           
       $data['wh_rows'] = $head_officeM->getAllWareHouse();           
-      $data['ol_rows'] = $head_officeM->getAllOutlet();            
+      $data['ol_rows'] = $head_officeM->getAllOutlet();           
+      $data['u_level_rows'] = $head_officeM->getAllUserLevel();  
+
       return view('master/employee', $data);
    }
 
@@ -29,6 +30,7 @@ class EmployeeC extends BaseController
          $ho_id = $query['ho_id'];
          $wh_id = $query['wh_id'];
          $ol_id = $query['ol_id'];
+         $user_level = $query['user_level'];
 
          $return_data = array();
          $status = true;
@@ -63,7 +65,8 @@ class EmployeeC extends BaseController
             'table_id' => $table_id,
             'ho_id' => $ho_id,
             'wh_id' => $wh_id,
-            'ol_id' => $ol_id
+            'ol_id' => $ol_id,
+            'user_level' => $user_level
          ];
 
          $validatedData = array();
@@ -77,11 +80,12 @@ class EmployeeC extends BaseController
                $status = true;
                $emp_id = $result['emp_id'];
                $return_data['emp_id'] = $emp_id;
+               $return_data['arr_size'] = $result['arr_size'];
+               $return_data['message'] = $result['message'];
             }else{
                $status = false; 
+               $return_data['message'] = $result['message'];
             }
-
-            
          }else {
             $return_data['validation'] = $validation->getErrors();
             $status = false;

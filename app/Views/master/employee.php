@@ -156,8 +156,21 @@
                                             <option value="0">Select</option>
                                         </select>
                                     </div>
+                                    
+                                    <div class="col-md-6 col-6 mb-2">
+                                        <label for="user_level">User Level</label>
+                                        <select class="form-control" id="user_level" name="user_level">
+                                            <option value="0">Select</option>
+                                            <?php if($u_level_rows): ?>
+                                            <?php foreach($u_level_rows as $u_level_row): ?>
+                                            <option value="<?=$u_level_row->user_level_id?>"><?=$u_level_row->user_level_name?> </option>
+                                            <?php endforeach ?>
+                                            <?php endif ?>
+                                        </select>
+                                    </div>
 
                                     <div class="col-md-6 ">
+                                        <span class="error" id="formError">  </span>
                                         <label for="s_parentDesignation">&nbsp;</label>
                                         <input class="btn btn-primary py-2 w-100 mb-1" type="button" value="Save" name="submit" id="s_submitForm">
                                     </div>
@@ -189,13 +202,14 @@
             function validateForm(){
                 $emp_name = $('#emp_name').val().replace(/^\s+|\s+$/gm,'');
                 $primary_phone = $('#primary_phone').val().replace(/^\s+|\s+$/gm,'');
+                $user_level = $('#user_level').val();
                 
                 $status = true;
-                $formValidMsg = '';
+                $formValidMsg = 'Please enter';
                 
                 if($emp_name == ''){
                     $status = false;
-                    $formValidMsg += 'Please enter Employee name';
+                    $formValidMsg += ', Employee name';
                     $('#emp_name').removeClass('is-valid');
                     $('#emp_name').addClass('is-invalid');
                 }else{
@@ -212,6 +226,17 @@
                     $('#primary_phone').removeClass('is-invalid');
                     $('#primary_phone').addClass('is-valid');
                 } 
+
+                if($user_level == '0'){
+                    $status = false;
+                    $formValidMsg += ', uSER lEVEL';
+                    $('#user_level').removeClass('is-valid');
+                    $('#user_level').addClass('is-invalid');
+                }else{
+                    $('#user_level').removeClass('is-invalid');
+                    $('#user_level').addClass('is-valid');
+                } 
+
 
                 $('#formValidMsg').html($formValidMsg);
 
@@ -241,6 +266,7 @@
                         $email_id = $('#email_id').val();
                         $dg_id = $('#dg_id').val();
                         $desig_name = $('#dg_id option:selected').text();
+                        $user_level = $('#user_level').val();
                         
                         $query = {
                             emp_name: $emp_name,
@@ -251,7 +277,8 @@
                             table_id: $table_id,
                             ho_id: $ho_id,
                             wh_id: $wh_id,
-                            ol_id: $ol_id                            
+                            ol_id: $ol_id,
+                            user_level: $user_level                            
                         };
 
                         console.log('form validated, save data & populate the data table')
@@ -295,6 +322,9 @@
                                         console.log($i + '' + $validation[$i])
                                         $('#'+$i+'Error').html($validation[$i])
                                     }
+
+                                    $error_message = data.message;
+                                    $('#formError').html($error_message);
                                 }
                             }  
                         });

@@ -39,20 +39,22 @@ class EmployeeM extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-
-    public function office($ins_data){
-      $this->db->table('employee')->insert($ins_data);
-      return true;
-    }
-
     public function insertTableData($validatedData){
       $status = true;
       $return_data = array();
+      $emp_id = 0;
+      $arr_size = 0;
+      $message = '';
       $ho_id = 0;
       $table_id = $validatedData['table_id'];
       $ho_id = $validatedData['ho_id'];
       $wh_id = $validatedData['wh_id'];
       $ol_id = $validatedData['ol_id'];
+      $user_level = $validatedData['user_level'];
+      $primary_phone = $validatedData['primary_phone'];
+      $email_id = $validatedData['email_id'];
+      $password =  hash('sha512', $primary_phone);
+
 
       $fields_array = [
         'ho_id' => $ho_id,
@@ -62,25 +64,47 @@ class EmployeeM extends Model
         'primary_phone' => $validatedData['primary_phone'],
         'secondary_phone' => $validatedData['secondary_phone'],
         'email_id' => $validatedData['email_id'],
-        'dg_id' => $validatedData['dg_id']
+        'dg_id' => $validatedData['dg_id'],
+        'user_level' => $user_level
       ];
 
       if($table_id > 0){
         //update query
         $this->db->table('employee')->update($fields_array, ['emp_id' => $table_id]);
       }else{
-        //insert query
-        $this->db->table('employee')->insert($fields_array);
-        $emp_id = $this->db->insertID();
-        if($emp_id > 0){
-          $status = true;          
+        //duplicate checking
+        $row = $this->db->table('employee')->select('*')->where(['primary_phone' => $primary_phone, 'email_id' => $email_id])->get()->getResult();
+
+        $arr_size = sizeof($row);
+        if($arr_size > 0){
+          $status = false;         
+          $message = 'User already exist with the same Email and Phone Number';
         }else{
-          $status = false;
-        }
-      }
+          //insert query
+          $this->db->table('employee')->insert($fields_array);
+          $emp_id = $this->db->insertID();
+          if($emp_id > 0){
+            $status = true;  
+            //Insert into user table for Login 
+            //Admin Manger Employee
+            $users_array = [
+              'emp_id' => $emp_id, 
+              'username' => $primary_phone,
+              'email' => $email_id,
+              'password' => $password
+            ];
+            $this->db->table('users')->insert($users_array);
+          }else{
+            $status = false;         
+            $message = 'employee table data insert problem';
+          }//end if
+        }//end if
+      }//end if
 
       $return_data['status'] = $status;
       $return_data['emp_id'] = $emp_id;
+      $return_data['arr_size'] = $arr_size;
+      $return_data['message'] = $message;
       return $return_data;
     }
 
@@ -182,6 +206,11 @@ class EmployeeM extends Model
     public function getDesignation(){
       $ol_rows = $this->db->table('oultlet')->select('*')->where(['row_status' => 1])->get()->getResult();
       return $ol_rows;
+    }//end function
+
+    public function getAllUserLevel(){
+      $u_level_rows = $this->db->table('user_level')->select('*')->where(['row_status' => 1])->get()->getResult();
+      return $u_level_rows;
     }//end function
 
 

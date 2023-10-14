@@ -12,8 +12,7 @@ $routes->match(['get', 'post'], '/logout', 'AuthController::logout');
 $routes->match(['get', 'post'], '/do_login', 'AuthController::do_login');
 
 $routes->match(['get', 'post'], '/auth', 'DashboardC::index');
-
-$routes->match(['get', 'post'], '/all-tickets', 'DashboardC::all_tickets');
+//$routes->match(['get', 'post'], '/all-tickets', 'DashboardC::all_tickets');
 
 $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'dashboard', 'DashboardC::index');
@@ -68,7 +67,7 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'formValidationHWS', 'Master\HardwareStockEntryC::formValidationHWS');
     $routes->match(['get', 'post'], 'removeTableDataHWS', 'Master\HardwareStockEntryC::removeTableDataHWS');
     $routes->match(['get', 'post'], 'getTableDataHWS', 'Master\HardwareStockEntryC::getTableDataHWS');
-    
+
     //Issue Hardware
     $routes->match(['get', 'post'], 'issue-hardware', 'IssuehardwareC::index');
     $routes->match(['get', 'post'], 'check-ticket-status', 'IssuehardwareC::checkTicketStatus');
@@ -80,7 +79,7 @@ $routes->group('admin', static function ($routes) {
 
     //Return Hardware
     $routes->match(['get', 'post'], 'return-hardware', 'ReturnhardwareC::index');
-    
+
     //Tickets
     $routes->match(['get', 'post'], 'new-ticket', 'NewticketC::index');
     $routes->match(['get', 'post'], 'formValidationTIC', 'NewticketC::formValidationTIC');
@@ -88,16 +87,15 @@ $routes->group('admin', static function ($routes) {
 
     //above links are working
 
-    
+
     //$routes->match(['get', 'post'], 'all-tickets', 'DashboardC::all_tickets');
     $routes->match(['get', 'post'], 'profile', 'DashboardC::profile');
     $routes->match(['get', 'post'], 'sr-association', 'DashboardC::sr_association');
     $routes->match(['get', 'post'], 'severity-mapping', 'DashboardC::severity');
     $routes->match(['get', 'post'], 'intranet-massaging', 'DashboardC::internet_masg');
     $routes->match(['get', 'post'], 'all-users', 'DashboardC::all_users');
-
-     
 });
+
 // FOR VIEW TICKETS ONLY
 $routes->group('tickets-view', static function ($routes) {
     $routes->match(['get', 'post'], 'view1', 'DashboardC::view_tickets1');
