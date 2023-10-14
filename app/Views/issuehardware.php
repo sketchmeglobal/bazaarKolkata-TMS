@@ -112,7 +112,7 @@
                                         
                                         <div class="col-md-4 pt-4">
                                         <label for="s_parentDesignation">&nbsp;</label>
-                                            <button class="btn  btn-primary" type="button" id="s_submitForm">
+                                            <button class="btn  btn-primary" type="button" id="s_submitForm" >
                                                 <span class="spinner-border spinner-border-sm" role="status" style="display: none;" id="s_submitForm_spinner"></span>
                                                 <span class="load-text" style="display: none;" id="s_submitForm_spinner_text">Loading...</span>
                                                 <span class="btn-text" id="s_submitForm_text">Save</span>
@@ -125,7 +125,7 @@
                             </div>
                             <div class="modal-footer">   
                                 <div id="formValidMsg" class="invalid-feedback"> </div>                         
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModal" >Close</button>
                             </div>
                         </div>
                     </div>
@@ -215,7 +215,7 @@
             setTimeout(function(){
                 $formVallidStatus = validateForm();
 
-                if($formVallidStatus == true){
+                if($formVallidStatus == true && $ticket_found == true){
                     $table_id = $('#table_id').val();
                     $ticketNo = $('#ticketNo').val();
                     $hw_id = $('#hw_id').val();
@@ -320,6 +320,7 @@
         $('#ticketNo').on('change', function(){
             $ticketNo = $('#ticketNo').val();
             console.log('ticketNo: ' + $ticketNo);
+            $ticket_found = false;
 
             $.ajax({  
                 url: '<?php echo base_url('admin/check-ticket-status'); ?>',
@@ -329,7 +330,14 @@
                 success:function(data){
                     //console.log(JSON.stringify(data));
                     if(data.status == false ){
-                        $('#ticketNoError').html(data.message);
+                        $ticket_found = false;
+                        $('#ticketNoError').html(data.message);                        
+                        $('#ticketNo').removeClass('is-valid');
+                        $('#ticketNo').addClass('is-invalid');
+                    }else{
+                        $ticket_found = true;
+                        $('#ticketNo').removeClass('is-invalid');
+                        $('#ticketNo').addClass('is-valid');
                     }
                 }  
             });//end ajak

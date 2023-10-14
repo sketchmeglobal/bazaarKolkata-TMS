@@ -9,6 +9,9 @@ use App\Models\IssuehardwareM;
 class IssuehardwareC extends BaseController
 {
    public function index(){       
+      $session = session();
+      $logged_in = $session->logged_in;
+
       $head_officeM = new IssuehardwareM();                
       $data['rows'] = $head_officeM->getAllIssuedHardware();    
       $data['hw_rows'] = $head_officeM->getDeviceNameList(); 
@@ -94,12 +97,11 @@ class IssuehardwareC extends BaseController
          $ticketNo = service('request')->getPost('ticketNo');
          $result = $officeM->checkTicketStatus($ticketNo);
          if($result['status'] == true){
-            $status = true;
-            
+            $status = true;            
          }else{
             $status = false;
-            $message = $result['message'];
          }
+         $message = $result['message'];
       }
 
       $return_data['status'] = $status;

@@ -101,13 +101,14 @@
                                     <th>Created By</th>
                                     <th>Assigned To</th>
                                     <th>Creared On</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if ($rows) : ?>
                                     <?php foreach ($rows as $row) : ?>
                                     <tr>
-                                        <td>TIK-SMG-000<?=$row->ticket_id?></td>
+                                        <td><?=$row->ticket_number?></td>
                                         <td><?=$row->ticket_subject?></td>
                                         <td><?=$row->ticket_severity_name?></td>
                                         <td><span class="bg-red mx-1 px-1">Pending</span></td>
@@ -119,6 +120,7 @@
                                         </td>
                                         <td>&nbsp;</td>
                                         <td><?=date('d-M-Y')?></td>
+                                        <td> <a href="<?=base_url('admin/view-ticket/'.$row->ticket_id)  ?>"><i class="fa fa-eye"></i></a> </td>
                                     </tr>
                                     <?php endforeach ?>
                                 <?php endif ?>

@@ -4,24 +4,18 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\AuthM;
-use App\Models\NewticketM;
+use App\Models\ViewticketM;
 
-class NewticketC extends BaseController
+class ViewticketC extends BaseController
 {
-   public function index(){       
-      $head_officeM = new NewticketM();                
-      //$data['rows'] = $head_officeM->findAll();    
-      $data['topic_rows'] = $head_officeM->getTopicMaster();    
-      $data['category_rows'] = $head_officeM->getCategoryMaster();   
-      $data['severty_rows'] = $head_officeM->getSeverityMaster();
-      return view('tickets/new-ticket', $data);
+   public function index($ticket_id){       
+      $head_officeM = new ViewticketM();                
+      $data['rows'] = $head_officeM->getTicketDetails($ticket_id);
+      return view('tickets/view-ticket', $data);
    }   
 
    public function formValidationTIC(){
-      if($this->request->isAJAX()) {      
-         $session = session();
-         $logged_in = $session->logged_in;
-         
+      if($this->request->isAJAX()) {
          $query = service('request')->getPost('query');
          $topic_id = $query['topic_id'];
          $ticket_subject = $query['ticket_subject'];
@@ -31,10 +25,14 @@ class NewticketC extends BaseController
          $ticket_purpose = $query['ticket_purpose'];
          $ticket_description = $query['ticket_description'];
 
+         $topic_name = $query['topic_name'];
+         $ticket_category_name = $query['ticket_category_name'];
+         $ticket_severity_name = $query['ticket_severity_name'];
+
          $return_data = array();
          $status = true;
          $session = session();
-         $officeM = new NewticketM();
+         $officeM = new ViewticketM();
             
          $validation = \Config\Services::validation();
          $validation->setRules([
@@ -53,9 +51,12 @@ class NewticketC extends BaseController
 
             $post_data = [
                'topic_id' => $topic_id,
+               'topic_name' => $topic_name,
                'ticket_subject' => $ticket_subject,
                'ticket_category' => $ticket_category,
+               'ticket_category_name' => $ticket_category_name,
                'ticket_severity' => $ticket_severity,
+               'ticket_severity_name' => $ticket_severity_name,
                'authority_cc' => $authority_cc,
                'ticket_purpose' => $ticket_purpose,
                'ticket_description' => $ticket_description
@@ -91,7 +92,7 @@ class NewticketC extends BaseController
          $return_data = array();
          $status = true;
          $message = '';
-         $officeM = new NewticketM();
+         $officeM = new ViewticketM();
 
          $ticketNo = service('request')->getPost('ticketNo');
          $result = $officeM->checkTicketStatus($ticketNo);
@@ -114,7 +115,7 @@ class NewticketC extends BaseController
          $return_data = array();
          $status = true;
          $message = '';
-         $officeM = new NewticketM();
+         $officeM = new ViewticketM();
 
          $hw_id = service('request')->getPost('hw_id');
          $result = $officeM->getHwSerialNo($hw_id);
@@ -135,7 +136,7 @@ class NewticketC extends BaseController
       if($this->request->isAJAX()) {
          $return_data = array();
          $status = true;
-         $officeM = new NewticketM();
+         $officeM = new ViewticketM();
 
          $table_id = service('request')->getPost('table_id');
          $result = $officeM->removeTableDataHIS($table_id);
@@ -151,7 +152,7 @@ class NewticketC extends BaseController
       if($this->request->isAJAX()) {
          $return_data = array();
          $status = true;
-         $officeM = new NewticketM();
+         $officeM = new ViewticketM();
 
          $table_id = service('request')->getPost('table_id');
          $result = $officeM->getTableDataHIS($table_id);
@@ -174,7 +175,7 @@ class NewticketC extends BaseController
       if($this->request->isAJAX()) {
          $return_data = array();
          $status = true;
-         $officeM = new NewticketM();
+         $officeM = new ViewticketM();
 
          $hw_id = service('request')->getPost('hw_id');
 

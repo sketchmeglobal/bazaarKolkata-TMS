@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class AllticketM extends Model
+class ViewticketM extends Model
 {
     protected $DBGroup          = 'default';
     protected $table            = 'ticket_details';
@@ -39,9 +39,9 @@ class AllticketM extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getAllTickets(){
-      $hw_rows = $this->db->table('ticket_details')->select('ticket_details.ticket_id, ticket_details.ticket_number, ticket_details.topic_id, ticket_details.ticket_subject, ticket_details.ticket_category, ticket_details.ticket_severity, ticket_details.ticket_category, ticket_severity_master.ticket_severity_name, ticket_category_master.ticket_category_name')->join('ticket_severity_master', 'ticket_severity_master.ticket_severity_id = ticket_details.ticket_severity')->join('ticket_category_master', 'ticket_category_master.ticket_category_id = ticket_details.ticket_category')->where(['ticket_details.row_status' => 1])->orderBy('ticket_details.ticket_id', 'DESC')->limit(100)->get()->getResult();
-      return $hw_rows;
+    public function getTicketDetails($ticket_id){
+      $hw_rows = $this->db->table('ticket_details')->select('ticket_details.ticket_id, ticket_details.ticket_number, ticket_details.topic_id, ticket_details.ticket_subject, ticket_details.ticket_category, ticket_details.ticket_severity, ticket_details.ticket_category, ticket_details.authority_cc, ticket_details.ticket_purpose, ticket_details.ticket_description, ticket_details.created_by, ticket_details.ticket_status, ticket_details.created_on, ticket_severity_master.ticket_severity_name, ticket_category_master.ticket_category_name, ticket_status_master.ticket_status_name')->join('ticket_severity_master', 'ticket_severity_master.ticket_severity_id = ticket_details.ticket_severity')->join('ticket_category_master', 'ticket_category_master.ticket_category_id = ticket_details.ticket_category')->join('ticket_status_master', 'ticket_status_master.ticket_status_id = ticket_details.ticket_status')->where(['ticket_details.ticket_id' => $ticket_id])->get()->getResult();
+      return $hw_rows[0];
     }//end function  
 
     public function insertTableData($validatedData){

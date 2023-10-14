@@ -165,10 +165,17 @@ class IssuehardwareM extends Model
 
     public function checkTicketStatus($ticketNo){
       $status = true;
-      $message = 'Invallid ticket number';
       $return_data = array();
 
-      //$this->db->table('hw_issue_return')->where('issue_return_id', $table_id)->delete();
+      $row = $this->db->table('ticket_details')->select('*')->where([ 'ticket_number' => $ticketNo ])->get()->getResult();
+      $arr_size = sizeof($row);
+      if($arr_size > 0){
+        $status = true;
+        $message = 'Vallid ticket number';
+      }else{
+        $status = false;
+        $message = 'Invallid ticket number';
+      }
 
       $return_data['status'] = $status;
       $return_data['message'] = $message;

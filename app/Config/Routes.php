@@ -84,6 +84,7 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'new-ticket', 'NewticketC::index');
     $routes->match(['get', 'post'], 'formValidationTIC', 'NewticketC::formValidationTIC');
     $routes->match(['get', 'post'], 'all-tickets', 'AllticketC::index');
+    $routes->match(['get', 'post'], 'view-ticket/(:num)', 'ViewticketC::index/$1');
 
     //above links are working
 

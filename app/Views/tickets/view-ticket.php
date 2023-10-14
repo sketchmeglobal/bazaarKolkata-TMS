@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<?= view('component/header') ?>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
 
-<head>
-    <meta charset="utf-8">
-    <title>SMG HELPDESK | Dashboard</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
 
-    <?= view('component/css') ?>
 </head>
 
 <body>
@@ -32,30 +25,33 @@
             <!-- Navbar Start -->
             <?= view('component/top_nav') ?>
             <!-- Navbar End -->
-
-
-            <!-- Sale & Revenue Start -->
-
-            <!-- Sale & Revenue End -->
-
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-6 col-10 bg-light py-2 text-center border-bottom-all-rd">
+                        <h5 class="text-primary">View Ticket</h5>
+                    </div>
+                </div>
+            </div>
             <!-- Ticiekte Start -->
+            <?php
+            //echo json_encode($rows);
+            ?>
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4 justify-content-evenly">
-                    <div class="col-lg-6 col-md-12">
+                    <div class="col-lg-8 col-md-12">
                         <div class="ticked-head mb-3 overflow-hidden d-flex">
                             <div>
-                                <div class=""><span class="text-bg-red px-2 text-light">Closed</span></div>
-                                <div class="mt-2"><i class="fa fa-ticket"></i><span> TIK-SMG-000113</span></div>
+                                <div class=""><span class="text-bg-red px-2 text-light"><?=$rows->ticket_status_name?></span></div>
+                                <div class="mt-2"><i class="fa fa-ticket"></i><span> <?php //echo $rows->ticket_number;?></span></div>
                             </div>
                             <div class="ms-3 pt-2">
-                                <h5 class="text-primary">Mouse problem</h5>
-                                <p>Mouse not working</p>
-                                <p class="">
-                                            <a href="#"><i class="fa fa-file-image-o"></i>
-                                                file_example_PNG_500kB.png</a>
-                                        </p>
+                                <h5 class="text-primary"><?=$rows->ticket_subject?></h5>
+                                <p><?=$rows->ticket_description?></p>
+                                
+                                <!-- Attached file from here<p class=""> 
+                                    <a href="#"><i class="fa fa-file-image-o"></i> file_example_PNG_500kB.png</a> 
+                                </p> -->
                             </div>
-
                         </div>
                         <ul class="comments-list">
                             <li class="position-relative list-style-none">
@@ -135,13 +131,13 @@
                         <div class="mt-5">
                             <div><h3>Leave a comment</h3></div>
                             <form action="">
-                                <textarea name="" id="editor" style="height: 195px;"></textarea>
+                                <textarea name="" id="editor" class="col-lg-12 col-md-12" ></textarea>
                                 <div class="custom-file mt-4">
                                     <input id="fileInput" type="file" class="custom-file-input">
                                     
                                 </div>
                                 <div class="col-md-12 mt-4 float-right">
-                                    <button class="btn btn-primary" id="reply" data-ticket-no="TIK-SMG-000113">Reply <i
+                                    <button class="btn btn-primary" id="reply" data-ticket-no="<?=$rows->ticket_number?>">Reply <i
                                             class="fa fa-reply"></i>
                                     </button>
                                 </div>
@@ -152,55 +148,50 @@
                         <div class="sticky-this">
                         <div class="card-header text-center"><h5 class="text-primary">Details</h5></div>
                         <div class="card-body-text">
-                            <div class="d-flex align-items-center py-4">
-                                <p class="mx-3 mb-0">Ticket Number</p><span>TIK-SMG-000113</span>
+                            <div class="d-flex align-items-center py-2">
+                                <p class="mx-3 mb-0">Ticket Number: </p><span><?=$rows->ticket_number?></span>
                             </div>
-                            <div class="d-flex align-items-center py-4">
-                                <p class="mx-3 mb-0">Created on</p><span>2 months ago</span>
+                            <div class="d-flex align-items-center py-2">
+                                <p class="mx-3 mb-0">Created on: </p><span><?=$rows->created_on?></span>
                             </div>
-                            <div class="d-flex align-items-center py-4">
+                            <div class="d-flex align-items-center py-2">
                                 <p class="mx-3 mb-0">Created By</p><span><div data-toggle="tooltip" data-placement="top"
                                     title="User Demo @user.demo">
                                     <span class="card-ud">UD</span>
                                 </div></span>
                             </div>
-                            <div class="d-flex align-items-center py-4">
-                                <p class="mx-3 mb-0">Purpose</p><span>Mouse issue</span>
+                            <div class="d-flex align-items-center py-2">
+                                <p class="mx-3 mb-0">Purpose:</p><span><?=$rows->ticket_purpose?></span>
                             </div>
-                            <div class="d-flex align-items-center py-4">
-                                <p class="mx-3 mb-0">SR Status</p><span><a href="#">Generated (SR/WB0O2C/001)</a></span><p>Approval: Pending
-                                </p>
+                            <div class="d-flex align-items-center py-2">
+                                <p class="mx-3 mb-0">SR Status:</p><span><a href="#">Generated (SR/WB0O2C/001)</a></span>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center py-4">
-                                <p class="mx-3 mb-0">Ticket Status	</p><span
-                                        class="bg-red mx-1 px-1">Closed</span><p class="mb-0 ms-3"><a href="#">edit</a></p>
+                            <div class="d-flex align-items-center py-2">
+                                <p class="mx-3 mb-0">Approval: Pending </p>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center py-4">
-                                <p class="mx-3 mb-0">Ticket Severity		</p><span
-                                        class="bg-red mx-1 px-1">High</span><p class="mb-0 ms-3"><a href="#">edit</a></p>
+
+                            <div class="d-flex justify-content-between align-items-center py-2">
+                                <p class="mx-3 mb-0">Ticket Status	</p><span class="bg-red mx-1 px-1"><?=$rows->ticket_status_name?></span><p class="mb-0 ms-3"><a href="#">edit</a></p>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center py-4">
-                                <p class="mx-3 mb-0">Ticket Category</p><span>Network</span><p class="mb-0 ms-3"><a href="#">edit</a></p>
+                            <div class="d-flex justify-content-between align-items-center py-2">
+                                <p class="mx-3 mb-0">Ticket Severity:</p><span class="bg-red mx-1 px-1"><?=$rows->ticket_severity_name?></span><p class="mb-0 ms-3"><a href="#">edit</a></p>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center py-4">
+                            <div class="d-flex justify-content-between align-items-center py-2">
+                                <p class="mx-3 mb-0">Ticket Category</p><span><?=$rows->ticket_category_name?></span><p class="mb-0 ms-3"><a href="#">edit</a></p>
+                            </div>
+                            <!-- <div class="d-flex justify-content-between align-items-center py-2">
                                 <p class="mx-3 mb-0">Ticket Priority</p><span>-</span><p class="mb-0 ms-3"><a href="#">edit</a></p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center py-4">
+                            </div> -->
+                            <div class="d-flex justify-content-between align-items-center py-2">
                                 <p class="mx-3 mb-0">Assigned to</p><span><div data-toggle="tooltip" data-placement="top"
                                     title="Admin Demo @admin.demo">
                                     <span class="card-ud">AD</span>
                                 </div></span><p class="mb-0 ms-3"><a href="#">edit</a></p>
                             </div>
-                            <div class="d-flex align-items-center py-4">
+                            <div class="d-flex align-items-center py-2">
                                 <p class="mx-3 mb-0">Assigned on	</p><span>2 months ago</span>
                             </div>
-                            <div class="d-flex align-items-center py-4">
-                                <p class="mx-3 mb-0">Created By</p><span><div data-toggle="tooltip" data-placement="top"
-                                    title="Admin Demo @admin.demo">
-                                    <span class="card-ud">AD</span>
-                                </div></span>
-                            </div>
-                            <div class="d-flex align-items-center py-4">
+                            <div class="d-flex align-items-center py-2">
                                 <p class="mx-3 mb-0">Last Updated on</p><span>-</span>
                             </div>
 
@@ -213,8 +204,6 @@
                 </div>
             </div>
             <!-- Ticiekte End -->
-
-
 
 
             <!-- Footer Start -->
@@ -243,13 +232,9 @@
 
     <!-- JavaScript Libraries -->
     <?= view('component/js') ?>
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <script>
-        ClassicEditor
-        .create( document.querySelector( '#editor' ) )
-        .catch( error => {
-            console.error( error );
-        } );
+    let table = new DataTable('#myTable');
     </script>
 
     <script>
@@ -257,6 +242,7 @@
         $('[data-toggle="tooltip"]').tooltip()
     })
     </script>
+
 </body>
 
 </html>

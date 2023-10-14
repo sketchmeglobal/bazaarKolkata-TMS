@@ -71,6 +71,10 @@ class NewticketM extends Model
       $this->db->table('ticket_details')->insert($fields_array);
       $ticket_id = $this->db->insertID();
       if($ticket_id > 0){
+        $update_array = [
+          'ticket_number' => 'TIK-SMG-'.$ticket_id
+        ];
+        $this->db->table('ticket_details')->update($update_array, ['ticket_id' => $ticket_id]);
         $status = true;          
       }else{
         $status = false;
