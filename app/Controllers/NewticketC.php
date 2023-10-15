@@ -21,6 +21,7 @@ class NewticketC extends BaseController
       if($this->request->isAJAX()) {      
          $session = session();
          $logged_in = $session->logged_in;
+         $emp_id = $session->emp_id;
          
          $query = service('request')->getPost('query');
          $topic_id = $query['topic_id'];
@@ -58,7 +59,8 @@ class NewticketC extends BaseController
                'ticket_severity' => $ticket_severity,
                'authority_cc' => $authority_cc,
                'ticket_purpose' => $ticket_purpose,
-               'ticket_description' => $ticket_description
+               'ticket_description' => $ticket_description,
+               'created_by' => $emp_id
             ];
             
             $result = $officeM->insertTableData($post_data);

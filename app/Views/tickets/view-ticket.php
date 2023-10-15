@@ -1,4 +1,6 @@
-<?= view('component/header') ?>
+<?= view('component/header');
+$session = session();
+?>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
 
 
@@ -53,8 +55,84 @@
                                 </p> -->
                             </div>
                         </div>
-                        <ul class="comments-list">
-                            <li class="position-relative list-style-none">
+                        <ul class="comments-list" id="commentList">
+                            <?php
+                            function time_elapsed_string($datetime, $full = false) {
+                                $now = new DateTime;
+                                $ago = new DateTime($datetime);
+                                $diff = $now->diff($ago);
+                            
+                                $diff->w = floor($diff->d / 7);
+                                $diff->d -= $diff->w * 7;
+                            
+                                $string = array(
+                                    'y' => 'year',
+                                    'm' => 'month',
+                                    'w' => 'week',
+                                    'd' => 'day',
+                                    'h' => 'hour',
+                                    'i' => 'minute',
+                                    's' => 'second',
+                                );
+                                foreach ($string as $k => &$v) {
+                                    if ($diff->$k) {
+                                        $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+                                    } else {
+                                        unset($string[$k]);
+                                    }
+                                }
+                            
+                                if (!$full) $string = array_slice($string, 0, 1);
+                                return $string ? implode(', ', $string) . ' ago' : 'just now';
+                            }
+
+                            $accepted_by_name = $rows->accepted_by_name;
+                            $comment_description1 = $rows->comment_description;
+                            if($comment_description1 != null){
+                            $comment_description = json_decode($comment_description1);
+                                if(sizeof($comment_description) > 0){
+                                    for($i = 0; $i < sizeof($comment_description); $i++){
+                                        $obj_id = $comment_description[$i]->obj_id;
+                                        $reply_text = $comment_description[$i]->reply_text;
+                                        $replied_by = $comment_description[$i]->replied_by;
+                                        $emp_name = $comment_description[$i]->emp_name;
+                                        $email = $comment_description[$i]->email;
+                                        $replied_at = $comment_description[$i]->replied_at;
+
+                                        $emp_name_exp = explode(" ", $emp_name);
+                                        if(sizeof($emp_name_exp) > 1){
+                                            $short_name = substr($emp_name_exp[0], 0, 1). '-' .substr($emp_name_exp[1], 0, 1);
+                                        }else{
+                                            $short_name = substr($emp_name_exp[0], 0, 1);
+                                        }
+
+                                        ?>
+                                        <li class="position-relative list-style-none mb-3">
+                                            <div class="ticket" data-toggle="tooltip" data-placement="top"
+                                                title="<?=$emp_name?> <?=$email?>">
+                                                <span class=""><?=$short_name?></span>
+                                            </div>
+                                            <div class="margin-l">
+                                                <div class="bg-dark d-flex hd-style py-3 border-top-all-rd">
+                                                    <p class="m-0 ms-3 me-3"><a href="#" class="text-light"><?=$email?></a></p>
+                                                    <span><?=time_elapsed_string($replied_at)?></span>
+                                                </div>
+                                                <div class="comment-content py-3 border-bottom-all-rd">
+                                                    <p class="ms-3"><?=$reply_text?></p>
+                                                    <!-- <p class="ms-3 mb-0">
+                                                        <a href="#"><i class="fa fa-file-image-o"></i>
+                                                            file_example_PNG_500kB.png</a>
+                                                    </p> -->
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <?php
+                                    }//end for
+                                }
+                            }
+                            ?>
+                            <!-- <li class="position-relative list-style-none">
                                 <div class="ticket" data-toggle="tooltip" data-placement="top"
                                     title="Admin Demo @admin.demo">
                                     <span class="">AD</span>
@@ -125,20 +203,18 @@
                                     <a href="#">@user.demo</a><span>Changed status to</span><span
                                         class="bg-red mx-1 px-1">Closed</span><span> 2 months ago</span>
                                 </div>
-                            </li>
+                            </li> -->
 
                         </ul>
                         <div class="mt-5">
                             <div><h3>Leave a comment</h3></div>
-                            <form action="">
-                                <textarea name="" id="editor" class="col-lg-12 col-md-12" ></textarea>
+                            <form action="" name="s_myFormName" id="s_myFormName">
+                                <textarea name="reply_text" id="reply_text" class="col-lg-12 col-md-12" ></textarea>
                                 <div class="custom-file mt-4">
-                                    <input id="fileInput" type="file" class="custom-file-input">
-                                    
+                                    <input id="fileInput" type="file" class="custom-file-input">                                    
                                 </div>
                                 <div class="col-md-12 mt-4 float-right">
-                                    <button class="btn btn-primary" id="reply" data-ticket-no="<?=$rows->ticket_number?>">Reply <i
-                                            class="fa fa-reply"></i>
+                                    <button class="btn btn-primary" type="button" id="s_submitForm" data-ticket_id="<?=$rows->ticket_id?>">Reply <i class="fa fa-reply"></i>
                                     </button>
                                 </div>
                             </form>
@@ -152,12 +228,12 @@
                                 <p class="mx-3 mb-0">Ticket Number: </p><span><?=$rows->ticket_number?></span>
                             </div>
                             <div class="d-flex align-items-center py-2">
-                                <p class="mx-3 mb-0">Created on: </p><span><?=$rows->created_on?></span>
+                                <p class="mx-3 mb-0">Created on: </p><span><?=date('d-M-Y H:i A', strtotime($rows->created_on))?></span>
                             </div>
                             <div class="d-flex align-items-center py-2">
                                 <p class="mx-3 mb-0">Created By</p><span><div data-toggle="tooltip" data-placement="top"
-                                    title="User Demo @user.demo">
-                                    <span class="card-ud">UD</span>
+                                    title="<?=$rows->emp_name?> <?=$rows->email_id?>">
+                                    <span class="card-ud" ><?=$short_name?></span>
                                 </div></span>
                             </div>
                             <div class="d-flex align-items-center py-2">
@@ -174,22 +250,22 @@
                                 <p class="mx-3 mb-0">Ticket Status	</p><span class="bg-red mx-1 px-1"><?=$rows->ticket_status_name?></span><p class="mb-0 ms-3"><a href="#">edit</a></p>
                             </div>
                             <div class="d-flex justify-content-between align-items-center py-2">
-                                <p class="mx-3 mb-0">Ticket Severity:</p><span class="bg-red mx-1 px-1"><?=$rows->ticket_severity_name?></span><p class="mb-0 ms-3"><a href="#">edit</a></p>
+                                <p class="mx-3 mb-0">Ticket Severity:</p><span class="bg-red mx-1 px-1"><?=$rows->ticket_severity_name?></span><p class="mb-0 ms-3"><!--<a href="#">edit</a>--></p>
                             </div>
                             <div class="d-flex justify-content-between align-items-center py-2">
-                                <p class="mx-3 mb-0">Ticket Category</p><span><?=$rows->ticket_category_name?></span><p class="mb-0 ms-3"><a href="#">edit</a></p>
+                                <p class="mx-3 mb-0">Ticket Category</p><span><?=$rows->ticket_category_name?></span><p class="mb-0 ms-3"><!--<a href="#">edit</a>--></p>
                             </div>
                             <!-- <div class="d-flex justify-content-between align-items-center py-2">
                                 <p class="mx-3 mb-0">Ticket Priority</p><span>-</span><p class="mb-0 ms-3"><a href="#">edit</a></p>
                             </div> -->
                             <div class="d-flex justify-content-between align-items-center py-2">
-                                <p class="mx-3 mb-0">Assigned to</p><span><div data-toggle="tooltip" data-placement="top"
+                                <p class="mx-3 mb-0">Accepted by</p><span><div data-toggle="tooltip" data-placement="top"
                                     title="Admin Demo @admin.demo">
-                                    <span class="card-ud">AD</span>
-                                </div></span><p class="mb-0 ms-3"><a href="#">edit</a></p>
+                                    <span class="card-ud">AD <?=$accepted_by_name?></span>
+                                </div></span><p class="mb-0 ms-3"></p>
                             </div>
                             <div class="d-flex align-items-center py-2">
-                                <p class="mx-3 mb-0">Assigned on	</p><span>2 months ago</span>
+                                <p class="mx-3 mb-0">Accepted on	</p><span>2 months ago</span>
                             </div>
                             <div class="d-flex align-items-center py-2">
                                 <p class="mx-3 mb-0">Last Updated on</p><span>-</span>
@@ -234,7 +310,65 @@
     <?= view('component/js') ?>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <script>
-    let table = new DataTable('#myTable');
+    //let table = new DataTable('#myTable');
+    
+    /*var x = "<?= $rows->emp_name?>";
+    var nameparts = x.split(" ");
+    if(nameparts.length > 1){
+        var initials = nameparts[0].charAt(0).toUpperCase() + nameparts[1].charAt(0).toUpperCase(); //Output: SR
+    }else{
+        var initials = nameparts[0].charAt(0).toUpperCase();
+    }
+    $('#emp_short_name').html(initials);*/
+
+    var emp_name = "<?=$session->emp_name?>";
+    var email = "<?=$session->email?>";
+    var nameparts1 = emp_name.split(" ");
+    if(nameparts1.length > 1){
+        var initials1 = nameparts1[0].charAt(0).toUpperCase() + nameparts1[1].charAt(0).toUpperCase(); //Output: SR
+    }else{
+        var initials1 = nameparts1[0].charAt(0).toUpperCase();
+    }
+
+    //Submit Form
+    $('#s_submitForm').click(function(){
+        $ticket_id = $(this).data('ticket_id');
+        console.log('ticket_id: ' + $ticket_id)
+        $reply_text = $('#reply_text').val();
+        
+
+        if($reply_text == ''){ 
+            alert('Please write your reply');
+        }else{            
+            $.ajax({  
+                url: '<?php echo base_url('admin/formValidationTICR'); ?>',
+                type: 'post',
+                dataType:'json',
+                data:{ticket_id: $ticket_id, reply_text: $reply_text},
+                success:function(data){
+                    console.log(JSON.stringify(data));
+                    console.log('status: ' + data.status);
+                    alert(data.message)
+                    if(data.status == true ){
+                        $('#s_myFormName')[0].reset(); 
+
+                        // Get the ul element
+                        var ul = $("#commentList");
+
+                        // Create a new li element
+                        var li = $("<li class='position-relative list-style-none'> <div class='ticket' data-toggle='tooltip' data-placement='top' title='"+emp_name+" "+email+"'> <span class=''>"+initials1+"</span> </div> <div class='margin-l'> <div class='bg-dark d-flex hd-style py-3 border-top-all-rd'> <p class='m-0 ms-3 me-3'><a href='#' class='text-light'>"+email+"</a></p> <span>Just Now</span> </div> <div class='comment-content py-3 border-bottom-all-rd'> <p class='ms-3'>"+$reply_text+"</p> <p class='ms-3 mb-0'> </p> </div> </div> </li>");
+
+                        // Append the li element to the ul element
+                        ul.append(li);
+                    }else{
+                        console.log('validation' + JSON.stringify(data.validation));
+                        $validation = data.validation;
+                    }
+                }  
+            });
+        }//end if 
+    })
+
     </script>
 
     <script>

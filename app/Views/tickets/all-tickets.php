@@ -99,14 +99,21 @@
                                     <th>Status</th>
                                     <th>Category</th>
                                     <th>Created By</th>
-                                    <th>Assigned To</th>
+                                    <th>Accepted By</th>
                                     <th>Creared On</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if ($rows) : ?>
-                                    <?php foreach ($rows as $row) : ?>
+                                    <?php foreach ($rows as $row) : 
+                                        $emp_name_exp = explode(" ", $row->emp_name);
+                                        if(sizeof($emp_name_exp) > 1){
+                                            $short_name = substr($emp_name_exp[0], 0, 1).substr($emp_name_exp[1], 0, 1);
+                                        }else{
+                                            $short_name = substr($emp_name_exp[0], 0, 1);
+                                        }
+                                        ?>
                                     <tr>
                                         <td><?=$row->ticket_number?></td>
                                         <td><?=$row->ticket_subject?></td>
@@ -115,11 +122,11 @@
                                         <td><?=$row->ticket_category_name?></td>
                                         <td>
                                             <span>
-                                            <div data-toggle="tooltip" data-placement="top" title="Super Admin @gmail.com">
-                                            <span class="card-ud" style="padding:4px !important">SA</span>@gmail.com
+                                            <div data-toggle="tooltip" data-placement="top" title="<?=$row->emp_name?> <?=$row->email_id?>">
+                                            <span class="card-ud" style="padding:4px !important"><?=$short_name?></span><?=$row->email_id?>
                                         </td>
                                         <td>&nbsp;</td>
-                                        <td><?=date('d-M-Y')?></td>
+                                        <td><?=date('d-M-Y H:i A', strtotime($row->created_on))?></td>
                                         <td> <a href="<?=base_url('admin/view-ticket/'.$row->ticket_id)  ?>"><i class="fa fa-eye"></i></a> </td>
                                     </tr>
                                     <?php endforeach ?>

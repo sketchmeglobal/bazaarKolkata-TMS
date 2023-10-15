@@ -47,7 +47,7 @@ class AuthM extends Model
     public function password_verify($email, $password)
     {
         $pass =  hash('sha512', $password);
-        $resultset = $this->db->table('users')->select('users.id, users.emp_id, users.username, users.email, users.password, employee.user_level, user_level.user_level_name')->join('employee', 'employee.emp_id = users.emp_id')->join('user_level', 'user_level.user_level_id = employee.user_level')->where(['users.email' => $email, 'users.password' => $pass])->get()->getResult();
+        $resultset = $this->db->table('users')->select('users.id, users.emp_id, users.username, users.email, users.password, employee.emp_name, employee.user_level, user_level.user_level_name')->join('employee', 'employee.emp_id = users.emp_id')->join('user_level', 'user_level.user_level_id = employee.user_level')->where(['users.email' => $email, 'users.password' => $pass])->get()->getResult();
         //echo $this->db->getLastQuery();
         //die;
 

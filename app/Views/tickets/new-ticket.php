@@ -75,26 +75,28 @@
                                                 <label for="ticket_severity">Severity</label>
                                                 <select class="form-control" id="ticket_severity" name="ticket_severity">
                                                     <option value="0" >Select </option>
-                                                    <option value="1" >Low</option>
-                                                    <option value="2" >Medium</option>
-                                                    <option value="3" >High</option>
+                                                    <?php if ($severty_rows) : ?>
+                                                        <?php foreach ($severty_rows as $severty_row) : ?>
+                                                            <option value="<?=$severty_row->ticket_severity_id?>"><?=$severty_row->ticket_severity_name?></option>
+                                                        <?php endforeach ?>
+                                                    <?php endif ?>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-12 mt-4">
+                                        <!-- <div class="col-md-6 col-12 mt-4">
                                             <div class="form-group">
                                                 <label for="authority_cc">Authority CC</label>
                                                 <input type="text" class="form-control" id="authority_cc" name="authority_cc">
                                             </div>
-                                        </div>
-                                        <div class="col-md-6 col-12 mt-4">
+                                        </div> -->
+                                        <div class="col-md-12 col-12 mt-4">
                                             <div class="form-group">
                                                 <label for="ticket_purpose">Purpose</label>
                                                 <input type="text" class="form-control" id="ticket_purpose" name="ticket_purpose" >
                                             </div>
                                         </div>
                                         <div class="col-md-12 mt-4">
-                                            <div class="">
+                                            <div class="form-group">
                                                 <label for="exampleFormControlInput1">Description</label>
                                                 <textarea name="ticket_description" id="ticket_description" style="min-height: 150px;min-width: 550px;"></textarea>
 
@@ -103,7 +105,7 @@
                                                 </div>
 
                                                 <div class="col-md-12 mt-4 float-right">
-                                                    <button class="btn btn-primary" type="button" id="s_submitForm" >Reply <i class="fa fa-reply"></i>
+                                                    <button class="btn btn-primary" type="button" id="s_submitForm" >Send <i class="fa fa-reply"></i>
                                                     </button>
                                                 </div>
 
@@ -219,7 +221,7 @@
             $ticket_category_name = $('#ticket_category option:selected').text();
             $ticket_severity = $('#ticket_severity').val();
             $ticket_severity_name = $('#ticket_severity option:selected').text();
-            $authority_cc = $('#authority_cc').val().replace(/^\s+|\s+$/gm,'');
+            $authority_cc = '';// $('#authority_cc').val().replace(/^\s+|\s+$/gm,'');
             $ticket_purpose = $('#ticket_purpose').val().replace(/^\s+|\s+$/gm,'');
             $ticket_description = $('#ticket_description').val();
             console.log('ticket_description: ' + $ticket_description)

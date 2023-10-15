@@ -1,4 +1,10 @@
 <!-- Sidebar Start -->
+<?php         
+    $session = session();
+    $logged_in = $session->logged_in;
+    $emp_name = $session->emp_name;
+    $user_level_name = $session->user_level_name;
+?>
 <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
                 <a href="<?= base_url('admin/dashboard') ?>" class="navbar-brand mx-4 mb-3">
@@ -12,8 +18,8 @@
                         </div>
                     </div>
                     <div class="ms-3">
-                        <h6 class="mb-0">SMG</h6>
-                        <span>Admin</span>
+                        <h6 class="mb-0"><?=$emp_name?></h6>
+                        <span><?=$user_level_name?></span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">

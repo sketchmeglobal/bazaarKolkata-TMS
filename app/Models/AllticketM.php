@@ -40,7 +40,7 @@ class AllticketM extends Model
     protected $afterDelete    = [];
 
     public function getAllTickets(){
-      $hw_rows = $this->db->table('ticket_details')->select('ticket_details.ticket_id, ticket_details.ticket_number, ticket_details.topic_id, ticket_details.ticket_subject, ticket_details.ticket_category, ticket_details.ticket_severity, ticket_details.ticket_category, ticket_severity_master.ticket_severity_name, ticket_category_master.ticket_category_name')->join('ticket_severity_master', 'ticket_severity_master.ticket_severity_id = ticket_details.ticket_severity')->join('ticket_category_master', 'ticket_category_master.ticket_category_id = ticket_details.ticket_category')->where(['ticket_details.row_status' => 1])->orderBy('ticket_details.ticket_id', 'DESC')->limit(100)->get()->getResult();
+      $hw_rows = $this->db->table('ticket_details')->select('ticket_details.ticket_id, ticket_details.ticket_number, ticket_details.topic_id, ticket_details.ticket_subject, ticket_details.ticket_category, ticket_details.ticket_severity, ticket_details.ticket_category, ticket_details.created_on, ticket_details.created_by, ticket_severity_master.ticket_severity_name, ticket_category_master.ticket_category_name, employee.emp_name, employee.email_id')->join('ticket_severity_master', 'ticket_severity_master.ticket_severity_id = ticket_details.ticket_severity')->join('ticket_category_master', 'ticket_category_master.ticket_category_id = ticket_details.ticket_category')->join('employee', 'employee.emp_id = ticket_details.created_by')->where(['ticket_details.row_status' => 1])->orderBy('ticket_details.ticket_id', 'DESC')->limit(100)->get()->getResult();
       return $hw_rows;
     }//end function  
 

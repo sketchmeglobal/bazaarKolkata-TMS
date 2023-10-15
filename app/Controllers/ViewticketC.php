@@ -14,20 +14,16 @@ class ViewticketC extends BaseController
       return view('tickets/view-ticket', $data);
    }   
 
-   public function formValidationTIC(){
-      if($this->request->isAJAX()) {
-         $query = service('request')->getPost('query');
-         $topic_id = $query['topic_id'];
-         $ticket_subject = $query['ticket_subject'];
-         $ticket_category = $query['ticket_category'];
-         $ticket_severity = $query['ticket_severity'];
-         $authority_cc = $query['authority_cc'];
-         $ticket_purpose = $query['ticket_purpose'];
-         $ticket_description = $query['ticket_description'];
+   public function formValidationTICR(){
+      if($this->request->isAJAX()) {     
+         $session = session();
+         $logged_in = $session->logged_in;
+         $emp_id = $session->emp_id;
+         $emp_name = $session->emp_name;
+         $email = $session->email;
 
-         $topic_name = $query['topic_name'];
-         $ticket_category_name = $query['ticket_category_name'];
-         $ticket_severity_name = $query['ticket_severity_name'];
+         $ticket_id = service('request')->getPost('ticket_id');
+         $reply_text = service('request')->getPost('reply_text');         
 
          $return_data = array();
          $status = true;
@@ -36,13 +32,11 @@ class ViewticketC extends BaseController
             
          $validation = \Config\Services::validation();
          $validation->setRules([
-            'topic_id' => 'required',
-            'ticket_subject' => 'required'
+            'reply_text' => 'required'
          ]);
 
          $data = [
-            'topic_id' => $topic_id,
-            'ticket_subject' => $ticket_subject
+            'reply_text' => $reply_text
          ];
          $validatedData = array();
 
@@ -50,16 +44,11 @@ class ViewticketC extends BaseController
             $validatedData = $validation->getValidated(); 
 
             $post_data = [
-               'topic_id' => $topic_id,
-               'topic_name' => $topic_name,
-               'ticket_subject' => $ticket_subject,
-               'ticket_category' => $ticket_category,
-               'ticket_category_name' => $ticket_category_name,
-               'ticket_severity' => $ticket_severity,
-               'ticket_severity_name' => $ticket_severity_name,
-               'authority_cc' => $authority_cc,
-               'ticket_purpose' => $ticket_purpose,
-               'ticket_description' => $ticket_description
+               'ticket_id' => $ticket_id,
+               'reply_text' => $reply_text,
+               'replied_by' => $emp_id,
+               'emp_name' => $emp_name,
+               'email' => $email
             ];
             
             $result = $officeM->insertTableData($post_data);
@@ -67,11 +56,12 @@ class ViewticketC extends BaseController
             //echo '****** return form model *******';
             //echo json_encode($result);
             //echo 'ho id: ' . $result['ho_id'];
-            $ticket_id = 0;
+            $ticket_comment_id = 0;
+            $message = $result['message'];
             if($result['status'] == true){
                $status = true;
-               $ticket_id = $result['ticket_id'];
-               $return_data['ticket_id'] = $ticket_id;
+               $ticket_comment_id = $result['ticket_comment_id'];
+               $return_data['ticket_comment_id'] = $ticket_comment_id;
             }else{
                $status = false; 
             }
@@ -81,6 +71,7 @@ class ViewticketC extends BaseController
          } 
 
          $return_data['status'] = $status;
+         $return_data['message'] = $message;
 
          echo json_encode($return_data);
          //var_dump($this->request->getPost('query'));

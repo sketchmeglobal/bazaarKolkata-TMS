@@ -68,6 +68,13 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'removeTableDataHWS', 'Master\HardwareStockEntryC::removeTableDataHWS');
     $routes->match(['get', 'post'], 'getTableDataHWS', 'Master\HardwareStockEntryC::getTableDataHWS');
 
+    //Tickets
+    $routes->match(['get', 'post'], 'new-ticket', 'NewticketC::index');
+    $routes->match(['get', 'post'], 'formValidationTIC', 'NewticketC::formValidationTIC');
+    $routes->match(['get', 'post'], 'all-tickets', 'AllticketC::index');
+    $routes->match(['get', 'post'], 'view-ticket/(:num)', 'ViewticketC::index/$1');
+    $routes->match(['get', 'post'], 'formValidationTICR', 'ViewticketC::formValidationTICR');
+
     //Issue Hardware
     $routes->match(['get', 'post'], 'issue-hardware', 'IssuehardwareC::index');
     $routes->match(['get', 'post'], 'check-ticket-status', 'IssuehardwareC::checkTicketStatus');
@@ -79,12 +86,6 @@ $routes->group('admin', static function ($routes) {
 
     //Return Hardware
     $routes->match(['get', 'post'], 'return-hardware', 'ReturnhardwareC::index');
-
-    //Tickets
-    $routes->match(['get', 'post'], 'new-ticket', 'NewticketC::index');
-    $routes->match(['get', 'post'], 'formValidationTIC', 'NewticketC::formValidationTIC');
-    $routes->match(['get', 'post'], 'all-tickets', 'AllticketC::index');
-    $routes->match(['get', 'post'], 'view-ticket/(:num)', 'ViewticketC::index/$1');
 
     //above links are working
 

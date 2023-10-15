@@ -40,6 +40,8 @@ class AuthController extends BaseController
                     //echo 'here';
                     $ses_data = [
                         'id'           => $data[0]->id,
+                        'emp_id'       => $data[0]->emp_id,
+                        'emp_name'     => $data[0]->emp_name,
                         'password'     => $data[0]->password,
                         'email'        => $data[0]->email,
                         'user_level'   => $data[0]->user_level,

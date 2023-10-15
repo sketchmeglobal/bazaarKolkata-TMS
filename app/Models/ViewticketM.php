@@ -40,50 +40,73 @@ class ViewticketM extends Model
     protected $afterDelete    = [];
 
     public function getTicketDetails($ticket_id){
-      $hw_rows = $this->db->table('ticket_details')->select('ticket_details.ticket_id, ticket_details.ticket_number, ticket_details.topic_id, ticket_details.ticket_subject, ticket_details.ticket_category, ticket_details.ticket_severity, ticket_details.ticket_category, ticket_details.authority_cc, ticket_details.ticket_purpose, ticket_details.ticket_description, ticket_details.created_by, ticket_details.ticket_status, ticket_details.created_on, ticket_severity_master.ticket_severity_name, ticket_category_master.ticket_category_name, ticket_status_master.ticket_status_name')->join('ticket_severity_master', 'ticket_severity_master.ticket_severity_id = ticket_details.ticket_severity')->join('ticket_category_master', 'ticket_category_master.ticket_category_id = ticket_details.ticket_category')->join('ticket_status_master', 'ticket_status_master.ticket_status_id = ticket_details.ticket_status')->where(['ticket_details.ticket_id' => $ticket_id])->get()->getResult();
+      $hw_rows = $this->db->table('ticket_details')->select('ticket_details.ticket_id, ticket_details.ticket_number, ticket_details.topic_id, ticket_details.ticket_subject, ticket_details.ticket_category, ticket_details.ticket_severity, ticket_details.ticket_category, ticket_details.authority_cc, ticket_details.ticket_purpose, ticket_details.ticket_description, ticket_details.created_by, ticket_details.ticket_status, ticket_details.created_on, ticket_severity_master.ticket_severity_name, ticket_category_master.ticket_category_name, ticket_status_master.ticket_status_name, employee.emp_name, employee.email_id, ticket_comments.comment_description, ticket_comments.accepted_by, ticket_comments.accepted_by_name')->join('ticket_severity_master', 'ticket_severity_master.ticket_severity_id = ticket_details.ticket_severity')->join('ticket_category_master', 'ticket_category_master.ticket_category_id = ticket_details.ticket_category')->join('ticket_status_master', 'ticket_status_master.ticket_status_id = ticket_details.ticket_status')->join('employee', 'employee.emp_id = ticket_details.created_by')->join('ticket_comments', 'ticket_comments.ticket_id = ticket_details.ticket_id')->where(['ticket_details.ticket_id' => $ticket_id])->get()->getResult();
+      //echo $this->db->getLastQuery();
+      //die;
+
       return $hw_rows[0];
     }//end function  
 
     public function insertTableData($validatedData){
       $status = true;
       $return_data = array();
+      $ticket_comment_id = 0;
+      $comment_description = array();
+      $message = '';
       
-      $topic_id = $validatedData['topic_id'];
-      $ticket_subject = $validatedData['ticket_subject'];
-      $ticket_category = $validatedData['ticket_category'];
-      $ticket_severity = $validatedData['ticket_severity'];
-      $authority_cc = $validatedData['authority_cc'];
-      $ticket_purpose = $validatedData['ticket_purpose'];
-      $ticket_description = $validatedData['ticket_description'];
+      $ticket_id = $validatedData['ticket_id'];
+      $reply_text = $validatedData['reply_text'];
+      $replied_by = $validatedData['replied_by'];
+      $emp_name = $validatedData['emp_name'];
+      $email = $validatedData['email'];
 
-      $topic_name = $validatedData['topic_name'];
-      $ticket_category_name = $validatedData['ticket_category_name'];
-      $ticket_severity_name = $validatedData['ticket_severity_name'];
-
-      $fields_array = [
-        'topic_id' => $topic_id,
-        'topic_name' => $topic_name,
-        'ticket_subject' => $ticket_subject,
-        'ticket_category' => $ticket_category,
-        'ticket_category_name' => $ticket_category_name,
-        'ticket_severity' => $ticket_severity,
-        'ticket_severity_name' => $ticket_severity_name,
-        'authority_cc' => $authority_cc,
-        'ticket_purpose' => $ticket_purpose,
-        'ticket_description' => $ticket_description
-      ];
       
-      //insert query
-      $this->db->table('ticket_details')->insert($fields_array);
-      $ticket_id = $this->db->insertID();
-      if($ticket_id > 0){
+      $comment_description_obj = new \stdClass;
+      $comment_description_obj->obj_id = rand(1000, 9999);
+      $comment_description_obj->reply_text = $reply_text; 
+      $comment_description_obj->replied_by = $replied_by; 
+      $comment_description_obj->emp_name = $emp_name; 
+      $comment_description_obj->email = $email; 
+      $comment_description_obj->replied_at = date('d-m-Y H:i:s'); 
+
+      //duplicate checking
+      $row = $this->db->table('ticket_comments')->select('*')->where(['ticket_id' => $ticket_id])->get()->getResult();
+
+      $arr_size = sizeof($row);
+      if($arr_size > 0){
+        $comment_description1 = $row[0]->comment_description;
+        $comment_description = json_decode($comment_description1);
+        array_push($comment_description, $comment_description_obj);
+
+        $update_array = [
+          'comment_description' => json_encode($comment_description)
+        ];
+        //update query
+        $this->db->table('ticket_comments')->update($update_array, ['ticket_id' => $ticket_id]);
         $status = true;          
-      }else{
-        $status = false;
-      }
+        $message = 'Reply saved successfully';
 
-      $return_data['ticket_id'] = $ticket_id;
+      }else{
+        //insert query
+        array_push($comment_description, $comment_description_obj);
+        $insert_array = [
+          'ticket_id' => $ticket_id,
+          'comment_description' => json_encode($comment_description)
+        ];
+
+        $this->db->table('ticket_comments')->insert($insert_array);
+        $ticket_comment_id = $this->db->insertID();
+        if($ticket_comment_id > 0){
+          $status = true;          
+        }else{
+          $status = false;
+          $message = 'Insert Query Problem';
+        }
+      }//end if
+
+      $return_data['ticket_comment_id'] = $ticket_comment_id;
       $return_data['status'] = $status;
+      $return_data['message'] = $message;
       return $return_data;
     }
 

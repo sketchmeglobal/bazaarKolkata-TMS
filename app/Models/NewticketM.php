@@ -56,6 +56,7 @@ class NewticketM extends Model
       $authority_cc = $validatedData['authority_cc'];
       $ticket_purpose = $validatedData['ticket_purpose'];
       $ticket_description = $validatedData['ticket_description'];
+      $created_by = $validatedData['created_by'];
 
       $fields_array = [
         'topic_id' => $topic_id,
@@ -64,7 +65,8 @@ class NewticketM extends Model
         'ticket_severity' => $ticket_severity,
         'authority_cc' => $authority_cc,
         'ticket_purpose' => $ticket_purpose,
-        'ticket_description' => $ticket_description
+        'ticket_description' => $ticket_description,
+        'created_by' => $created_by
       ];
       
       //insert query
@@ -75,7 +77,18 @@ class NewticketM extends Model
           'ticket_number' => 'TIK-SMG-'.$ticket_id
         ];
         $this->db->table('ticket_details')->update($update_array, ['ticket_id' => $ticket_id]);
-        $status = true;          
+
+        $arr = array();
+        //insert query
+        $insert_array = [
+          'ticket_id' => $ticket_id,
+          'comment_description' => json_encode($arr),
+          'status_history' => json_encode($arr)
+        ];
+
+        $this->db->table('ticket_comments')->insert($insert_array);
+
+        $status = true;  
       }else{
         $status = false;
       }
