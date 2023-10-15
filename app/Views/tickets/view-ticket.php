@@ -43,7 +43,7 @@ $session = session();
                     <div class="col-lg-8 col-md-12">
                         <div class="ticked-head mb-3 overflow-hidden d-flex">
                             <div>
-                                <div class=""><span class="text-bg-red px-2 text-light"><?=$rows->ticket_status_name?></span></div>
+                                <div class=""><span class="text-bg-red px-2 text-light" id="ticket_status_1"><?=$rows->ticket_status_name?></span></div>
                                 <div class="mt-2"><i class="fa fa-ticket"></i><span> <?php //echo $rows->ticket_number;?></span></div>
                             </div>
                             <div class="ms-3 pt-2">
@@ -86,7 +86,31 @@ $session = session();
                                 return $string ? implode(', ', $string) . ' ago' : 'just now';
                             }
 
+                            $accepted_by = $rows->accepted_by;
                             $accepted_by_name = $rows->accepted_by_name;
+                            $accepted_at = $rows->accepted_at;
+
+                            $short_accepted_by_name = '';
+                            if($accepted_by_name != ''){
+                                $accepted_by_name_exp = explode(" ", $accepted_by_name);
+                                if(sizeof($accepted_by_name_exp) > 1){
+                                    $short_accepted_by_name = substr($accepted_by_name_exp[0], 0, 1). '' .substr($accepted_by_name_exp[1], 0, 1);
+                                }else{
+                                    $short_accepted_by_name = substr($accepted_by_name_exp[0], 0, 1);
+                                }
+                            }//end if
+
+                            $short_created_by_name = '';
+                            $created_by_name = $rows->emp_name;
+                            if($created_by_name != ''){
+                                $created_by_name_exp = explode(" ", $created_by_name);
+                                if(sizeof($created_by_name_exp) > 1){
+                                    $short_created_by_name = substr($created_by_name_exp[0], 0, 1). '' .substr($created_by_name_exp[1], 0, 1);
+                                }else{
+                                    $short_created_by_name = substr($created_by_name_exp[0], 0, 1);
+                                }
+                            }//end if
+
                             $comment_description1 = $rows->comment_description;
                             if($comment_description1 != null){
                             $comment_description = json_decode($comment_description1);
@@ -101,7 +125,7 @@ $session = session();
 
                                         $emp_name_exp = explode(" ", $emp_name);
                                         if(sizeof($emp_name_exp) > 1){
-                                            $short_name = substr($emp_name_exp[0], 0, 1). '-' .substr($emp_name_exp[1], 0, 1);
+                                            $short_name = substr($emp_name_exp[0], 0, 1). '' .substr($emp_name_exp[1], 0, 1);
                                         }else{
                                             $short_name = substr($emp_name_exp[0], 0, 1);
                                         }
@@ -228,13 +252,13 @@ $session = session();
                                 <p class="mx-3 mb-0">Ticket Number: </p><span><?=$rows->ticket_number?></span>
                             </div>
                             <div class="d-flex align-items-center py-2">
-                                <p class="mx-3 mb-0">Created on: </p><span><?=date('d-M-Y H:i A', strtotime($rows->created_on))?></span>
-                            </div>
-                            <div class="d-flex align-items-center py-2">
                                 <p class="mx-3 mb-0">Created By</p><span><div data-toggle="tooltip" data-placement="top"
                                     title="<?=$rows->emp_name?> <?=$rows->email_id?>">
-                                    <span class="card-ud" ><?=$short_name?></span>
+                                    <span class="card-ud" ><?=$short_created_by_name?></span>
                                 </div></span>
+                            </div>
+                            <div class="d-flex align-items-center py-2">
+                                <p class="mx-3 mb-0">Created on: </p><span><?=date('d-M-Y H:i A', strtotime($rows->created_on))?></span>
                             </div>
                             <div class="d-flex align-items-center py-2">
                                 <p class="mx-3 mb-0">Purpose:</p><span><?=$rows->ticket_purpose?></span>
@@ -247,7 +271,7 @@ $session = session();
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center py-2">
-                                <p class="mx-3 mb-0">Ticket Status	</p><span class="bg-red mx-1 px-1"><?=$rows->ticket_status_name?></span><p class="mb-0 ms-3"><a href="#">edit</a></p>
+                                <p class="mx-3 mb-0">Ticket Status	</p><span class="bg-red mx-1 px-1" id="ticket_status_2"><?=$rows->ticket_status_name?></span><p class="mb-0 ms-3"><!--<a href="#">edit</a>--></p>
                             </div>
                             <div class="d-flex justify-content-between align-items-center py-2">
                                 <p class="mx-3 mb-0">Ticket Severity:</p><span class="bg-red mx-1 px-1"><?=$rows->ticket_severity_name?></span><p class="mb-0 ms-3"><!--<a href="#">edit</a>--></p>
@@ -261,16 +285,20 @@ $session = session();
                             <div class="d-flex justify-content-between align-items-center py-2">
                                 <p class="mx-3 mb-0">Accepted by</p><span><div data-toggle="tooltip" data-placement="top"
                                     title="Admin Demo @admin.demo">
-                                    <span class="card-ud">AD <?=$accepted_by_name?></span>
+                                    <span class="card-ud" id="accepted_by_short"> <?php if($short_accepted_by_name == ''){ echo "None"; }else{ echo $short_accepted_by_name; }?></span>
                                 </div></span><p class="mb-0 ms-3"></p>
                             </div>
                             <div class="d-flex align-items-center py-2">
-                                <p class="mx-3 mb-0">Accepted on	</p><span>2 months ago</span>
+                                <p class="mx-3 mb-0">Accepted on	</p><span id="accepted_on"><?php if($accepted_by > 0){ echo $accepted_at; }else{ echo "xx-xx-xxxx xx:xx x"; } ?> </span>
                             </div>
-                            <div class="d-flex align-items-center py-2">
+                            <!-- <div class="d-flex align-items-center py-2">
                                 <p class="mx-3 mb-0">Last Updated on</p><span>-</span>
-                            </div>
+                            </div> -->
 
+                            <!-- /accepted_by -->
+                            <div class="d-flex align-items-center py-2">
+                                <button class="btn btn-primary btn-lg <?php if($accepted_by > 0){?>disabled<?php } ?>" type="button" id="accept_ticket" data-ticket_id="<?=$rows->ticket_id?>" style="width: 100%;"><?php if($accepted_by > 0){?>Accepted<?php }else{?> Accept <?php } ?> </button>
+                            </div>
                             
                         </div>
 
@@ -369,6 +397,33 @@ $session = session();
         }//end if 
     })
 
+    //Accept ticket
+    $('#accept_ticket').on('click', function(){
+        // Select the button you want to disable.  
+        $ticket_id = $(this).data('ticket_id');
+
+        $.ajax({  
+            url: '<?php echo base_url('admin/acceptTicket'); ?>',
+            type: 'post',
+            dataType:'json',
+            data:{ticket_id: $ticket_id},
+            success:function(data){
+                console.log(JSON.stringify(data));
+                console.log('status: ' + data.status);
+                alert(data.message)
+                if(data.status == true ){
+                    $('#accepted_by_short').html(initials1);
+                    $('#accepted_on').html('just now');
+                    $('#ticket_status_1').html('In-progress');
+                    $('#ticket_status_2').html('In-progress');
+                    $('#accept_ticket').html('Accepted');
+                    $('#accept_ticket').prop('disabled', true); 
+                }else{
+                    console.log('Ticket Accept problem')                    
+                }
+            }  
+        });
+    })
     </script>
 
     <script>

@@ -184,6 +184,33 @@ class ViewticketC extends BaseController
 
       $return_data['status'] = $status;
       echo json_encode($return_data);
-   }//end
+   }//end   
+
+   public function acceptTicket(){
+      if($this->request->isAJAX()) {
+         $return_data = array();
+         $status = true;
+         $officeM = new ViewticketM();
+         $session = session();
+
+         $ticket_id = service('request')->getPost('ticket_id');
+         $accepted_by = $session->emp_id;
+         $accepted_by_name = $session->emp_name;
+
+         $post_data = [
+            'ticket_id' => $ticket_id,
+            'accepted_by' => $accepted_by,
+            'accepted_by_name' => $accepted_by_name
+         ];
+         $result = $officeM->acceptTicket($post_data);
+         $message = $result['message'];
+         if($result['status'] == true){
+         }
+      }
+
+      $return_data['status'] = $status;
+      $return_data['message'] = $message;
+      echo json_encode($return_data);
+   }//end 
 
 }

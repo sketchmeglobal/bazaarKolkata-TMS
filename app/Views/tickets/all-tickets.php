@@ -99,8 +99,9 @@
                                     <th>Status</th>
                                     <th>Category</th>
                                     <th>Created By</th>
-                                    <th>Accepted By</th>
                                     <th>Creared On</th>
+                                    <th>Accepted By</th>
+                                    <th>Accepted On</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -118,15 +119,16 @@
                                         <td><?=$row->ticket_number?></td>
                                         <td><?=$row->ticket_subject?></td>
                                         <td><?=$row->ticket_severity_name?></td>
-                                        <td><span class="bg-red mx-1 px-1">Pending</span></td>
+                                        <td><span class="bg-red mx-1 px-1"><?=$row->ticket_status_name?></span></td>
                                         <td><?=$row->ticket_category_name?></td>
                                         <td>
                                             <span>
                                             <div data-toggle="tooltip" data-placement="top" title="<?=$row->emp_name?> <?=$row->email_id?>">
                                             <span class="card-ud" style="padding:4px !important"><?=$short_name?></span><?=$row->email_id?>
                                         </td>
-                                        <td>&nbsp;</td>
                                         <td><?=date('d-M-Y H:i A', strtotime($row->created_on))?></td>
+                                        <td><?=$row->accepted_by_name?></td>
+                                        <td><?php if($row->accepted_by_name != ''){ echo date('d-M-Y H:i A', strtotime($row->accepted_at)); }?></td>
                                         <td> <a href="<?=base_url('admin/view-ticket/'.$row->ticket_id)  ?>"><i class="fa fa-eye"></i></a> </td>
                                     </tr>
                                     <?php endforeach ?>

@@ -74,6 +74,7 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'all-tickets', 'AllticketC::index');
     $routes->match(['get', 'post'], 'view-ticket/(:num)', 'ViewticketC::index/$1');
     $routes->match(['get', 'post'], 'formValidationTICR', 'ViewticketC::formValidationTICR');
+    $routes->match(['get', 'post'], 'acceptTicket', 'ViewticketC::acceptTicket');
 
     //Issue Hardware
     $routes->match(['get', 'post'], 'issue-hardware', 'IssuehardwareC::index');
