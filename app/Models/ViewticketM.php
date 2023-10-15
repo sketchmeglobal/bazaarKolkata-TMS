@@ -40,7 +40,7 @@ class ViewticketM extends Model
     protected $afterDelete    = [];
 
     public function getTicketDetails($ticket_id){
-      $hw_rows = $this->db->table('ticket_details')->select('ticket_details.ticket_id, ticket_details.ticket_number, ticket_details.topic_id, ticket_details.ticket_subject, ticket_details.ticket_category, ticket_details.ticket_severity, ticket_details.ticket_category, ticket_details.authority_cc, ticket_details.ticket_purpose, ticket_details.ticket_description, ticket_details.created_by, ticket_details.ticket_status, ticket_details.created_on, ticket_severity_master.ticket_severity_name, ticket_category_master.ticket_category_name, ticket_status_master.ticket_status_name, employee.emp_name, employee.email_id, ticket_comments.comment_description, ticket_comments.accepted_by, ticket_comments.accepted_by_name, ticket_comments.accepted_at')->join('ticket_severity_master', 'ticket_severity_master.ticket_severity_id = ticket_details.ticket_severity')->join('ticket_category_master', 'ticket_category_master.ticket_category_id = ticket_details.ticket_category')->join('ticket_status_master', 'ticket_status_master.ticket_status_id = ticket_details.ticket_status')->join('employee', 'employee.emp_id = ticket_details.created_by')->join('ticket_comments', 'ticket_comments.ticket_id = ticket_details.ticket_id')->where(['ticket_details.ticket_id' => $ticket_id])->get()->getResult();
+      $hw_rows = $this->db->table('ticket_details')->select('ticket_details.ticket_id, ticket_details.ticket_number, ticket_details.topic_id, ticket_details.ticket_subject, ticket_details.ticket_category, ticket_details.ticket_severity, ticket_details.ticket_category, ticket_details.authority_cc, ticket_details.ticket_purpose, ticket_details.ticket_description, ticket_details.created_by, ticket_details.ticket_status, ticket_details.created_on, ticket_severity_master.ticket_severity_name, ticket_severity_master.max_allowed_time, ticket_category_master.ticket_category_name, ticket_status_master.ticket_status_name, employee.emp_name, employee.email_id, ticket_comments.comment_description, ticket_comments.accepted_by, ticket_comments.accepted_by_name, ticket_comments.accepted_at')->join('ticket_severity_master', 'ticket_severity_master.ticket_severity_id = ticket_details.ticket_severity')->join('ticket_category_master', 'ticket_category_master.ticket_category_id = ticket_details.ticket_category')->join('ticket_status_master', 'ticket_status_master.ticket_status_id = ticket_details.ticket_status')->join('employee', 'employee.emp_id = ticket_details.created_by')->join('ticket_comments', 'ticket_comments.ticket_id = ticket_details.ticket_id')->where(['ticket_details.ticket_id' => $ticket_id])->get()->getResult();
       //echo $this->db->getLastQuery();
       //die;
 
@@ -217,27 +217,36 @@ class ViewticketM extends Model
 
     public function acceptTicket($post_data){
       $status = true;
-      $message = 'Ticket Accepted';
+      $message = '';
       $return_data = array();
 
       $ticket_id = $post_data['ticket_id'];
       $accepted_by = $post_data['accepted_by'];
       $accepted_by_name = $post_data['accepted_by_name'];
 
-      //update ticket comment table
-      $update_array = [
-        'accepted_by' => $accepted_by,
-        'accepted_by_name' => $accepted_by_name
-      ];
-      $this->db->table('ticket_comments')->update($update_array, ['ticket_id' => $ticket_id]);
+      $row = $this->db->table('ticket_comments')->select('*')->where(['ticket_id' => $ticket_id])->get()->getResult();
+      $accepted_by_pro = $row[0]->accepted_by;
+      $accepted_by_name_pro = $row[0]->accepted_by_name;
 
-      //update ticket_detail table /
-      $ticket_status = 2;
-      $update_array1 = [
-        'ticket_status' => $ticket_status
-      ];
-      $this->db->table('ticket_details')->update($update_array1, ['ticket_id' => $ticket_id]);
+      if($accepted_by_pro > 0){
+        $status = false;
+        $message = 'Ticket Already Accepted by: '.$accepted_by_name_pro;
+      }else{ 
+        //update ticket comment table
+        $update_array = [
+          'accepted_by' => $accepted_by,
+          'accepted_by_name' => $accepted_by_name
+        ];
+        $this->db->table('ticket_comments')->update($update_array, ['ticket_id' => $ticket_id]);
 
+        //update ticket_detail table /
+        $ticket_status = 2;
+        $update_array1 = [
+          'ticket_status' => $ticket_status
+        ];
+        $this->db->table('ticket_details')->update($update_array1, ['ticket_id' => $ticket_id]);
+        $message = 'Tocket Accepted';
+      }
 
       $return_data['status'] = $status;
       $return_data['message'] = $message;

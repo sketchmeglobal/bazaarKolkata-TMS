@@ -189,7 +189,6 @@ class ViewticketC extends BaseController
    public function acceptTicket(){
       if($this->request->isAJAX()) {
          $return_data = array();
-         $status = true;
          $officeM = new ViewticketM();
          $session = session();
 
@@ -204,8 +203,8 @@ class ViewticketC extends BaseController
          ];
          $result = $officeM->acceptTicket($post_data);
          $message = $result['message'];
-         if($result['status'] == true){
-         }
+         $status = $result['status'];
+         
       }
 
       $return_data['status'] = $status;

@@ -89,6 +89,7 @@ $session = session();
                             $accepted_by = $rows->accepted_by;
                             $accepted_by_name = $rows->accepted_by_name;
                             $accepted_at = $rows->accepted_at;
+                            $max_allowed_time = $rows->max_allowed_time;
 
                             $short_accepted_by_name = '';
                             if($accepted_by_name != ''){
@@ -289,12 +290,13 @@ $session = session();
                                 </div></span><p class="mb-0 ms-3"></p>
                             </div>
                             <div class="d-flex align-items-center py-2">
-                                <p class="mx-3 mb-0">Accepted on	</p><span id="accepted_on"><?php if($accepted_by > 0){ echo $accepted_at; }else{ echo "xx-xx-xxxx xx:xx x"; } ?> </span>
+                                <p class="mx-3 mb-0">Accepted on: </p><span id="accepted_on"><?php if($accepted_by > 0){ echo $accepted_at; }else{ echo "xx-xx-xxxx xx:xx x"; } ?> </span>
                             </div>
-                            <!-- <div class="d-flex align-items-center py-2">
-                                <p class="mx-3 mb-0">Last Updated on</p><span>-</span>
-                            </div> -->
-
+                            <?php if($accepted_by > 0){?>
+                            <div class="d-flex align-items-center py-2">
+                                <p class="mx-3 mb-0">Time Remaining: </p><span><?=$max_allowed_time?> hrs.</span>
+                            </div>
+                            <?php } ?>
                             <!-- /accepted_by -->
                             <div class="d-flex align-items-center py-2">
                                 <button class="btn btn-primary btn-lg <?php if($accepted_by > 0){?>disabled<?php } ?>" type="button" id="accept_ticket" data-ticket_id="<?=$rows->ticket_id?>" style="width: 100%;"><?php if($accepted_by > 0){?>Accepted<?php }else{?> Accept <?php } ?> </button>
@@ -410,8 +412,7 @@ $session = session();
             success:function(data){
                 console.log(JSON.stringify(data));
                 console.log('status: ' + data.status);
-                alert(data.message)
-                if(data.status == true ){
+                if(data.status == true){
                     $('#accepted_by_short').html(initials1);
                     $('#accepted_on').html('just now');
                     $('#ticket_status_1').html('In-progress');
@@ -419,8 +420,13 @@ $session = session();
                     $('#accept_ticket').html('Accepted');
                     $('#accept_ticket').prop('disabled', true); 
                 }else{
+                    $('#ticket_status_1').html('In-progress');
+                    $('#ticket_status_2').html('In-progress');
+                    $('#accept_ticket').html('Accepted');
+                    $('#accept_ticket').prop('disabled', true); 
                     console.log('Ticket Accept problem')                    
                 }
+                alert(data.message)
             }  
         });
     })
