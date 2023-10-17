@@ -40,7 +40,7 @@ class ViewticketM extends Model
     protected $afterDelete    = [];
 
     public function getTicketDetails($ticket_id){
-      $hw_rows = $this->db->table('ticket_details')->select('ticket_details.ticket_id, ticket_details.ticket_number, ticket_details.topic_id, ticket_details.ticket_subject, ticket_details.ticket_category, ticket_details.ticket_severity, ticket_details.ticket_category, ticket_details.authority_cc, ticket_details.ticket_purpose, ticket_details.ticket_description, ticket_details.created_by, ticket_details.ticket_status, ticket_details.created_on, ticket_severity_master.ticket_severity_name, ticket_severity_master.max_allowed_time, ticket_category_master.ticket_category_name, ticket_status_master.ticket_status_name, employee.emp_name, employee.email_id, ticket_comments.comment_description, ticket_comments.accepted_by, ticket_comments.accepted_by_name, ticket_comments.accepted_at')->join('ticket_severity_master', 'ticket_severity_master.ticket_severity_id = ticket_details.ticket_severity')->join('ticket_category_master', 'ticket_category_master.ticket_category_id = ticket_details.ticket_category')->join('ticket_status_master', 'ticket_status_master.ticket_status_id = ticket_details.ticket_status')->join('employee', 'employee.emp_id = ticket_details.created_by')->join('ticket_comments', 'ticket_comments.ticket_id = ticket_details.ticket_id')->where(['ticket_details.ticket_id' => $ticket_id])->get()->getResult();
+      $hw_rows = $this->db->table('ticket_details')->select('ticket_details.ticket_id, ticket_details.ticket_number, ticket_details.topic_id, ticket_details.ticket_subject, ticket_details.ticket_category, ticket_details.ticket_severity, ticket_details.ticket_category, ticket_details.authority_cc, ticket_details.ticket_purpose, ticket_details.ticket_description, ticket_details.created_by, ticket_details.ticket_status, ticket_details.created_on, ticket_severity_master.ticket_severity_name, ticket_severity_master.max_allowed_time, ticket_category_master.ticket_category_name, ticket_status_master.ticket_status_name, employee.emp_name, employee.email_id, ticket_comments.comment_description, ticket_comments.accepted_by, ticket_comments.accepted_by_name, ticket_comments.accepted_at, ticket_comments.last_updated')->join('ticket_severity_master', 'ticket_severity_master.ticket_severity_id = ticket_details.ticket_severity')->join('ticket_category_master', 'ticket_category_master.ticket_category_id = ticket_details.ticket_category')->join('ticket_status_master', 'ticket_status_master.ticket_status_id = ticket_details.ticket_status')->join('employee', 'employee.emp_id = ticket_details.created_by')->join('ticket_comments', 'ticket_comments.ticket_id = ticket_details.ticket_id')->where(['ticket_details.ticket_id' => $ticket_id])->get()->getResult();
       //echo $this->db->getLastQuery();
       //die;
 
@@ -221,45 +221,68 @@ class ViewticketM extends Model
       $return_data = array();
 
       $ticket_id = $post_data['ticket_id'];
+      $ticket_status_id = $post_data['ticket_status_id'];
+      $old_ticket_status_id = $post_data['old_ticket_status_id'];
       $accepted_by = $post_data['accepted_by'];
       $accepted_by_name = $post_data['accepted_by_name'];
+      $accepted_at = date('Y-m-d H:i:s');
 
       $row = $this->db->table('ticket_comments')->select('*')->where(['ticket_id' => $ticket_id])->get()->getResult();
       $accepted_by_pro = $row[0]->accepted_by;
       $accepted_by_name_pro = $row[0]->accepted_by_name;
+      $status_history1 = $row[0]->status_history;
+      $status_history = json_decode($status_history1);
 
-      if($accepted_by_pro > 0){
+      $status_history_obj = new \stdClass();
+      $status_history_obj->obj_id = rand(10000, 99999);
+      $status_history_obj->updated_by = $accepted_by;
+      $status_history_obj->old_status = $old_ticket_status_id;
+      $status_history_obj->new_status = $ticket_status_id;
+      $status_history_obj->updated_on = date('d-m-Y H:i:s');
+      array_push($status_history, $status_history_obj);
+
+      /*if($accepted_by_pro > 0){
         $status = false;
         $message = 'Ticket Already Accepted by: '.$accepted_by_name_pro;
       }else{ 
-        //update ticket comment table
+      }*/
+      
+      //update ticket comment table
+      if($ticket_status_id == 2){
         $update_array = [
           'accepted_by' => $accepted_by,
-          'accepted_by_name' => $accepted_by_name
+          'accepted_by_name' => $accepted_by_name,
+          'accepted_at' => $accepted_at,
+          'status_history' => json_encode($status_history)
         ];
-        $this->db->table('ticket_comments')->update($update_array, ['ticket_id' => $ticket_id]);
-
-        //update ticket_detail table /
-        $ticket_status = 2;
-        $update_array1 = [
-          'ticket_status' => $ticket_status
+      }else{
+        $update_array = [
+          'status_history' => json_encode($status_history)
         ];
-        $this->db->table('ticket_details')->update($update_array1, ['ticket_id' => $ticket_id]);
-        $message = 'Tocket Accepted';
       }
+      $this->db->table('ticket_comments')->update($update_array, ['ticket_id' => $ticket_id]);
+
+      //update ticket_detail table /
+      $update_array1 = [
+        'ticket_status' => $ticket_status_id
+      ];
+      $this->db->table('ticket_details')->update($update_array1, ['ticket_id' => $ticket_id]);
+      $message = 'Ticket Status Updated';
 
       $return_data['status'] = $status;
       $return_data['message'] = $message;
+      $return_data['accepted_at'] = $accepted_at;
+      $return_data['last_updated'] = date('d-M-Y h:i A');
       return $return_data;
     }//end function 
     
 
-    /*public function getAllHeadOffice(){
-      $ho_rows = $this->db->table('head_office')->select('*')->where(['row_status' => 1])->get()->getResult();      
-      return $ho_rows;
+    public function getTicketStatus(){
+      $tic_stat_rows = $this->db->table('ticket_status_master')->select('*')->where(['row_status' => 1])->get()->getResult();      
+      return $tic_stat_rows;
     }//end function
 
-    public function getAllWareHouse(){
+    /*public function getAllWareHouse(){
       $wh_rows = $this->db->table('ware_house')->select('*')->where(['row_status' => 1])->get()->getResult();
       return $wh_rows;
     }//end function

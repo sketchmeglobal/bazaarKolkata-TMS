@@ -85,7 +85,6 @@ class NewticketM extends Model
           'comment_description' => json_encode($arr),
           'status_history' => json_encode($arr)
         ];
-
         $this->db->table('ticket_comments')->insert($insert_array);
 
         $status = true;  

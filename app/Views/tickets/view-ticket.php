@@ -89,8 +89,11 @@ $session = session();
                             $accepted_by = $rows->accepted_by;
                             $accepted_by_name = $rows->accepted_by_name;
                             $accepted_at = $rows->accepted_at;
+                            $last_updated = $rows->last_updated;
                             $max_allowed_time = $rows->max_allowed_time;
-
+                            $deadline = date('Y-m-d H:i:s', strtotime($accepted_at. ' + '.$max_allowed_time.' hours'));
+                            //echo 'deadline'. $deadline;
+                            
                             $short_accepted_by_name = '';
                             if($accepted_by_name != ''){
                                 $accepted_by_name_exp = explode(" ", $accepted_by_name);
@@ -242,6 +245,9 @@ $session = session();
                                     <button class="btn btn-primary" type="button" id="s_submitForm" data-ticket_id="<?=$rows->ticket_id?>">Reply <i class="fa fa-reply"></i>
                                     </button>
                                 </div>
+                                <div class="col-md-12 mt-4 float-right">
+                                    <span id="save_comment_msg"></span>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -284,22 +290,38 @@ $session = session();
                                 <p class="mx-3 mb-0">Ticket Priority</p><span>-</span><p class="mb-0 ms-3"><a href="#">edit</a></p>
                             </div> -->
                             <div class="d-flex justify-content-between align-items-center py-2">
-                                <p class="mx-3 mb-0">Accepted by</p><span><div data-toggle="tooltip" data-placement="top"
+                                <p class="mx-3 mb-0">Last Updated by</p><span><div data-toggle="tooltip" data-placement="top"
                                     title="Admin Demo @admin.demo">
                                     <span class="card-ud" id="accepted_by_short"> <?php if($short_accepted_by_name == ''){ echo "None"; }else{ echo $short_accepted_by_name; }?></span>
                                 </div></span><p class="mb-0 ms-3"></p>
                             </div>
                             <div class="d-flex align-items-center py-2">
-                                <p class="mx-3 mb-0">Accepted on: </p><span id="accepted_on"><?php if($accepted_by > 0){ echo $accepted_at; }else{ echo "xx-xx-xxxx xx:xx x"; } ?> </span>
+                                <p class="mx-3 mb-0">Last Updated: </p><span id="accepted_on"><?php echo date('d-M-Y h:i A', strtotime($last_updated)); ?> </span>
                             </div>
                             <?php if($accepted_by > 0){?>
                             <div class="d-flex align-items-center py-2">
-                                <p class="mx-3 mb-0">Time Remaining: </p><span><?=$max_allowed_time?> hrs.</span>
+                                <p class="mx-3 mb-0">Time Remaining: </p><span id="countdown"><?=$max_allowed_time?> hrs.</span>
                             </div>
                             <?php } ?>
-                            <!-- /accepted_by -->
-                            <div class="d-flex align-items-center py-2">
-                                <button class="btn btn-primary btn-lg <?php if($accepted_by > 0){?>disabled<?php } ?>" type="button" id="accept_ticket" data-ticket_id="<?=$rows->ticket_id?>" style="width: 100%;"><?php if($accepted_by > 0){?>Accepted<?php }else{?> Accept <?php } ?> </button>
+
+                            <div class="d-flex justify-content-between align-items-center py-2">
+                                <p class="mx-3 mb-0">Change Ticket Status </p>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center px-2">
+                                <select class="form-control" name="ticket_status_id" id="ticket_status_id">
+                                    <?php if ($tic_stat_rows) : ?>
+                                        <?php foreach ($tic_stat_rows as $tic_stat_row) : ?>
+                                            <option value="<?=$tic_stat_row->ticket_status_id?>" <?php if($rows->ticket_status == $tic_stat_row->ticket_status_id){?> selected <?php } ?>><?=$tic_stat_row->ticket_status_name?></option>
+                                        <?php endforeach ?>
+                                    <?php endif ?>
+                                </select>
+                                <input type="hidden" name="old_ticket_status_id" id="old_ticket_status_id" value="<?=$rows->ticket_status?>">
+                            </div>
+                            <div class="d-flex align-items-center px-2 py-2">
+                                <button class="btn btn-primary btn-lg" type="button" id="accept_ticket" data-ticket_id="<?=$rows->ticket_id?>" style="width: 100%;">Update</button>
+                            </div>
+                            <div class="d-flex align-items-center px-2 py-2">
+                                <span id="ticket_stat_msg"> </span>
                             </div>
                             
                         </div>
@@ -378,7 +400,8 @@ $session = session();
                 success:function(data){
                     console.log(JSON.stringify(data));
                     console.log('status: ' + data.status);
-                    alert(data.message)
+                    //alert(data.message)
+                    $('#save_comment_msg').html(data.message);
                     if(data.status == true ){
                         $('#s_myFormName')[0].reset(); 
 
@@ -403,33 +426,76 @@ $session = session();
     $('#accept_ticket').on('click', function(){
         // Select the button you want to disable.  
         $ticket_id = $(this).data('ticket_id');
+        $ticket_status_id = $('#ticket_status_id').val();
+        $old_ticket_status_id = $('#old_ticket_status_id').val();
+        $ticket_status_text = $('#ticket_status_id option:selected').text();
 
         $.ajax({  
             url: '<?php echo base_url('admin/acceptTicket'); ?>',
             type: 'post',
             dataType:'json',
-            data:{ticket_id: $ticket_id},
+            data:{ticket_id: $ticket_id, ticket_status_id: $ticket_status_id, old_ticket_status_id: $old_ticket_status_id},
             success:function(data){
                 console.log(JSON.stringify(data));
                 console.log('status: ' + data.status);
                 if(data.status == true){
                     $('#accepted_by_short').html(initials1);
-                    $('#accepted_on').html('just now');
-                    $('#ticket_status_1').html('In-progress');
-                    $('#ticket_status_2').html('In-progress');
-                    $('#accept_ticket').html('Accepted');
-                    $('#accept_ticket').prop('disabled', true); 
+                    $('#accepted_on').html(data.last_updated);
+                    $('#ticket_status_1').html($ticket_status_text);
+                    $('#ticket_status_2').html($ticket_status_text);
+                    //$('#accept_ticket').html('Accepted');
+                    //$('#accept_ticket').prop('disabled', true); 
                 }else{
-                    $('#ticket_status_1').html('In-progress');
-                    $('#ticket_status_2').html('In-progress');
-                    $('#accept_ticket').html('Accepted');
-                    $('#accept_ticket').prop('disabled', true); 
+                    $('#ticket_status_1').html($ticket_status_text);
+                    $('#ticket_status_2').html($ticket_status_text);
+                    //$('#accept_ticket').html('Accepted');
+                    //$('#accept_ticket').prop('disabled', true); 
                     console.log('Ticket Accept problem')                    
                 }
-                alert(data.message)
+                
+                $('#ticket_stat_msg').html(data.message);
+                //alert(data.message)
             }  
         });
     })
+
+    //countdown timer
+    var countDownDate = new Date("<?=$deadline?>");
+
+    // Get the current date and time.
+    var currentDate = new Date();
+
+    // Calculate the difference between the two dates.
+    if(countDownDate > currentDate){
+        var timeRemaining = countDownDate - currentDate;
+
+        // Convert the time to days, hours, minutes, and seconds.
+        var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+        // Display the countdown timer.
+        document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+
+        // Update the countdown timer every second.
+        setInterval(function() {
+        // Get the current date and time.
+        var currentDate = new Date();
+
+        // Calculate the difference between the two dates.
+        var timeRemaining = countDownDate - currentDate;
+
+        // Convert the time to days, hours, minutes, and seconds.
+        var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+        // Display the countdown timer.
+        document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+        }, 1000);
+    }
     </script>
 
     <script>

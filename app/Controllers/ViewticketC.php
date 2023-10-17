@@ -10,7 +10,8 @@ class ViewticketC extends BaseController
 {
    public function index($ticket_id){       
       $head_officeM = new ViewticketM();                
-      $data['rows'] = $head_officeM->getTicketDetails($ticket_id);
+      $data['rows'] = $head_officeM->getTicketDetails($ticket_id);               
+      $data['tic_stat_rows'] = $head_officeM->getTicketStatus();
       return view('tickets/view-ticket', $data);
    }   
 
@@ -191,24 +192,31 @@ class ViewticketC extends BaseController
          $return_data = array();
          $officeM = new ViewticketM();
          $session = session();
+         $last_updated = '';
 
          $ticket_id = service('request')->getPost('ticket_id');
+         $ticket_status_id = service('request')->getPost('ticket_status_id');
+         $old_ticket_status_id = service('request')->getPost('old_ticket_status_id');
          $accepted_by = $session->emp_id;
          $accepted_by_name = $session->emp_name;
 
          $post_data = [
             'ticket_id' => $ticket_id,
+            'ticket_status_id' => $ticket_status_id,
+            'old_ticket_status_id' => $old_ticket_status_id,
             'accepted_by' => $accepted_by,
             'accepted_by_name' => $accepted_by_name
          ];
          $result = $officeM->acceptTicket($post_data);
          $message = $result['message'];
          $status = $result['status'];
+         $last_updated = $result['last_updated'];
          
       }
 
       $return_data['status'] = $status;
       $return_data['message'] = $message;
+      $return_data['last_updated'] = $last_updated;
       echo json_encode($return_data);
    }//end 
 
