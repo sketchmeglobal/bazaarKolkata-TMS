@@ -7,8 +7,10 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->match(['get', 'post'], '/', 'AuthController::login');
 $routes->match(['get', 'post'], 'login', 'AuthController::login');
+$routes->match(['get', 'post'], 'logout', 'AuthController::login');
+
 /*logout*/
-$routes->match(['get', 'post'], '/logout', 'AuthController::logout'); 
+//$routes->match(['get', 'post'], '/logout', 'AuthController::logout'); 
 $routes->match(['get', 'post'], '/do_login', 'AuthController::do_login');
 
 $routes->match(['get', 'post'], '/auth', 'DashboardC::index');

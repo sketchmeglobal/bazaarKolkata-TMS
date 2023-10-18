@@ -305,8 +305,8 @@
                         dataType:'json',
                         data:{query: $query},
                         success:function(data){
-                            console.log(JSON.stringify(data));
-                            console.log('status: ' + data.status);
+                            //console.log(JSON.stringify(data));
+                            //console.log('status: ' + data.status);
                             if(data.status == true ){
                                 if(parseInt(data.ticket_id) > 0){
                                     $('#s_myFormName')[0].reset();
