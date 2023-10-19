@@ -195,15 +195,22 @@ class ViewticketC extends BaseController
          $last_updated = '';
 
          $ticket_id = service('request')->getPost('ticket_id');
+
          $ticket_status_id = service('request')->getPost('ticket_status_id');
+         $ticket_status_text = service('request')->getPost('ticket_status_text');
+
          $old_ticket_status_id = service('request')->getPost('old_ticket_status_id');
+         $old_ticket_status_text = service('request')->getPost('old_ticket_status_text');
+
          $accepted_by = $session->emp_id;
          $accepted_by_name = $session->emp_name;
 
          $post_data = [
             'ticket_id' => $ticket_id,
             'ticket_status_id' => $ticket_status_id,
+            'ticket_status_text' => $ticket_status_text,
             'old_ticket_status_id' => $old_ticket_status_id,
+            'old_ticket_status_text' => $old_ticket_status_text,
             'accepted_by' => $accepted_by,
             'accepted_by_name' => $accepted_by_name
          ];

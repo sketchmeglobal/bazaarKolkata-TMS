@@ -40,7 +40,7 @@ class ViewticketM extends Model
     protected $afterDelete    = [];
 
     public function getTicketDetails($ticket_id){
-      $hw_rows = $this->db->table('ticket_details')->select('ticket_details.ticket_id, ticket_details.ticket_number, ticket_details.topic_id, ticket_details.ticket_subject, ticket_details.ticket_category, ticket_details.ticket_severity, ticket_details.ticket_category, ticket_details.authority_cc, ticket_details.ticket_purpose, ticket_details.ticket_description, ticket_details.created_by, ticket_details.ticket_status, ticket_details.created_on, ticket_severity_master.ticket_severity_name, ticket_severity_master.max_allowed_time, ticket_category_master.ticket_category_name, ticket_status_master.ticket_status_name, employee.emp_name, employee.email_id, ticket_comments.comment_description, ticket_comments.accepted_by, ticket_comments.accepted_by_name, ticket_comments.accepted_at, ticket_comments.last_updated')->join('ticket_severity_master', 'ticket_severity_master.ticket_severity_id = ticket_details.ticket_severity')->join('ticket_category_master', 'ticket_category_master.ticket_category_id = ticket_details.ticket_category')->join('ticket_status_master', 'ticket_status_master.ticket_status_id = ticket_details.ticket_status')->join('employee', 'employee.emp_id = ticket_details.created_by')->join('ticket_comments', 'ticket_comments.ticket_id = ticket_details.ticket_id')->where(['ticket_details.ticket_id' => $ticket_id])->get()->getResult();
+      $hw_rows = $this->db->table('ticket_details')->select('ticket_details.ticket_id, ticket_details.ticket_number, ticket_details.topic_id, ticket_details.ticket_subject, ticket_details.ticket_category, ticket_details.ticket_severity, ticket_details.ticket_category, ticket_details.authority_cc, ticket_details.ticket_purpose, ticket_details.ticket_description, ticket_details.created_by, ticket_details.ticket_status, ticket_details.created_on, ticket_severity_master.ticket_severity_name, ticket_severity_master.max_allowed_time, ticket_category_master.ticket_category_name, ticket_status_master.ticket_status_name, employee.emp_name, employee.email_id, ticket_comments.comment_description, ticket_comments.status_history, ticket_comments.accepted_by, ticket_comments.accepted_by_name, ticket_comments.accepted_at, ticket_comments.last_updated')->join('ticket_severity_master', 'ticket_severity_master.ticket_severity_id = ticket_details.ticket_severity')->join('ticket_category_master', 'ticket_category_master.ticket_category_id = ticket_details.ticket_category')->join('ticket_status_master', 'ticket_status_master.ticket_status_id = ticket_details.ticket_status')->join('employee', 'employee.emp_id = ticket_details.created_by')->join('ticket_comments', 'ticket_comments.ticket_id = ticket_details.ticket_id')->where(['ticket_details.ticket_id' => $ticket_id])->get()->getResult();
       //echo $this->db->getLastQuery();
       //die;
 
@@ -221,8 +221,13 @@ class ViewticketM extends Model
       $return_data = array();
 
       $ticket_id = $post_data['ticket_id'];
+
       $ticket_status_id = $post_data['ticket_status_id'];
+      $ticket_status_text = $post_data['ticket_status_text'];
+
       $old_ticket_status_id = $post_data['old_ticket_status_id'];
+      $old_ticket_status_text = $post_data['old_ticket_status_text'];
+
       $accepted_by = $post_data['accepted_by'];
       $accepted_by_name = $post_data['accepted_by_name'];
       $accepted_at = date('Y-m-d H:i:s');
@@ -236,8 +241,11 @@ class ViewticketM extends Model
       $status_history_obj = new \stdClass();
       $status_history_obj->obj_id = rand(10000, 99999);
       $status_history_obj->updated_by = $accepted_by;
+      $status_history_obj->updated_by_name = $accepted_by_name;
       $status_history_obj->old_status = $old_ticket_status_id;
+      $status_history_obj->old_status_text = $old_ticket_status_text;
       $status_history_obj->new_status = $ticket_status_id;
+      $status_history_obj->new_status_text = $ticket_status_text;
       $status_history_obj->updated_on = date('d-m-Y H:i:s');
       array_push($status_history, $status_history_obj);
 

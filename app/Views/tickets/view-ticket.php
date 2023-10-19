@@ -253,77 +253,122 @@ $session = session();
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="sticky-this">
-                        <div class="card-header text-center"><h5 class="text-primary">Details</h5></div>
-                        <div class="card-body-text">
-                            <div class="d-flex align-items-center py-2">
-                                <p class="mx-3 mb-0">Ticket Number: </p><span><?=$rows->ticket_number?></span>
-                            </div>
-                            <div class="d-flex align-items-center py-2">
-                                <p class="mx-3 mb-0">Created By</p><span><div data-toggle="tooltip" data-placement="top"
-                                    title="<?=$rows->emp_name?> <?=$rows->email_id?>">
-                                    <span class="card-ud" ><?=$short_created_by_name?></span>
-                                </div></span>
-                            </div>
-                            <div class="d-flex align-items-center py-2">
-                                <p class="mx-3 mb-0">Created on: </p><span><?=date('d-M-Y H:i A', strtotime($rows->created_on))?></span>
-                            </div>
-                            <div class="d-flex align-items-center py-2">
-                                <p class="mx-3 mb-0">Purpose:</p><span><?=$rows->ticket_purpose?></span>
-                            </div>
-                            <div class="d-flex align-items-center py-2">
-                                <p class="mx-3 mb-0">SR Status:</p><span><a href="#">Generated (SR/WB0O2C/001)</a></span>
-                            </div>
-                            <div class="d-flex align-items-center py-2">
-                                <p class="mx-3 mb-0">Approval: Pending </p>
-                            </div>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="detail-tab" data-bs-toggle="tab" data-bs-target="#detail" type="button" role="tab" aria-controls="detail" aria-selected="true">Details</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="status-tab" data-bs-toggle="tab" data-bs-target="#status" type="button" role="tab" aria-controls="status" aria-selected="false">Status History</button>
+                            </li>
+                        </ul>
 
-                            <div class="d-flex justify-content-between align-items-center py-2">
-                                <p class="mx-3 mb-0">Ticket Status	</p><span class="bg-red mx-1 px-1" id="ticket_status_2"><?=$rows->ticket_status_name?></span><p class="mb-0 ms-3"><!--<a href="#">edit</a>--></p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center py-2">
-                                <p class="mx-3 mb-0">Ticket Severity:</p><span class="bg-red mx-1 px-1"><?=$rows->ticket_severity_name?></span><p class="mb-0 ms-3"><!--<a href="#">edit</a>--></p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center py-2">
-                                <p class="mx-3 mb-0">Ticket Category</p><span><?=$rows->ticket_category_name?></span><p class="mb-0 ms-3"><!--<a href="#">edit</a>--></p>
-                            </div>
-                            <!-- <div class="d-flex justify-content-between align-items-center py-2">
-                                <p class="mx-3 mb-0">Ticket Priority</p><span>-</span><p class="mb-0 ms-3"><a href="#">edit</a></p>
-                            </div> -->
-                            <div class="d-flex justify-content-between align-items-center py-2">
-                                <p class="mx-3 mb-0">Last Updated by</p><span><div data-toggle="tooltip" data-placement="top"
-                                    title="Admin Demo @admin.demo">
-                                    <span class="card-ud" id="accepted_by_short"> <?php if($short_accepted_by_name == ''){ echo "None"; }else{ echo $short_accepted_by_name; }?></span>
-                                </div></span><p class="mb-0 ms-3"></p>
-                            </div>
-                            <div class="d-flex align-items-center py-2">
-                                <p class="mx-3 mb-0">Last Updated: </p><span id="accepted_on"><?php echo date('d-M-Y h:i A', strtotime($last_updated)); ?> </span>
-                            </div>
-                            <?php if($accepted_by > 0){?>
-                            <div class="d-flex align-items-center py-2">
-                                <p class="mx-3 mb-0">Time Remaining: </p><span id="countdown"><?=$max_allowed_time?> hrs.</span>
-                            </div>
-                            <?php } ?>
+                        <div class="tab-content" id="myTabContent">                            
+                            <!-- Start Details part -->
+                            <div class="tab-pane fade show active" id="detail" role="tabpanel" aria-labelledby="detail-tab">
+                                <div class="card-body-text">
+                                    <div class="d-flex align-items-center py-2">
+                                        <p class="mx-3 mb-0">Ticket Number: </p><span><?=$rows->ticket_number?></span>
+                                    </div>
+                                    <div class="d-flex align-items-center py-2">
+                                        <p class="mx-3 mb-0">Created By</p><span><div data-toggle="tooltip" data-placement="top"
+                                            title="<?=$rows->emp_name?> <?=$rows->email_id?>">
+                                            <span class="card-ud" ><?=$short_created_by_name?></span>
+                                        </div></span>
+                                    </div>
+                                    <div class="d-flex align-items-center py-2">
+                                        <p class="mx-3 mb-0">Created on: </p><span><?=date('d-M-Y H:i A', strtotime($rows->created_on))?></span>
+                                    </div>
+                                    <div class="d-flex align-items-center py-2">
+                                        <p class="mx-3 mb-0">Purpose:</p><span><?=$rows->ticket_purpose?></span>
+                                    </div>
+                                    <?php if($rows->ticket_status == 7){?>
+                                    <div class="d-flex align-items-center py-2">
+                                        <p class="mx-3 mb-0">SR Status:</p><span><a href="#">Generated</a></span>
+                                    </div>
+                                    <?php } ?>
+                                    
+                                    <?php if($rows->ticket_status == 8){?>
+                                    <div class="d-flex align-items-center py-2">
+                                        <p class="mx-3 mb-0">Approval: SR Approved</p>
+                                    </div>
+                                    <?php } ?>
 
-                            <div class="d-flex justify-content-between align-items-center py-2">
-                                <p class="mx-3 mb-0">Change Ticket Status </p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center px-2">
-                                <select class="form-control" name="ticket_status_id" id="ticket_status_id">
-                                    <?php if ($tic_stat_rows) : ?>
-                                        <?php foreach ($tic_stat_rows as $tic_stat_row) : ?>
-                                            <option value="<?=$tic_stat_row->ticket_status_id?>" <?php if($rows->ticket_status == $tic_stat_row->ticket_status_id){?> selected <?php } ?>><?=$tic_stat_row->ticket_status_name?></option>
-                                        <?php endforeach ?>
-                                    <?php endif ?>
-                                </select>
-                                <input type="hidden" name="old_ticket_status_id" id="old_ticket_status_id" value="<?=$rows->ticket_status?>">
-                            </div>
-                            <div class="d-flex align-items-center px-2 py-2">
-                                <button class="btn btn-primary btn-lg" type="button" id="accept_ticket" data-ticket_id="<?=$rows->ticket_id?>" style="width: 100%;">Update</button>
-                            </div>
-                            <div class="d-flex align-items-center px-2 py-2">
-                                <span id="ticket_stat_msg"> </span>
-                            </div>
-                            
+                                    <div class="d-flex justify-content-between align-items-center py-2">
+                                        <p class="mx-3 mb-0">Ticket Status	</p><span class="bg-red mx-1 px-1" id="ticket_status_2"><?=$rows->ticket_status_name?></span><p class="mb-0 ms-3"></p>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center py-2">
+                                        <p class="mx-3 mb-0">Ticket Severity:</p><span class="bg-red mx-1 px-1"><?=$rows->ticket_severity_name?></span><p class="mb-0 ms-3"></p>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center py-2">
+                                        <p class="mx-3 mb-0">Ticket Category</p><span><?=$rows->ticket_category_name?></span><p class="mb-0 ms-3"></p>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-between align-items-center py-2">
+                                        <p class="mx-3 mb-0">Last Updated by</p><span><div data-toggle="tooltip" data-placement="top"
+                                            title="Admin Demo @admin.demo">
+                                            <span class="card-ud" id="accepted_by_short"> <?php if($short_accepted_by_name == ''){ echo "None"; }else{ echo $short_accepted_by_name; }?></span>
+                                        </div></span><p class="mb-0 ms-3"></p>
+                                    </div>
+                                    <div class="d-flex align-items-center py-2">
+                                        <p class="mx-3 mb-0">Last Updated: </p><span id="accepted_on"><?php echo date('d-M-Y h:i A', strtotime($last_updated)); ?> </span>
+                                    </div>
+                                    <?php if($accepted_by > 0 && $rows->ticket_status < 4){?>
+                                    <div class="d-flex align-items-center py-2">
+                                        <p class="mx-3 mb-0">Time Remaining: </p><span id="countdown"><?=$max_allowed_time?> hrs.</span>
+                                    </div>
+                                    <?php } ?>
+
+                                    <div class="d-flex justify-content-between align-items-center py-2">
+                                        <p class="mx-3 mb-0">Change Ticket Status </p>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center px-2">
+                                        <select class="form-control" name="ticket_status_id" id="ticket_status_id">
+                                            <?php if ($tic_stat_rows) : ?>
+                                                <?php foreach ($tic_stat_rows as $tic_stat_row) : ?>
+                                                    <option value="<?=$tic_stat_row->ticket_status_id?>" <?php if($rows->ticket_status == $tic_stat_row->ticket_status_id){?> selected <?php } ?>><?=$tic_stat_row->ticket_status_name?></option>
+                                                <?php endforeach ?>
+                                            <?php endif ?>
+                                        </select>
+                                        <input type="hidden" name="old_ticket_status_id" id="old_ticket_status_id" value="<?=$rows->ticket_status?>">
+                                        <input type="hidden" name="old_ticket_status_text" id="old_ticket_status_text" value="<?=$rows->ticket_status_name?>">
+                                    </div>
+                                    <div class="d-flex align-items-center px-2 py-2">
+                                        <button class="btn btn-primary btn-lg" type="button" id="accept_ticket" data-ticket_id="<?=$rows->ticket_id?>" style="width: 100%;">Update</button>
+                                    </div>
+                                    <div class="d-flex align-items-center px-2 py-2">
+                                        <span id="ticket_stat_msg"> </span>
+                                    </div>                                
+                                </div>
+                            </div>                              
+                            <!-- End Details part -->
+
+                            <!-- Start status part -->
+                            <div class="tab-pane fade" id="status" role="tabpanel" aria-labelledby="status-tab">
+                                <div class="card-body-text" style="background-color: #fff;">
+                                    <div class="d-flex align-items-center py-2">
+                                        <p class="mx-3 mb-0" >Ticket Number: </p><span><?=$rows->ticket_number?></span>
+                                    </div>
+                                    <?php
+                                    $status_history1 = $rows->status_history;
+                                    if($status_history1 != null){
+                                        $status_history = json_decode($status_history1);
+                                        if(sizeof($status_history) > 0){
+                                            for($j = 0; $j < sizeof($status_history); $j++){
+                                    ?>
+                                    <div class="d-flex align-items-center py-2">
+                                        <p class="mx-3 mb-0" style="background-color: #F3F6F9;padding: 15px;font-size: 12px;">Ticket <strong>Status</strong> Updated from <strong><?=$status_history[$j]->old_status_text?></strong> to <strong><?=$status_history[$j]->new_status_text?></strong><br>
+                                        <strong>Author: </strong><?=$status_history[$j]->updated_by_name?><br>
+                                        <strong>Updated On: </strong> <?=date('d-M-Y h:i A', strtotime($status_history[$j]->updated_on))?>
+                                        </p>
+                                    </div>
+                                    <?php
+                                            }
+                                        }
+                                    }                                    
+                                    ?>
+                                </div> 
+                            </div>  
+                            <!-- End status part -->
                         </div>
 
                         </div>
@@ -427,14 +472,16 @@ $session = session();
         // Select the button you want to disable.  
         $ticket_id = $(this).data('ticket_id');
         $ticket_status_id = $('#ticket_status_id').val();
-        $old_ticket_status_id = $('#old_ticket_status_id').val();
         $ticket_status_text = $('#ticket_status_id option:selected').text();
+
+        $old_ticket_status_id = $('#old_ticket_status_id').val();
+        $old_ticket_status_text = $('#old_ticket_status_text').val();
 
         $.ajax({  
             url: '<?php echo base_url('admin/acceptTicket'); ?>',
             type: 'post',
             dataType:'json',
-            data:{ticket_id: $ticket_id, ticket_status_id: $ticket_status_id, old_ticket_status_id: $old_ticket_status_id},
+            data:{ticket_id: $ticket_id, ticket_status_id: $ticket_status_id, ticket_status_text: $ticket_status_text, old_ticket_status_id: $old_ticket_status_id, old_ticket_status_text: $old_ticket_status_text},
             success:function(data){
                 console.log(JSON.stringify(data));
                 console.log('status: ' + data.status);
@@ -443,13 +490,12 @@ $session = session();
                     $('#accepted_on').html(data.last_updated);
                     $('#ticket_status_1').html($ticket_status_text);
                     $('#ticket_status_2').html($ticket_status_text);
-                    //$('#accept_ticket').html('Accepted');
-                    //$('#accept_ticket').prop('disabled', true); 
+
+                    $('#old_ticket_status_id').val($ticket_status_id);
+                    $('#old_ticket_status_text').val($ticket_status_text);
                 }else{
                     $('#ticket_status_1').html($ticket_status_text);
                     $('#ticket_status_2').html($ticket_status_text);
-                    //$('#accept_ticket').html('Accepted');
-                    //$('#accept_ticket').prop('disabled', true); 
                     console.log('Ticket Accept problem')                    
                 }
                 
