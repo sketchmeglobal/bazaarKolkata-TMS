@@ -170,8 +170,14 @@ class IssuehardwareM extends Model
       $row = $this->db->table('ticket_details')->select('*')->where([ 'ticket_number' => $ticketNo ])->get()->getResult();
       $arr_size = sizeof($row);
       if($arr_size > 0){
-        $status = true;
-        $message = 'Vallid ticket number';
+        $ticket_status = $row[0]->ticket_status;
+        if($ticket_status == 8){
+          $status = true;
+          $message = 'SR Requested and Approved';
+        }else{
+          $status = false;
+          $message = 'SR Pending';
+        }        
       }else{
         $status = false;
         $message = 'Invallid ticket number';
