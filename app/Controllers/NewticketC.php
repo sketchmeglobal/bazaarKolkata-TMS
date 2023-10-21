@@ -8,13 +8,18 @@ use App\Models\NewticketM;
 
 class NewticketC extends BaseController
 {
-   public function index(){       
-      $head_officeM = new NewticketM();                
-      //$data['rows'] = $head_officeM->findAll();    
-      $data['topic_rows'] = $head_officeM->getTopicMaster();    
-      $data['category_rows'] = $head_officeM->getCategoryMaster();   
-      $data['severty_rows'] = $head_officeM->getSeverityMaster();
-      return view('tickets/new-ticket', $data);
+   public function index(){  
+      $session = session();
+      if($session->logged_in == '') {
+          return redirect()->to('logout');
+      }else{
+          $head_officeM = new NewticketM();                
+         //$data['rows'] = $head_officeM->findAll();    
+         $data['topic_rows'] = $head_officeM->getTopicMaster();    
+         $data['category_rows'] = $head_officeM->getCategoryMaster();   
+         $data['severty_rows'] = $head_officeM->getSeverityMaster();
+         return view('tickets/new-ticket', $data);
+      }
    }   
 
    public function formValidationTIC(){

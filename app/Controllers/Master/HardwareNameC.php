@@ -8,10 +8,15 @@ use App\Models\Master\HardwareNameM;
 
 class HardwareNameC extends BaseController
 {
-   public function index(){      
-      $head_officeM = new HardwareNameM();            
-      $data['rows'] = $head_officeM->findAll();            
-      return view('master/hardwarename', $data);
+   public function index(){ 
+      $session = session();
+      if($session->logged_in == '') {
+          return redirect()->to('logout');
+      }else{
+          $head_officeM = new HardwareNameM();            
+         $data['rows'] = $head_officeM->findAll();            
+         return view('master/hardwarename', $data);
+      }
    }
 
    public function formValidationHW(){

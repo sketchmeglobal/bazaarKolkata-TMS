@@ -15,6 +15,7 @@ class AuthController extends BaseController
 
     public function login()
     {
+        
         if ($this->request->getVar('submit')) {
             $datam = array();
             $session = session();

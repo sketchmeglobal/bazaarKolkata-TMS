@@ -8,10 +8,15 @@ use App\Models\Master\OutletM;
 
 class OutletC extends BaseController
 {
-   public function index(){      
-      $head_officeM = new OutletM();            
-      $data['rows'] = $head_officeM->findAll();            
-      return view('master/outlet', $data);
+   public function index(){ 
+      $session = session();
+      if($session->logged_in == '') {
+          return redirect()->to('logout');
+      }else{
+          $head_officeM = new OutletM();            
+         $data['rows'] = $head_officeM->findAll();            
+         return view('master/outlet', $data);
+      }
    }
 
    public function formValidationOL(){

@@ -8,10 +8,15 @@ use App\Models\Master\DepartmentM;
 
 class DepartmentC extends BaseController
 {
-   public function index(){      
-      $head_officeM = new DepartmentM();            
-      $data['rows'] = $head_officeM->findAll();            
-      return view('master/department', $data);
+   public function index(){  
+      $session = session();
+      if($session->logged_in == '') {
+          return redirect()->to('logout');
+      }else{
+          $head_officeM = new DepartmentM();            
+         $data['rows'] = $head_officeM->findAll();            
+         return view('master/department', $data);
+      }
    }
 
    public function formValidationDE(){

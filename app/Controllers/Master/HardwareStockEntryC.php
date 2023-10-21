@@ -8,11 +8,16 @@ use App\Models\Master\HardwareStockEntryM;
 
 class HardwareStockEntryC extends BaseController
 {
-   public function index(){      
-      $head_officeM = new HardwareStockEntryM();            
-      $data['rows'] = $head_officeM->getHwWithSerialNo();             
-      $data['hw_rows'] = $head_officeM->getDeviceNameList();           
-      return view('master/hardwarestockentry', $data);
+   public function index(){ 
+      $session = session();
+      if($session->logged_in == '') {
+          return redirect()->to('logout');
+      }else{
+          $head_officeM = new HardwareStockEntryM();            
+         $data['rows'] = $head_officeM->getHwWithSerialNo();             
+         $data['hw_rows'] = $head_officeM->getDeviceNameList();           
+         return view('master/hardwarestockentry', $data);
+      }
    }
 
    public function formValidationHWS(){

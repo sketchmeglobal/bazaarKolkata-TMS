@@ -8,10 +8,15 @@ use App\Models\Master\HeadofficeM;
 
 class HeadofficeC extends BaseController
 {
-   public function index(){      
-      $head_officeM = new HeadofficeM();            
-      $data['head'] = $head_officeM->findAll();            
-      return view('master/head-office', $data);
+   public function index(){ 
+      $session = session();
+      if($session->logged_in == '') {
+          return redirect()->to('logout');
+      }else{
+          $head_officeM = new HeadofficeM();            
+         $data['head'] = $head_officeM->findAll();            
+         return view('master/head-office', $data);
+      }
    }
 
    public function formValidation(){

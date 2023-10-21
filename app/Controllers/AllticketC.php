@@ -8,10 +8,15 @@ use App\Models\AllticketM;
 
 class AllticketC extends BaseController
 {
-   public function index(){       
-      $head_officeM = new AllticketM();                
-      $data['rows'] = $head_officeM->getAllTickets();
-      return view('tickets/all-tickets', $data);
+   public function index(){  
+      $session = session();
+      if($session->logged_in == '') {
+          return redirect()->to('logout');
+      }else{               
+         $head_officeM = new AllticketM();                
+         $data['rows'] = $head_officeM->getAllTickets();
+         return view('tickets/all-tickets', $data);
+      }
    }   
 
    public function formValidationTIC(){

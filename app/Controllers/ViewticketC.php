@@ -8,11 +8,16 @@ use App\Models\ViewticketM;
 
 class ViewticketC extends BaseController
 {
-   public function index($ticket_id){       
-      $head_officeM = new ViewticketM();                
-      $data['rows'] = $head_officeM->getTicketDetails($ticket_id);               
-      $data['tic_stat_rows'] = $head_officeM->getTicketStatus();
-      return view('tickets/view-ticket', $data);
+   public function index($ticket_id){  
+      $session = session();
+      if($session->logged_in == '') {
+          return redirect()->to('logout');
+      }else{
+          $head_officeM = new ViewticketM();                
+         $data['rows'] = $head_officeM->getTicketDetails($ticket_id);               
+         $data['tic_stat_rows'] = $head_officeM->getTicketStatus();
+         return view('tickets/view-ticket', $data);
+      }
    }   
 
    public function formValidationTICR(){

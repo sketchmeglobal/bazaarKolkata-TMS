@@ -8,13 +8,18 @@ use App\Models\Master\DesignationM;
 
 class DesignationC extends BaseController
 {
-   public function index(){      
-      $head_officeM = new DesignationM();            
-      $data['rows'] = $head_officeM->findAll();           
-      $data['ho_rows'] = $head_officeM->getAllHeadOffice();           
-      $data['wh_rows'] = $head_officeM->getAllWareHouse();           
-      $data['ol_rows'] = $head_officeM->getAllOutlet();            
-      return view('master/designation', $data);
+   public function index(){
+      $session = session();
+      if($session->logged_in == '') {
+          return redirect()->to('logout');
+      }else{
+          $head_officeM = new DesignationM();            
+         $data['rows'] = $head_officeM->findAll();           
+         $data['ho_rows'] = $head_officeM->getAllHeadOffice();           
+         $data['wh_rows'] = $head_officeM->getAllWareHouse();           
+         $data['ol_rows'] = $head_officeM->getAllOutlet();            
+         return view('master/designation', $data);
+      }
    }
 
    public function formValidationDG(){

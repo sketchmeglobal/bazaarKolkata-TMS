@@ -8,14 +8,19 @@ use App\Models\Master\EmployeeM;
 
 class EmployeeC extends BaseController
 {
-   public function index(){      
-      $head_officeM = new EmployeeM();            
-      $data['ho_rows'] = $head_officeM->getAllHeadOffice();           
-      $data['wh_rows'] = $head_officeM->getAllWareHouse();           
-      $data['ol_rows'] = $head_officeM->getAllOutlet();           
-      $data['u_level_rows'] = $head_officeM->getAllUserLevel();  
+   public function index(){    
+      $session = session();
+      if($session->logged_in == '') {
+          return redirect()->to('logout');
+      }else{
+          $head_officeM = new EmployeeM();            
+         $data['ho_rows'] = $head_officeM->getAllHeadOffice();           
+         $data['wh_rows'] = $head_officeM->getAllWareHouse();           
+         $data['ol_rows'] = $head_officeM->getAllOutlet();           
+         $data['u_level_rows'] = $head_officeM->getAllUserLevel();  
 
-      return view('master/employee', $data);
+         return view('master/employee', $data);
+      }
    }
 
    public function formValidationEM(){

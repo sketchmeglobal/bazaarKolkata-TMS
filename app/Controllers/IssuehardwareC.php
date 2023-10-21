@@ -8,14 +8,16 @@ use App\Models\IssuehardwareM;
 
 class IssuehardwareC extends BaseController
 {
-   public function index(){       
+   public function index(){ 
       $session = session();
-      $logged_in = $session->logged_in;
-
-      $head_officeM = new IssuehardwareM();                
-      $data['rows'] = $head_officeM->getAllIssuedHardware();    
-      $data['hw_rows'] = $head_officeM->getDeviceNameList(); 
-      return view('issuehardware', $data);
+      if($session->logged_in == '') {
+          return redirect()->to('logout');
+      }else{
+          $head_officeM = new IssuehardwareM();                
+         $data['rows'] = $head_officeM->getAllIssuedHardware();    
+         $data['hw_rows'] = $head_officeM->getDeviceNameList(); 
+         return view('issuehardware', $data);
+      }
    }   
 
    public function formValidationHIS(){

@@ -7,8 +7,13 @@ use App\Controllers\BaseController;
 class DashboardC extends BaseController
 {
     public function index()
-    {
-        return view('dashboard/index');
+    { 
+        $session = session();
+        if($session->logged_in == '') {
+            return redirect()->to('logout');
+        }else{
+            return view('dashboard/index');
+        }
     }
     public function all_tickets()
     {
