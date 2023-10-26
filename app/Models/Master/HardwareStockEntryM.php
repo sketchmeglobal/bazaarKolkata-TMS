@@ -53,6 +53,7 @@ class HardwareStockEntryM extends Model
       $fields_array = [
         'hw_id'     => $validatedData['hw_id'],
         'serial_no'  => $validatedData['serial_no'],
+        'deviceMetaData'  => json_encode($validatedData['deviceMetaData'])
       ];
 
       if($table_id > 0){

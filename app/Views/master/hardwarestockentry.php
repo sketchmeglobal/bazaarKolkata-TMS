@@ -78,7 +78,7 @@
             <!-- Modal start -->
             <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="text-primary modal-title" id="exampleModalLongTitle">Hardware Stock Entry</h5>
@@ -94,7 +94,8 @@
                                         <?php echo session()->getFlashdata('success'); ?>
                                     </div>
                                     <?php } ?>
-                                    <div class="col-md-11 col-12 mb-2">
+
+                                    <div class="form-group col-md-6">
                                         <label for="hw_id">Device Name</label>
                                         <select class="form-control" id="hw_id" name="hw_id">
                                             <option value="0">Select</option>
@@ -107,13 +108,33 @@
                                         <!-- <input type="text" class="form-control" name="hw_id" id="hw_id" required value=""> -->
                                         <span class="error" id="hw_idError"> </span>
                                     </div>
-                                    <div class="col-md-11 col-12 mb-2">
+                                    <div class="form-group col-md-6">
                                         <label for="serial_no">Device Serial No</label>
                                         <input minlength="5" type="text" class="form-control" name="serial_no" id="serial_no" required value="">
                                         <span class="error" id="serial_noError"> </span>
                                     </div>
+                                </div>
 
-                                    <div class="col-md-4 ">
+                                <div class="form-row" id="metaData"></div>
+
+                                <div class="form-row"> 
+                                        <div class="form-group col-md-4">
+                                            <label for="customLabel">Custom Label</label>
+                                            <input type="text" class="form-control" name="customLabel" id="customLabel">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="customValue">Custom Value</label>
+                                            <input type="text" class="form-control" name="customValue" id="customValue">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            
+                                            <input class="btn btn-primary" type="button" value="Add New" name="submit" id="addNew">
+                                        </div>
+
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
                                         <label for="s_parentDesignation">&nbsp;</label>
                                         <input class="btn btn-primary py-2 w-100 mb-1" type="button" value="Save" name="submit" id="s_submitForm">
                                     </div>
@@ -195,21 +216,23 @@
                         $query = {
                             hw_id: $hw_id,
                             serial_no: $serial_no,
-                            table_id: $table_id
+                            table_id: $table_id,
+                            deviceMetaData: $metaData
                         };
 
                         console.log('form validated, save data & populate the data table')
                         $.ajax({  
-                            url: '<?php echo base_url('admin/formValidationHIS'); ?>',
+                            url: '<?php echo base_url('admin/formValidationHWS'); ?>',
                             type: 'post',
                             dataType:'json',
                             data:{query: $query},
                             success:function(data){
-                                console.log(JSON.stringify(data));
+                                //console.log(JSON.stringify(data));
                                 console.log('status: ' + data.status);
                                 if(data.status == true ){
                                     $('#hw_idError').html('');
                                     $('#serial_noError').html('');
+                                    $('#metaData').html('');
                         
                                     $('#formValidMsg').hide();
                                     $("#s_myFormName").trigger("reset");
@@ -300,9 +323,48 @@
                             $('#hw_id').val(data.result.hw_id);
                             $('#serial_no').val(data.result.serial_no);
                             $('#table_id').val(data.result.hw_sl_id);
+                            
+                            if(data.result.deviceMetaData){
+                                $metaData = JSON.parse(data.result.deviceMetaData);
+                            }else{
+                                $metaData = [];
+                            }
+                            populateMetaData($metaData);
+
                             $('#myModal').modal('show');
                         }
                     }  
                 });//end ajak
             });
+
+            $('#addNew').on('click', function(){
+                $customLabel = $('#customLabel').val();
+                $customValue = $('#customValue').val();
+
+                $metaDataObj = {
+                    objId: Math.floor(Math.random() * 100) + 1,
+                    customLabel: $customLabel,
+                    customValue: $customValue
+                }
+
+                $metaData.push($metaDataObj);
+                $('#customLabel').val('');
+                $('#customValue').val('');
+                console.log(JSON.stringify($metaData))
+                populateMetaData($metaData);
+                
+            })
+
+            $(document).ready(function(){
+                $metaData = [];
+            })
+
+            function populateMetaData($metaData){
+                $metaDataText = "";
+                for(var i = 0; i < $metaData.length; i++){
+                    $metaDataText += $metaData[i].customLabel +": "+ $metaData[i].customValue + "<br>";
+                }//end for
+
+                $('#metaData').html($metaDataText);
+            }
             </script>

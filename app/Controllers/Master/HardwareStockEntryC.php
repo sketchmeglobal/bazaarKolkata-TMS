@@ -26,6 +26,7 @@ class HardwareStockEntryC extends BaseController
          $hw_id = $query['hw_id'];
          $serial_no = $query['serial_no'];
          $table_id = $query['table_id'];
+         $deviceMetaData = $query['deviceMetaData'];
 
          $return_data = array();
          $status = true;
@@ -44,12 +45,19 @@ class HardwareStockEntryC extends BaseController
             'serial_no'   => $serial_no,
             'table_id' => $table_id
          ];
-         $validatedData = array();
+         $validatedData = array();         
+
+         $postData = [
+            'hw_id'   => $hw_id,
+            'serial_no'   => $serial_no,
+            'table_id' => $table_id,
+            'deviceMetaData' => $deviceMetaData
+         ];
 
          if ($validation->run($data)) {
             $validatedData = $validation->getValidated(); 
             //print_r($validatedData);
-            $result = $officeM->insertTableData($validatedData);
+            $result = $officeM->insertTableData($postData);
 
             //echo '****** return form model *******';
             //echo json_encode($result);
