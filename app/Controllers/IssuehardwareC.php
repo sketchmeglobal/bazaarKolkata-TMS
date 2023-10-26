@@ -23,6 +23,7 @@ class IssuehardwareC extends BaseController
    public function formValidationHIS(){
       if($this->request->isAJAX()) {
          $query = service('request')->getPost('query');
+         $issue_or_return = $query['issue_or_return'];
          $ticketNo = $query['ticketNo'];
          $hw_id = $query['hw_id'];
          $hw_sl_id = $query['hw_sl_id'];
@@ -55,6 +56,7 @@ class IssuehardwareC extends BaseController
             //print_r($validatedData);            
 
             $post_data = [
+               'issue_or_return' => $issue_or_return,
                'ticketNo' => $ticketNo,
                'hw_id' => $hw_id,
                'hw_sl_id' => $hw_sl_id,

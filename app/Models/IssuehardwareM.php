@@ -40,7 +40,7 @@ class IssuehardwareM extends Model
     protected $afterDelete    = [];
 
     public function getAllIssuedHardware(){
-      $rows = $this->db->table('hw_issue_return')->select('hw_issue_return.issue_return_id, hw_issue_return.ticket_id, hw_issue_return.ticket_no, hw_issue_return.hw_id, hw_issue_return.hw_sl_id,  hw_issue_return.issue_return_note, hardware.hw_name, hardware.hw_code, hardware_serial.serial_no')->join('hardware', 'hardware.hw_id = hw_issue_return.hw_id')->join('hardware_serial', 'hardware_serial.hw_id = hw_issue_return.hw_id')->where(['hw_issue_return.row_status' => 1, 'hw_issue_return.issue_or_return' => 1])->limit(100)->get()->getResult();
+      $rows = $this->db->table('hw_issue_return')->select('hw_issue_return.issue_return_id, hw_issue_return.ticket_id, hw_issue_return.ticket_no, hw_issue_return.hw_id, hw_issue_return.hw_sl_id, hw_issue_return.issue_or_return, hw_issue_return.issue_return_note, hardware.hw_name, hardware.hw_code, hardware_serial.serial_no')->join('hardware', 'hardware.hw_id = hw_issue_return.hw_id')->join('hardware_serial', 'hardware_serial.hw_id = hw_issue_return.hw_id')->where(['hw_issue_return.row_status' => 1])->limit(100)->get()->getResult();
       return $rows;
     }//end function 
 
@@ -53,7 +53,7 @@ class IssuehardwareM extends Model
       $hw_id = $validatedData['hw_id'];
       $hw_sl_id = $validatedData['hw_sl_id'];
       $issueNote = $validatedData['issueNote'];
-      $issue_or_return = 1;
+      $issue_or_return = $validatedData['issue_or_return'];
       $ticket_id = 0;
       $issue_return_id = 0;
 

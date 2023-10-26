@@ -79,7 +79,7 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'acceptTicket', 'ViewticketC::acceptTicket');
 
     //Issue Hardware
-    $routes->match(['get', 'post'], 'issue-hardware', 'IssuehardwareC::index');
+    $routes->match(['get', 'post'], 'issue-return-hardware', 'IssuehardwareC::index');
     $routes->match(['get', 'post'], 'check-ticket-status', 'IssuehardwareC::checkTicketStatus');
     $routes->match(['get', 'post'], 'get-hw-serial', 'IssuehardwareC::getHwSerialNo');
     $routes->match(['get', 'post'], 'formValidationHIS', 'IssuehardwareC::formValidationHIS');

@@ -26,6 +26,10 @@
                     <a href="<?= base_url('admin/dashboard') ?>" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
 
                     <div class="nav-item dropdown">
+                        <?php
+                        $session = session();
+                        if($session->user_level == '1') {
+                        ?>
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Masters</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="<?= base_URL('admin/head-office')?>" class="dropdown-item">Head Office</a>
@@ -37,6 +41,7 @@
                             <a href="<?= base_URL('admin/hardware-name')?>" class="dropdown-item">Hardware Name</a>
                             <a href="<?= base_URL('admin/hardwarestockentry')?>" class="dropdown-item">H/W Stock Entry</a>
                         </div>
+                        <?php } ?>
                         <!-- <div class="dropdown-menu bg-transparent border-0">
                             <a href="<?= base_URL('admin/site-hierancy')?>" class="dropdown-item">Site Hierarchy</a>
                             <a href="<?= base_URL('admin/sr-association')?>" class="dropdown-item">SR Association</a>
@@ -49,11 +54,11 @@
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="<?= base_url('admin/new-ticket')  ?>" class="dropdown-item">New Ticket </a>
                             <a href="<?= base_url('admin/all-tickets')  ?>" class="dropdown-item">All Tickets</a>
-                            <a href="<?= base_url('admin/all-tickets')  ?>" class="dropdown-item">Unassigned Tickets</a>
+                            <!-- <a href="<?= base_url('admin/all-tickets')  ?>" class="dropdown-item">Unassigned Tickets</a>
                             <a href="<?= base_url('admin/all-tickets')  ?>" class="dropdown-item">Assigned Tickets</a>
                             <a href="<?= base_url('admin/all-tickets')  ?>" class="dropdown-item">Closed Ticket</a>
                             <a href="<?= base_url('admin/all-tickets')  ?>" class="dropdown-item">My Tickets</a>
-                            <a href="<?= base_url('admin/all-tickets')  ?>" class="dropdown-item">Following</a>
+                            <a href="<?= base_url('admin/all-tickets')  ?>" class="dropdown-item">Following</a> -->
                         </div>
                     </div>
 
@@ -64,15 +69,19 @@
                         </div>
                     </div> -->
 
+                    <?php
+                        if($session->user_level == '1' || $session->user_level == '3') {
+                        ?>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Hardware</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="<?= base_url('admin/issue-hardware') ?>" class="dropdown-item">Issue</a>
-                            <a href="<?= base_url('admin/return-hardware') ?>" class="dropdown-item">Return</a>
+                            <a href="<?= base_url('admin/issue-return-hardware') ?>" class="dropdown-item">Issue / Return</a>
+                            <!-- <a href="<?= base_url('admin/return-hardware') ?>" class="dropdown-item">Return</a> -->
                         </div>
                     </div>
+                    <?php } ?>
 
-                    <a href="<?= base_url('admin/profile')  ?>" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Profile</a>
+                    <!-- <a href="<?= base_url('admin/profile')  ?>" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Profile</a> -->
                 </div>
             </nav>
         </div>

@@ -24,7 +24,7 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5 col-md-6 col-10 bg-light py-2 text-center border-bottom-all-rd">
-                        <h5 class="text-primary">Issue Hardware</h5>
+                        <h5 class="text-primary">Issue / Return Hardware</h5>
                     </div>
                 </div>
             </div>
@@ -42,25 +42,30 @@
                                     <th>Ticket No</th>
                                     <th>Device Name</th>
                                     <th>Serial No</th>
-                                    <th>Issue Note</th>
+                                    <th>Note</th>
+                                    <th>Type</th>
                                     <th>Acction</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if ($rows) : ?>
+                                <?php if ($rows) : 
+                                    $i = 1;?>
                                 <?php foreach ($rows as $row) : ?>
                                 <tr>
-                                    <td><?=$row->issue_return_id?></td>
+                                    <td><?=$i?></td>
                                     <td><?=$row->ticket_no?></td>
                                     <td><?=$row->hw_name?>(<?=$row->hw_code?>)</td>
                                     <td><?=$row->serial_no?></td>
                                     <td><?=$row->issue_return_note?></td>
+                                    <td><?=($row->issue_or_return == 1)? 'Issue': 'Return'?></td>
                                     <td class="d-flex justify-content-evenly">
                                         <a href="javascript: void(0);" class="edit_class" data-table_id="<?=$row->issue_return_id?>"><i class="fa fa-edit"></i></a>
                                         <a class="remove" href="javascript: void(0);" data-table_id="<?=$row->issue_return_id?>"><i class="fas fa-times"></i></a>
                                     </td>
                                 </tr>
-                                <?php endforeach ?>
+                                <?php 
+                                $i++;
+                                endforeach ?>
                                 <?php endif ?>
                             </tbody>
                         </table>
@@ -73,12 +78,21 @@
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Issue Hardware</h5>
+                                <h5 class="modal-title" id="exampleModalLongTitle">Issue / Return Hardware</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModal1"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
                                 <form class="needs-validation" novalidate name="s_myFormName" id="s_myFormName">
                                     <div class="form-row"> 
+                                        <div class="col-md-4 mb-1">
+                                            <label for="ticketNo">Type</label>
+                                            <select class="form-control" id="issue_or_return" name="issue_or_return">
+                                                <option value="0">Select</option>
+                                                <option value="1">Issue</option>
+                                                <option value="2">Return</option>
+                                            </select>
+                                        </div>  
+                                    
                                         <div class="col-md-4 mb-1">
                                             <label for="ticketNo">Ticket No</label>
                                             <input type="text" class="form-control" name="ticketNo" id="ticketNo" value="" > 
@@ -170,15 +184,26 @@
         
         //Validation Form
         function validateForm(){
+            $issue_or_return = $('#issue_or_return').val();
             $ticketNo = $('#ticketNo').val().replace(/^\s+|\s+$/gm,'');
             $hw_id = $('#hw_id').val();
             
             $status = true;
-            $formValidMsg = '';
+            $formValidMsg = 'Please enter ';
+            
+            if($issue_or_return == '0'){
+                $status = false;
+                $formValidMsg += 'Type';
+                $('#issue_or_return').removeClass('is-valid');
+                $('#issue_or_return').addClass('is-invalid');
+            }else{
+                $('#issue_or_return').removeClass('is-invalid');
+                $('#issue_or_return').addClass('is-valid');
+            }
             
             if($ticketNo == ''){
                 $status = false;
-                $formValidMsg += 'Please enter ticket number';
+                $formValidMsg += ', ticket number';
                 $('#ticketNo').removeClass('is-valid');
                 $('#ticketNo').addClass('is-invalid');
             }else{
@@ -221,8 +246,12 @@
                     $hw_id = $('#hw_id').val();
                     $hw_sl_id = $('#hw_sl_id').val();
                     $issueNote = $('#issueNote').val();
+
+                    $hw_text = $('#hw_id option:selected').text();
+                    $hw_sl_text = $('#hw_sl_id option:selected').text();
                     
                     $query = {
+                        issue_or_return: $issue_or_return,
                         ticketNo: $ticketNo,
                         hw_id: $hw_id,
                         hw_sl_id: $hw_sl_id,
@@ -242,11 +271,12 @@
                                 if(parseInt(data.issue_return_id) > 0){
                                     //Creat the row
                                     var row = $('<tr>')
-                                        .append('<td>'+data.issue_return_id+'</td>')
+                                        .append('<td>1</td>')
                                         .append('<td>'+$ticketNo+'</td>')
-                                        .append('<td>'+$hw_id+'</td>')
-                                        .append('<td>'+$hw_sl_id+'</td>')
+                                        .append('<td>'+$hw_text+'</td>')
+                                        .append('<td>'+$hw_sl_text+'</td>')
                                         .append('<td>'+$issueNote+'</td>')
+                                        .append('<td>'+$issue_or_return_text+'</td>')
                                         .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'+data.issue_return_id+'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'+data.issue_return_id+'"></i></a></td>')
 
                                     //Prepend row with Table
@@ -286,8 +316,10 @@
                     console.log(JSON.stringify(data));
                     //console.log('status: ' + data.status);
                     if(data.status == true ){
+                        $ticket_found = true;
                         getDeviceSerialonHIS(data.result.hw_id);
                         setTimeout(function(){
+                            $('#issue_or_return').val(data.result.issue_or_return);
                             $('#ticketNo').val(data.result.ticket_no);
                             $('#hw_id').val(data.result.hw_id);
                             $('#hw_sl_id').val(data.result.hw_sl_id);
@@ -360,6 +392,18 @@
                     }
                 }  
             });//end ajak
+        })
+
+        $('#issue_or_return').on('change', function(){
+            $issue_or_return = $('#issue_or_return').val();
+            $issue_or_return_text = $('#issue_or_return option:selected').text();
+            if($issue_or_return == '1'){
+                $('#issueNote').val('New Hardware issued');
+            }else if($issue_or_return == '2'){
+                $('#issueNote').val('New Hardware returned');
+            }else{
+                $('#issueNote').val('');                
+            }
         })
 
     </script>
