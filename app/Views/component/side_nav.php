@@ -40,6 +40,7 @@
                             <a href="<?= base_URL('admin/employee')?>" class="dropdown-item">Employee</a>
                             <a href="<?= base_URL('admin/hardware-name')?>" class="dropdown-item">Hardware Name</a>
                             <a href="<?= base_URL('admin/hardwarestockentry')?>" class="dropdown-item">H/W Stock Entry</a>
+                            <a href="<?= base_URL('admin/severity')?>" class="dropdown-item">Severity</a>
                         </div>
                         <?php } ?>
                         <!-- <div class="dropdown-menu bg-transparent border-0">

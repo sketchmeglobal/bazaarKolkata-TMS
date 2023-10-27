@@ -70,6 +70,12 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'removeTableDataHWS', 'Master\HardwareStockEntryC::removeTableDataHWS');
     $routes->match(['get', 'post'], 'getTableDataHWS', 'Master\HardwareStockEntryC::getTableDataHWS');
 
+    //severity
+    $routes->match(['get', 'post'], 'severity', 'Master\SeverityC::index');
+    $routes->match(['get', 'post'], 'formValidationSE', 'Master\SeverityC::formValidationSE');
+    $routes->match(['get', 'post'], 'removeTableDataSE', 'Master\SeverityC::removeTableDataSE');
+    $routes->match(['get', 'post'], 'getTableDataSE', 'Master\SeverityC::getTableDataSE');
+
     //Tickets
     $routes->match(['get', 'post'], 'new-ticket', 'NewticketC::index');
     $routes->match(['get', 'post'], 'formValidationTIC', 'NewticketC::formValidationTIC');
