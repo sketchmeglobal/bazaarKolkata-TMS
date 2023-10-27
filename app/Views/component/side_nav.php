@@ -41,6 +41,7 @@
                             <a href="<?= base_URL('admin/hardware-name')?>" class="dropdown-item">Hardware Name</a>
                             <a href="<?= base_URL('admin/hardwarestockentry')?>" class="dropdown-item">H/W Stock Entry</a>
                             <a href="<?= base_URL('admin/severity')?>" class="dropdown-item">Severity</a>
+                            <a href="<?= base_URL('admin/holiday')?>" class="dropdown-item">Holiday</a>
                         </div>
                         <?php } ?>
                         <!-- <div class="dropdown-menu bg-transparent border-0">

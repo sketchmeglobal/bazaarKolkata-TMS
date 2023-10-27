@@ -76,6 +76,12 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'removeTableDataSE', 'Master\SeverityC::removeTableDataSE');
     $routes->match(['get', 'post'], 'getTableDataSE', 'Master\SeverityC::getTableDataSE');
 
+    //Holiday List
+    $routes->match(['get', 'post'], 'holiday', 'Master\HolidayC::index');
+    $routes->match(['get', 'post'], 'formValidationHL', 'Master\HolidayC::formValidationHL');
+    $routes->match(['get', 'post'], 'removeTableDataHL', 'Master\HolidayC::removeTableDataHL');
+    $routes->match(['get', 'post'], 'getTableDataHL', 'Master\HolidayC::getTableDataHL');
+
     //Tickets
     $routes->match(['get', 'post'], 'new-ticket', 'NewticketC::index');
     $routes->match(['get', 'post'], 'formValidationTIC', 'NewticketC::formValidationTIC');
