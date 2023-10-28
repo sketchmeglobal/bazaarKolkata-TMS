@@ -51,9 +51,8 @@
                                 <h5 class="text-primary">Mouse problem</h5>
                                 <p>Mouse not working</p>
                                 <p class="">
-                                            <a href="#"><i class="fa fa-file-image-o"></i>
-                                                file_example_PNG_500kB.png</a>
-                                        </p>
+                                    <a href="#"><i class="fa fa-file-image-o"></i> file_example_PNG_500kB.png</a>
+                                </p>
                             </div>
 
                         </div>

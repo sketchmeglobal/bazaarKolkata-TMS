@@ -206,6 +206,7 @@ class ViewticketC extends BaseController
 
          $old_ticket_status_id = service('request')->getPost('old_ticket_status_id');
          $old_ticket_status_text = service('request')->getPost('old_ticket_status_text');
+         $max_allowed_time = service('request')->getPost('max_allowed_time');
 
          $accepted_by = $session->emp_id;
          $accepted_by_name = $session->emp_name;
@@ -217,18 +218,20 @@ class ViewticketC extends BaseController
             'old_ticket_status_id' => $old_ticket_status_id,
             'old_ticket_status_text' => $old_ticket_status_text,
             'accepted_by' => $accepted_by,
-            'accepted_by_name' => $accepted_by_name
+            'accepted_by_name' => $accepted_by_name,
+            'max_allowed_time' => $max_allowed_time
          ];
          $result = $officeM->acceptTicket($post_data);
          $message = $result['message'];
          $status = $result['status'];
          $last_updated = $result['last_updated'];
-         
+         $deadline = $result['deadline'];         
       }
 
       $return_data['status'] = $status;
       $return_data['message'] = $message;
       $return_data['last_updated'] = $last_updated;
+      $return_data['deadline'] = $deadline;
       echo json_encode($return_data);
    }//end 
 

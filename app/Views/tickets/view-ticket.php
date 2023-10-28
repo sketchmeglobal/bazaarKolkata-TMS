@@ -160,78 +160,7 @@ $session = session();
                                 }
                             }
                             ?>
-                            <!-- <li class="position-relative list-style-none">
-                                <div class="ticket" data-toggle="tooltip" data-placement="top"
-                                    title="Admin Demo @admin.demo">
-                                    <span class="">AD</span>
-                                </div>
-                                <div class="margin-l">
-                                    <div class="bg-dark d-flex hd-style py-3 border-top-all-rd">
-                                        <p class="m-0 ms-3 me-3"><a href="#" class="text-light">@admin.demo</a></p>
-                                        <span>2 months ago</span>
-                                    </div>
-                                    <div class="comment-content py-3 border-bottom-all-rd">
-                                        <p class="ms-3">All good. Have changed the mouse.</p>
-                                        <p class="ms-3 mb-0">
-                                            <a href="#"><i class="fa fa-file-image-o"></i>
-                                                file_example_PNG_500kB.png</a>
-                                        </p>
-                                    </div>
-                                </div>
-
-                            </li>
-                            <li class="position-relative list-style-none mt-3">
-                                <div class="edit-text"><i class="activity-icon fa fa-edit"></i></div>
-                                <div class="margin-l">
-                                    <a href="#">@user.demo</a><span>Changed status to</span><span
-                                        class="bg-red mx-1 px-1">Closed</span><span> 2 months ago</span>
-                                </div>
-                            </li>
-                            <li class="position-relative list-style-none mt-3">
-                                <div class="edit-text"><i class="activity-icon fa fa-edit"></i></div>
-                                <div class="margin-l">
-                                    <a href="#">@user.demo</a><span>Changed status to</span><span
-                                        class="bg-green mx-1 px-1">open</span><span> 2 months ago</span>
-                                </div>
-                            </li>
-                            <li class="position-relative list-style-none mt-3">
-                                <div class="ticket" data-toggle="tooltip" data-placement="top"
-                                    title="User Demo @user.demo">
-                                    <span class="">UD</span>
-                                </div>
-                                <div class="margin-l">
-                                    <div class="bg-dark d-flex hd-style py-3 border-top-all-rd">
-                                        <p class="m-0 ms-3 me-3"><a href="#" class="text-light">@user.demo</a></p>
-                                        <span>2 months ago</span>
-                                    </div>
-                                    <div class="comment-content py-3 border-bottom-all-rd">
-                                        <p class="ms-3 mb-0">Still not working</p>
-
-                                    </div>
-                                </div>
-
-                            </li>
-                            <li class="position-relative list-style-none mt-3">
-                                <div class="edit-text"><i class="activity-icon fa fa-user-plus"></i></div>
-                                <div class="margin-l">
-                                    <a href="#">@admin.demo</a><span> Changed assignee to </span><span
-                                        class="bg-red mx-1 px-1">AD</span><span> 2 months ago</span>
-                                </div>
-                            </li>
-                            <li class="position-relative list-style-none mt-3">
-                                <div class="edit-text"><i class="activity-icon fa fa-edit"></i></div>
-                                <div class="margin-l">
-                                    <a href="#">@user.demo</a><span>Changed status to</span><span
-                                        class="bg-red mx-1 px-1">Closed</span><span> 2 months ago</span>
-                                </div>
-                            </li>
-                            <li class="position-relative list-style-none mt-3">
-                                <div class="edit-text"><i class="activity-icon fa fa-edit"></i></div>
-                                <div class="margin-l">
-                                    <a href="#">@user.demo</a><span>Changed status to</span><span
-                                        class="bg-red mx-1 px-1">Closed</span><span> 2 months ago</span>
-                                </div>
-                            </li> -->
+                            
 
                         </ul>
                         <div class="mt-5">
@@ -312,11 +241,14 @@ $session = session();
                                     <div class="d-flex align-items-center py-2">
                                         <p class="mx-3 mb-0">Last Updated: </p><span id="accepted_on"><?php echo date('d-M-Y h:i A', strtotime($last_updated)); ?> </span>
                                     </div>
-                                    <?php if($accepted_by > 0 && $rows->ticket_status < 4){?>
+                                    <?php if($accepted_by > 0 ){?><?php } ?>
                                     <div class="d-flex align-items-center py-2">
+                                        <input type="hidden" name="accepted_by" id="accepted_by" value="<?=$accepted_by?>">
+                                        <input type="hidden" name="deadline" id="deadline" value="<?=$deadline?>">
+                                        <input type="hidden" name="max_allowed_time" id="max_allowed_time" value="<?=$max_allowed_time?>">
                                         <p class="mx-3 mb-0">Time Remaining: </p><span id="countdown"><?=$max_allowed_time?> hrs.</span>
                                     </div>
-                                    <?php } ?>
+                                    
 
                                     <div class="d-flex justify-content-between align-items-center py-2">
                                         <p class="mx-3 mb-0">Change Ticket Status </p>
@@ -472,6 +404,7 @@ $session = session();
         // Select the button you want to disable.  
         $ticket_id = $(this).data('ticket_id');
         $ticket_status_id = $('#ticket_status_id').val();
+        $max_allowed_time = $('#max_allowed_time').val();
         $ticket_status_text = $('#ticket_status_id option:selected').text();
 
         $old_ticket_status_id = $('#old_ticket_status_id').val();
@@ -481,7 +414,7 @@ $session = session();
             url: '<?php echo base_url('admin/acceptTicket'); ?>',
             type: 'post',
             dataType:'json',
-            data:{ticket_id: $ticket_id, ticket_status_id: $ticket_status_id, ticket_status_text: $ticket_status_text, old_ticket_status_id: $old_ticket_status_id, old_ticket_status_text: $old_ticket_status_text},
+            data:{ticket_id: $ticket_id, ticket_status_id: $ticket_status_id, ticket_status_text: $ticket_status_text, old_ticket_status_id: $old_ticket_status_id, old_ticket_status_text: $old_ticket_status_text, max_allowed_time: $max_allowed_time},
             success:function(data){
                 console.log(JSON.stringify(data));
                 console.log('status: ' + data.status);
@@ -493,6 +426,10 @@ $session = session();
 
                     $('#old_ticket_status_id').val($ticket_status_id);
                     $('#old_ticket_status_text').val($ticket_status_text);
+
+                    if(data.deadline != ''){
+                        onCountdown(data.deadline);
+                    }
                 }else{
                     $('#ticket_status_1').html($ticket_status_text);
                     $('#ticket_status_2').html($ticket_status_text);
@@ -506,42 +443,53 @@ $session = session();
     })
 
     //countdown timer
-    var countDownDate = new Date("<?=$deadline?>");
-
-    // Get the current date and time.
-    var currentDate = new Date();
-
-    // Calculate the difference between the two dates.
-    if(countDownDate > currentDate){
-        var timeRemaining = countDownDate - currentDate;
-
-        // Convert the time to days, hours, minutes, and seconds.
-        var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
-        // Display the countdown timer.
-        document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
-
-        // Update the countdown timer every second.
-        setInterval(function() {
+    function onCountdown(countDownDate){
+        var countDownDate = new Date(countDownDate);
+        console.log('countDownDate: ' + countDownDate)
         // Get the current date and time.
         var currentDate = new Date();
-
+        console.log('currentDate: ' + currentDate)
         // Calculate the difference between the two dates.
-        var timeRemaining = countDownDate - currentDate;
+        if(countDownDate > currentDate){
+            var timeRemaining = countDownDate - currentDate;
 
-        // Convert the time to days, hours, minutes, and seconds.
-        var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+            // Convert the time to days, hours, minutes, and seconds.
+            var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
 
-        // Display the countdown timer.
-        document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
-        }, 1000);
-    }
+            // Display the countdown timer.
+            document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+
+            // Update the countdown timer every second.
+            setInterval(function() {
+                console.log('counter...');
+                // Get the current date and time.
+                var currentDate = new Date();
+
+                // Calculate the difference between the two dates.
+                var timeRemaining = countDownDate - currentDate;
+
+                // Convert the time to days, hours, minutes, and seconds.
+                var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                // Display the countdown timer.
+                document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+            }, 1000);
+        }
+    }//end
+
+    $( document ).ready(function() {
+        $accepted_by = $('#accepted_by').val();
+        $deadline = $('#deadline').val();
+        if($accepted_by > 0){
+            onCountdown($deadline);
+        }
+    });
     </script>
 
     <script>

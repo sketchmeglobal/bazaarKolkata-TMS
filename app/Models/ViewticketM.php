@@ -216,8 +216,13 @@ class ViewticketM extends Model
     }//end function  
 
     public function acceptTicket($post_data){
+      //setting the timezone
+      $tz = 'Asia/Kolkata';   
+      date_default_timezone_set($tz);
+            
       $status = true;
       $message = '';
+      $deadline = '';
       $return_data = array();
 
       $ticket_id = $post_data['ticket_id'];
@@ -227,6 +232,7 @@ class ViewticketM extends Model
 
       $old_ticket_status_id = $post_data['old_ticket_status_id'];
       $old_ticket_status_text = $post_data['old_ticket_status_text'];
+      $max_allowed_time = $post_data['max_allowed_time'];
 
       $accepted_by = $post_data['accepted_by'];
       $accepted_by_name = $post_data['accepted_by_name'];
@@ -263,6 +269,7 @@ class ViewticketM extends Model
           'accepted_at' => $accepted_at,
           'status_history' => json_encode($status_history)
         ];
+        $deadline = date('Y-m-d H:i:s', strtotime($accepted_at. ' + '.$max_allowed_time.' hours'));
       }else{
         $update_array = [
           'status_history' => json_encode($status_history)
@@ -280,6 +287,7 @@ class ViewticketM extends Model
       $return_data['status'] = $status;
       $return_data['message'] = $message;
       $return_data['accepted_at'] = $accepted_at;
+      $return_data['deadline'] = $deadline;
       $return_data['last_updated'] = date('d-M-Y h:i A');
       return $return_data;
     }//end function 

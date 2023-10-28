@@ -134,31 +134,6 @@
                                     <?php endforeach ?>
                                 <?php endif ?>
 
-                                <!-- <tr>
-                                    <td>TIK-SMG-000113 </td>
-                                    <td>Mouse problem</td>
-                                    <td><span class="bg-red mx-1 px-1">High</span></td>
-                                    <td>Not Assigned </td>
-                                    <td><span class="bg-red mx-1 px-1">Closed</span></td>
-                                    <td>Network</td>
-                                    <td><span>
-                                            <div data-toggle="tooltip" data-placement="top"
-                                                title="User Demo @user.demo">
-                                                <span class="card-ud" style="padding:4px !important">UD</span>@user.demo
-                                    </td>
-                                    <td><span>
-                                            <div data-toggle="tooltip" data-placement="top"
-                                                title="Admin Demo @admin.demo">
-                                                <span class="card-ud"
-                                                    style="padding:4px !important">AD</span>@agent.demo</td>
-                                    <td>2 months ago</td>
-                                    <td class="d-flex">
-                                        <div><a href="<?php //base_url('tickets-view/view1')  ?>"><i
-                                                    class="fa fa-eye"></i></a></div>
-                                        <div><a href="#"><i class="fa fa-repeat"></i></a></div>
-                                    </td>
-                                </tr> -->
-
                             </tbody>
                         </table>
                     </div>
