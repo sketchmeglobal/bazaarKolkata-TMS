@@ -269,7 +269,20 @@ class ViewticketM extends Model
           'accepted_at' => $accepted_at,
           'status_history' => json_encode($status_history)
         ];
+
+        $temp_deadline = date('Y-m-d H:i:s', strtotime($accepted_at. ' + '.$max_allowed_time.' hours'));
+        $temp_deadline = date('Y-m-d H:i:s', strtotime($temp_deadline. ' - '.'24 hours'));
+        $holiday_list = $this->db->table('holiday_list')->select('*')->where(['row_status' => 1])->get()->getResult();
+        $holidayCount = 0;
+        for($x = 0; $x < sizeof($holiday_list); $x++){
+            if($holiday_list[$x]->hl_date > $accepted_at && $holiday_list[$x]->hl_date <= $temp_deadline){
+                $holidayCount++;
+            }//end if
+        }//end for
+        $max_allowed_time = $max_allowed_time + ($holidayCount * 24);
+
         $deadline = date('Y-m-d H:i:s', strtotime($accepted_at. ' + '.$max_allowed_time.' hours'));
+
       }else{
         $update_array = [
           'status_history' => json_encode($status_history)
@@ -298,12 +311,12 @@ class ViewticketM extends Model
       return $tic_stat_rows;
     }//end function
 
-    /*public function getAllWareHouse(){
-      $wh_rows = $this->db->table('ware_house')->select('*')->where(['row_status' => 1])->get()->getResult();
-      return $wh_rows;
+    public function getHolidayList(){
+      $holiday_list = $this->db->table('holiday_list')->select('*')->where(['row_status' => 1])->get()->getResult();
+      return $holiday_list;
     }//end function
 
-    public function getAllOutlet(){
+    /*public function getAllOutlet(){
       $ol_rows = $this->db->table('oultlet')->select('*')->where(['row_status' => 1])->get()->getResult();
       return $ol_rows;
     }//end function

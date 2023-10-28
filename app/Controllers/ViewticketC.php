@@ -15,7 +15,8 @@ class ViewticketC extends BaseController
       }else{
           $head_officeM = new ViewticketM();                
          $data['rows'] = $head_officeM->getTicketDetails($ticket_id);               
-         $data['tic_stat_rows'] = $head_officeM->getTicketStatus();
+         $data['tic_stat_rows'] = $head_officeM->getTicketStatus();             
+         $data['holiday_list'] = $head_officeM->getHolidayList();
          return view('tickets/view-ticket', $data);
       }
    }   

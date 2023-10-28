@@ -91,8 +91,19 @@ $session = session();
                             $accepted_at = $rows->accepted_at;
                             $last_updated = $rows->last_updated;
                             $max_allowed_time = $rows->max_allowed_time;
+
+                            $temp_deadline = date('Y-m-d H:i:s', strtotime($accepted_at. ' + '.$max_allowed_time.' hours'));
+                            $temp_deadline = date('Y-m-d H:i:s', strtotime($temp_deadline. ' - '.'24 hours'));
+                            //echo 'temp_deadline: ' . $temp_deadline;
+                            $holidayCount = 0;
+                            for($x = 0; $x < sizeof($holiday_list); $x++){
+                                if($holiday_list[$x]->hl_date > $accepted_at && $holiday_list[$x]->hl_date <= $temp_deadline){
+                                    $holidayCount++;
+                                }//end if
+                            }//end for
+                            $max_allowed_time = $max_allowed_time + ($holidayCount * 24);
                             $deadline = date('Y-m-d H:i:s', strtotime($accepted_at. ' + '.$max_allowed_time.' hours'));
-                            //echo 'deadline'. $deadline;
+                            //echo 'deadline: ' . $deadline;
                             
                             $short_accepted_by_name = '';
                             if($accepted_by_name != ''){
