@@ -85,7 +85,7 @@
             <!-- Modal start -->
             <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="text-primary modal-title" id="exampleModalLongTitle">Outlet</h5>
@@ -94,24 +94,22 @@
                         </div>
                         <div class="modal-body">
                             <form class="needs-validation" id="s_myFormName" method="post">
-                                <div class="form-row">
+                                <div class="form-row row">
                                     <?php
                                     if (!empty(session()->getFlashdata('success'))) { ?>
                                     <div class="alert alert-success">
                                         <?php echo session()->getFlashdata('success'); ?>
                                     </div>
                                     <?php } ?>
-                                    <div class="col-md-11 col-12 mb-2">
+                                    <div class="col-md-4 mb-1">
                                         <label for="ol_name">Outlet Name</label>
                                         <input type="text" class="form-control" name="ol_name" id="ol_name" required
                                             value="<?= isset($name) ? $name : '' ?>">
                                         <span class="error" id="ol_nameError">
                                             <?=(isset($validation['name']) ? $validation['name'] : '' ); ?>
                                         </span>
-
-
                                     </div>
-                                    <div class="col-md-11 col-12 mb-2">
+                                    <div class="col-md-4 mb-1">
                                         <label for="ol_location">Outlet Location</label>
                                         <input minlength="5" type="text" class="form-control" name="ol_location"
                                             id="ol_location" required
@@ -119,9 +117,9 @@
                                         <span class="error" id="ol_locationError"><?= (isset($validation['address']) ? $validation['address'] : ''); ?></span>
                                     </div>
 
-                                    <div class="col-md-4 ">
+                                    <div class="col-md-4 mb-1">
                                         <label for="s_parentDesignation">&nbsp;</label>
-                                        <input class="btn btn-primary py-2 w-100 mb-1" type="button" value="Save" name="submit" id="s_submitForm">
+                                        <input class="btn btn-primary py-2 w-50 mt-4" type="button" value="Save" name="submit" id="s_submitForm">
                                     </div>
                                 </div>
                                 <input type="hidden" id="table_id" name="table_id" value="0">

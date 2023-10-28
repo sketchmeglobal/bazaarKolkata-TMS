@@ -114,7 +114,7 @@
             <!-- Modal start -->
             <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="text-primary modal-title" id="exampleModalLongTitle">Designation</h5>
@@ -123,30 +123,28 @@
                         </div>
                         <div class="modal-body">
                             <form class="needs-validation" id="s_myFormName" method="post">
-                                <div class="form-row">
+                                <div class="form-row row">
                                     <?php
                                     if (!empty(session()->getFlashdata('success'))) { ?>
                                     <div class="alert alert-success">
                                         <?php echo session()->getFlashdata('success'); ?>
                                     </div>
                                     <?php } ?>
-                                    <div class="col-md-11 col-12 mb-2">
+                                    <div class="col-md-4 mb-1">
                                         <label for="desig_name">Designation Name</label>
                                         <input type="text" class="form-control" name="desig_name" id="desig_name" required value="">
                                         <span class="error" id="desig_nameError"> </span>
-
-
                                     </div>
-                                    <div class="col-md-11 col-12 mb-2">
+                                    <div class="col-md-4 mb-1">
                                         <label for="desig_priority">Designation Priority</label>
                                         <input minlength="1" type="number" class="form-control" name="desig_priority"
                                             id="desig_priority" required value="">
                                         <span class="error" id="desig_priorityError"> </span>
                                     </div>
 
-                                    <div class="col-md-4 ">
+                                    <div class="col-md-4 mb-1">
                                         <label for="s_parentDesignation">&nbsp;</label>
-                                        <input class="btn btn-primary py-2 w-100 mb-1" type="button" value="Save" name="submit" id="s_submitForm">
+                                        <input class="btn btn-primary py-2 w-50 mt-4" type="button" value="Save" name="submit" id="s_submitForm">
                                     </div>
                                 </div>
                                 <input type="hidden" id="table_id" name="table_id" value="0">

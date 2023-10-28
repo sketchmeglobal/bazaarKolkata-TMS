@@ -85,40 +85,38 @@
             <!-- Modal start -->
             <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="text-primary modal-title" id="exampleModalLongTitle">Department</h5>
+                            <h5 class="text-primary modal-title" id="exampleModalLongTitle">Hardware Name</h5>
 
                             <button type="button" class=" btn btn-lg btn-primary btn-lg-square back-to-topclose" data-dismiss="modal" aria-label="Close" id="closeModal1"><span aria-hidden="true">&times;</span></button>
                         </div>
                         <div class="modal-body">
                             <form class="needs-validation" id="s_myFormName" method="post">
-                                <div class="form-row">
+                                <div class="form-row row">
                                     <?php
                                     if (!empty(session()->getFlashdata('success'))) { ?>
                                     <div class="alert alert-success">
                                         <?php echo session()->getFlashdata('success'); ?>
                                     </div>
                                     <?php } ?>
-                                    <div class="col-md-11 col-12 mb-2">
+                                    <div class="col-md-4 mb-1">
                                         <label for="hw_name">Hardware Name</label>
                                         <input type="text" class="form-control" name="hw_name" id="hw_name" required
                                             value="<?= isset($name) ? $name : '' ?>">
                                         <span class="error" id="hw_nameError"> </span>
-
-
                                     </div>
-                                    <div class="col-md-11 col-12 mb-2">
+                                    <div class="col-md-4 mb-1">
                                         <label for="hw_code">Hardware Code</label>
                                         <input minlength="5" type="text" class="form-control" name="hw_code" id="hw_code" required
                                             value="">
                                         <span class="error" id="hw_codeError"> </span>
                                     </div>
 
-                                    <div class="col-md-4 ">
+                                    <div class="col-md-4 mb-1">
                                         <label for="s_parentDesignation">&nbsp;</label>
-                                        <input class="btn btn-primary py-2 w-100 mb-1" type="button" value="Save" name="submit" id="s_submitForm">
+                                        <input class="btn btn-primary py-2 w-50 mt-4" type="button" value="Save" name="submit" id="s_submitForm">
                                     </div>
                                 </div>
                                 <input type="hidden" id="table_id" name="table_id" value="0">

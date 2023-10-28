@@ -117,7 +117,7 @@
             <!-- Modal start -->
             <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="text-primary modal-title" id="exampleModalLongTitle">Employee</h5>
@@ -126,44 +126,44 @@
                         </div>
                         <div class="modal-body">
                             <form class="needs-validation" id="s_myFormName" method="post">
-                                <div class="form-row">
+                                <div class="form-row row">
                                     <?php
                                     if (!empty(session()->getFlashdata('success'))) { ?>
                                     <div class="alert alert-success">
                                         <?php echo session()->getFlashdata('success'); ?>
                                     </div>
                                     <?php } ?>
-                                    <div class="col-md-6 col-6 mb-2">
+                                    <div class="col-md-4 mb-1">
                                         <label for="emp_name">Employee Name</label>
                                         <input type="text" class="form-control" name="emp_name" id="emp_name" required value="">
                                         <span class="error" id="emp_nameError"> </span>
                                     </div>
-                                    <div class="col-md-6 col-6 mb-2">
+                                    <div class="col-md-4 mb-1">
                                         <label for="primary_phone">Primary Phone</label>
                                         <input type="number" class="form-control" name="primary_phone"
                                             id="primary_phone" required value="">
                                         <span class="error" id="primary_phoneError"> </span>
                                     </div>
-                                    <div class="col-md-6 col-6 mb-2">
+                                    <div class="col-md-4 mb-1">
                                         <label for="secondary_phone">Secondary Phone</label>
                                         <input type="number" class="form-control" name="secondary_phone"
                                             id="secondary_phone" required value="">
                                         <span class="error" id="secondary_phoneError"> </span>
                                     </div>
-                                    <div class="col-md-6 col-6 mb-2">
+                                    <div class="col-md-4 mb-1">
                                         <label for="email_id">Email ID</label>
                                         <input type="email" class="form-control" name="email_id" id="email_id" required value="">
                                         <span class="error" id="email_idError"> </span>
                                     </div>
                                     
-                                    <div class="col-md-6 col-6 mb-2">
+                                    <div class="col-md-4 mb-1">
                                         <label for="dg_id">Designation Name</label>
                                         <select class="form-control" id="dg_id" name="dg_id">
                                             <option value="0">Select</option>
                                         </select>
                                     </div>
                                     
-                                    <div class="col-md-6 col-6 mb-2">
+                                    <div class="col-md-4 mb-1">
                                         <label for="user_level">User Level</label>
                                         <select class="form-control" id="user_level" name="user_level">
                                             <option value="0">Select</option>
@@ -175,10 +175,10 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-md-6 ">
+                                    <div class="col-md-4 mb-1">
                                         <span class="error" id="formError">  </span>
                                         <label for="s_parentDesignation">&nbsp;</label>
-                                        <input class="btn btn-primary py-2 w-100 mb-1" type="button" value="Save" name="submit" id="s_submitForm">
+                                        <input class="btn btn-primary py-2 w-50 mt-4" type="button" value="Save" name="submit" id="s_submitForm">
                                     </div>
                                 </div>
                                 <input type="hidden" id="table_id" name="table_id" value="0">
