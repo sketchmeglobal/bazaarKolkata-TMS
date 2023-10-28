@@ -92,3 +92,9 @@ define('EVENT_PRIORITY_NORMAL', 100);
  * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_HIGH instead.
  */
 define('EVENT_PRIORITY_HIGH', 10);
+
+// Custom area
+define('COMPANY_SHORT_NAME', 'BAAZAR KOLKATA');
+define('FINANCIAL_YEAR', '2023-24');
+define('START_YEAR', '2023');
+define('END_YEAR', '2024');

@@ -27,14 +27,21 @@
             <!-- Navbar End -->
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-lg-5 col-md-6 col-10 bg-light py-2 text-center border-bottom-all-rd">
-                        <h5 class="text-primary">All Tickets</h5>
+                <div class="container-fluid">
+                      <nav aria-label="breadcrumb" class="row bg-breadcrumb">
+                        <ol class="breadcrumb my-0 ms-2">
+                          <li class="breadcrumb-item">
+                            <span>Home</span>
+                          </li>
+                          <li class="breadcrumb-item active"><span>All Tickets</span></li>
+                        </ol>
+                      </nav>
                     </div>
                 </div>
             </div>
             <div class="container">
-                <div class="row">
-                    <div class="col-md-12 my-5 px-4">
+                <div class="row bg-light">
+                    <div class="col-md-12 my-2 px-4">
                         <div class="row">
                             <div class=" col-md-3 form-group">
                                 <label class="control-label alpaca-control-label" for="alpaca3">Assigned To</label>

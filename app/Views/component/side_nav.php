@@ -5,12 +5,14 @@
     $emp_name = $session->emp_name;
     $user_level_name = $session->user_level_name;
 ?>
-<div class="sidebar pe-4 pb-3">
-            <nav class="navbar bg-light navbar-light">
-                <a href="<?= base_url('admin/dashboard') ?>" class="navbar-brand mx-4 mb-3">
-                    <!-- <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3> -->
-                    <h5 class="text-primary">SMG HELPDESK</h5>
-                </a>
+        <div class="sidebar pb-3">
+            <nav class="navbar">
+                <div class="bg-primary text-center w-100 mb-3">
+                    <a href="<?= base_url('admin/dashboard') ?>" class=""> <!-- navbar-brand -->
+                        <img src="http://sketchmeglobal.com/demo-baazarkolkata-pms/dist/assets/img/logo.png" style="height:50px" class="d-block mx-auto" />
+                        <h5 class="text-light"><?=COMPANY_SHORT_NAME?></h5>
+                    </a>
+                </div>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
                         <img class="rounded-circle" src="<?= base_url('assets/img/user.jpg') ?>" alt="" style="width: 40px; height: 40px;">
@@ -18,8 +20,8 @@
                         </div>
                     </div>
                     <div class="ms-3">
-                        <h6 class="mb-0"><?=$emp_name?></h6>
-                        <span><?=$user_level_name?></span>
+                        <h6 class="mb-0 text-white"><?=$emp_name?></h6>
+                        <span class="text-light"><?=$user_level_name?></span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
@@ -70,15 +72,13 @@
                             <a href="<?= base_url('admin/all-users') ?>" class="dropdown-item">All Users</a>
                         </div>
                     </div> -->
-
-                    <?php
-                        if($session->user_level == '1' || $session->user_level == '3') {
-                        ?>
+                    <?php if($session->user_level == '1' || $session->user_level == '3'){ ?>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Hardware</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="<?= base_url('admin/issue-return-hardware') ?>" class="dropdown-item">Issue / Return</a>
-                            <!-- <a href="<?= base_url('admin/return-hardware') ?>" class="dropdown-item">Return</a> -->
+                            <!-- <a href="<?= base_url('admin/issue-hardware') ?>" class="dropdown-item">Issue</a>
+                            <a href="<?= base_url('admin/return-hardware') ?>" class="dropdown-item">Return</a> -->
                         </div>
                     </div>
                     <?php } ?>

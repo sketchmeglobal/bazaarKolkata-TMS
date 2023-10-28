@@ -1,6 +1,6 @@
 /********** Template CSS **********/
 :root {
-    --primary: #009CFF;
+    --primary: #064197;
     --light: #F3F6F9;
     --dark: #191C24;
 }
@@ -82,8 +82,8 @@
     width: 250px;
     height: 100vh;
     overflow-y: auto;
-    /* background-color: #009CFF; */
-    background: var(--light);
+     background-color: #3c4b64; 
+    /*background: var(--light);*/
     transition: 0.5s;
     z-index: 999;
 }
@@ -131,14 +131,7 @@
 
 
 /*** Navbar ***/
-.sidebar .navbar .navbar-nav .nav-link {
-    padding: 7px 20px;
-    color: var(--dark);
-    font-weight: 500;
-    border-left: 3px solid var(--light);
-    border-radius: 0 30px 30px 0;
-    outline: none;
-}
+.sidebar .navbar .navbar-nav .nav-link {padding: 5px 20px;font-weight: 500;border-left: 3px solid var(--dark);color: var(--light);}
 
 .sidebar .navbar .navbar-nav .nav-link:hover,
 .sidebar .navbar .navbar-nav .nav-link.active {
@@ -148,13 +141,7 @@
 }
 
 .sidebar .navbar .navbar-nav .nav-link i {
-    width: 40px;
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: #FFFFFF;
-    border-radius: 40px;
+    width: 30px;height: 30px;display: inline-flex;align-items: center;justify-content: center;border-radius: 50%;border: 1px solid #9ea3aa;font-size: 10px;
 }
 
 .sidebar .navbar .navbar-nav .nav-link:hover i,
@@ -164,7 +151,7 @@
 
 .sidebar .navbar .dropdown-toggle::after {
     position: absolute;
-    top: 15px;
+    top: 08px;
     right: 15px;
     border: none;
     content: "\f107";
@@ -177,15 +164,16 @@
     transform: rotate(-180deg);
 }
 
-.sidebar .navbar .dropdown-item {
-    padding-left: 25px;
-    border-radius: 0 30px 30px 0;
-}
+.sidebar .navbar .navbar-nav .nav-item.dropdown{margin-bottom:7px;margin-top:7px;}
+
+.sidebar .navbar .dropdown-item { padding-left: 55px;color: #fff; position:relative;transition:1s all }
+.sidebar .navbar .dropdown-item:after{content: '';border-bottom: 1px dashed #737e90;display: block;position: relative;top: 5px;margin-bottom:10px;}
+.sidebar .navbar .dropdown-item:hover,.sidebar .navbar  .dropdown-item:focus{background:transparent;color:#ffefef;padding-left: 60px;transition:0.6s all;}
 
 .content .navbar .navbar-nav .nav-link {
     margin-left: 25px;
     padding: 12px 0;
-    color: var(--dark);
+    color: var(--light);
     outline: none;
 }
 
@@ -205,15 +193,7 @@
     border-radius: 40px;
 }
 
-.content .navbar .dropdown-toggle::after {
-    margin-left: 6px;
-    vertical-align: middle;
-    border: none;
-    content: "\f107";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    transition: .5s;
-}
+.content .navbar .dropdown-toggle::after {margin-left: 6px;vertical-align: middle;border: none;content: "\f107";font-family: "Font Awesome 5 Free";font-weight: 900;transition: .5s;color:#fff;}
 
 .content .navbar .dropdown-toggle[aria-expanded=true]::after {
     transform: rotate(-180deg);
@@ -288,7 +268,7 @@
 /* kkk */
 
 label {
-    color: #009CFF;
+    color: #064197;
 }
 
 .overflow-x-hidden {
@@ -391,6 +371,9 @@ label {
     border-radius: 5px;
 }
 
+.bg-breadcrumb{background:#3c4b64;color:#fff;font-style: italic;margin-bottom:10px;}
+.bg-breadcrumb .breadcrumb-item.active{color:#b2bac1;}
+
 .fa-edit:before {
     content: "\f044";
 }
@@ -405,7 +388,7 @@ label {
     width: 50px;
     height: 50px;
     border-radius: 50px;
-    background-color: #F3F6F9;
+    background-color: #3c4b64;color:#fff;
     position: absolute;
     top: 5px;
     left: -24px;
@@ -440,9 +423,7 @@ label {
     position: relative;
 }
 
-.comment-content {
-    background-color: #F3F6F9;
-}
+.comment-content { background-color: #fff; }
 
 .hd-style:before,
 .hd-style:after {
@@ -500,3 +481,20 @@ label {
         margin-left: 0px !important;
     }
 }
+
+/*BOOTSTRAP OVERWRITE*/
+
+.btn-primary,.btn-primary:active,.btn-primary:focus { background-color: #064197; border-color: #064197;}
+.btn-primary:hover{background-color: #074bae; border-color: #074bae;}
+.text-primary,.btn-link{color: #064197}
+.bg-primary,.bg-primary:active,.bg-primary:focus { background-color: #064197!important; border-color: #064197;}
+.bg-success,.bg-success:active,.bg-success:focus { background-color: #6cbf79!important; border-color: #6cbf79;}
+.bg-bk{background: #3c4b64;color:#fff;}
+
+
+table thead, table thead tr, table thead td{border-left:0;border-right:0;}
+table th,table td{font-size:15px;}
+table th, table td, tr{border:1px solid #000;}
+#myTable_length, #myTable_filter{margin-bottom:13px}
+
+.footer{position: absolute;bottom:0;width: calc(100% - 250px);}

@@ -28,11 +28,14 @@ $session = session();
             <?= view('component/top_nav') ?>
             <!-- Navbar End -->
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-5 col-md-6 col-10 bg-light py-2 text-center border-bottom-all-rd">
-                        <h5 class="text-primary">View Ticket</h5>
-                    </div>
-                </div>
+                <nav aria-label="breadcrumb" class="row bg-breadcrumb">
+                    <ol class="breadcrumb my-0 ms-2">
+                      <li class="breadcrumb-item">
+                        <span>Home</span>
+                      </li>
+                      <li class="breadcrumb-item active"><span>Ticket details</span></li>
+                    </ol>
+                </nav>
             </div>
             <!-- Ticiekte Start -->
             <?php
@@ -41,147 +44,146 @@ $session = session();
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4 justify-content-evenly">
                     <div class="col-lg-8 col-md-12">
-                        <div class="ticked-head mb-3 overflow-hidden d-flex">
-                            <div>
-                                <div class=""><span class="text-bg-red px-2 text-light" id="ticket_status_1"><?=$rows->ticket_status_name?></span></div>
-                                <div class="mt-2"><i class="fa fa-ticket"></i><span> <?php //echo $rows->ticket_number;?></span></div>
-                            </div>
-                            <div class="ms-3 pt-2">
-                                <h5 class="text-primary"><?=$rows->ticket_subject?></h5>
-                                <p><?=$rows->ticket_description?></p>
+                        <div class="ticked-head mb-3 overflow-hidden border border-dark p-3">
+                        <div class="text-end"><span class="text-bg-red px-2 text-light" id="ticket_status_1"><?=$rows->ticket_status_name?></span></div>
+                            <div class="ms-3 py-2 bg-bk text-center text-light mb-4">
+                                <h5 class="text-white"><?=$rows->ticket_subject?></h5>
+                                <p class="mb-0 pb-0"><?=$rows->ticket_description?></p>
                                 
                                 <!-- Attached file from here<p class=""> 
                                     <a href="#"><i class="fa fa-file-image-o"></i> file_example_PNG_500kB.png</a> 
                                 </p> -->
                             </div>
-                        </div>
-                        <ul class="comments-list" id="commentList">
+                            <ul class="comments-list" id="commentList">
                             <?php
-                            function time_elapsed_string($datetime, $full = false) {
-                                $now = new DateTime;
-                                $ago = new DateTime($datetime);
-                                $diff = $now->diff($ago);
-                            
-                                $diff->w = floor($diff->d / 7);
-                                $diff->d -= $diff->w * 7;
-                            
-                                $string = array(
-                                    'y' => 'year',
-                                    'm' => 'month',
-                                    'w' => 'week',
-                                    'd' => 'day',
-                                    'h' => 'hour',
-                                    'i' => 'minute',
-                                    's' => 'second',
-                                );
-                                foreach ($string as $k => &$v) {
-                                    if ($diff->$k) {
-                                        $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
-                                    } else {
-                                        unset($string[$k]);
+                                function time_elapsed_string($datetime, $full = false) {
+                                    $now = new DateTime;
+                                    $ago = new DateTime($datetime);
+                                    $diff = $now->diff($ago);
+                                
+                                    $diff->w = floor($diff->d / 7);
+                                    $diff->d -= $diff->w * 7;
+                                
+                                    $string = array(
+                                        'y' => 'year',
+                                        'm' => 'month',
+                                        'w' => 'week',
+                                        'd' => 'day',
+                                        'h' => 'hour',
+                                        'i' => 'minute',
+                                        's' => 'second',
+                                    );
+                                    foreach ($string as $k => &$v) {
+                                        if ($diff->$k) {
+                                            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+                                        } else {
+                                            unset($string[$k]);
+                                        }
+                                    }
+                                
+                                    if (!$full) $string = array_slice($string, 0, 1);
+                                    return $string ? implode(', ', $string) . ' ago' : 'just now';
+                                }
+
+                                $accepted_by = $rows->accepted_by;
+                                $accepted_by_name = $rows->accepted_by_name;
+                                $accepted_at = $rows->accepted_at;
+                                $last_updated = $rows->last_updated;
+                                $max_allowed_time = $rows->max_allowed_time;
+
+                                $temp_deadline = date('Y-m-d H:i:s', strtotime($accepted_at. ' + '.$max_allowed_time.' hours'));
+                                $temp_deadline = date('Y-m-d H:i:s', strtotime($temp_deadline. ' - '.'24 hours'));
+                                //echo 'temp_deadline: ' . $temp_deadline;
+                                $holidayCount = 0;
+                                for($x = 0; $x < sizeof($holiday_list); $x++){
+                                    if($holiday_list[$x]->hl_date > $accepted_at && $holiday_list[$x]->hl_date <= $temp_deadline){
+                                        $holidayCount++;
+                                    }//end if
+                                }//end for
+                                $max_allowed_time = $max_allowed_time + ($holidayCount * 24);
+                                $deadline = date('Y-m-d H:i:s', strtotime($accepted_at. ' + '.$max_allowed_time.' hours'));
+                                //echo 'deadline: ' . $deadline;
+                                
+                                $short_accepted_by_name = '';
+                                if($accepted_by_name != ''){
+                                    $accepted_by_name_exp = explode(" ", $accepted_by_name);
+                                    if(sizeof($accepted_by_name_exp) > 1){
+                                        $short_accepted_by_name = substr($accepted_by_name_exp[0], 0, 1). '' .substr($accepted_by_name_exp[1], 0, 1);
+                                    }else{
+                                        $short_accepted_by_name = substr($accepted_by_name_exp[0], 0, 1);
+                                    }
+                                }//end if
+
+                                $short_created_by_name = '';
+                                $created_by_name = $rows->emp_name;
+                                if($created_by_name != ''){
+                                    $created_by_name_exp = explode(" ", $created_by_name);
+                                    if(sizeof($created_by_name_exp) > 1){
+                                        $short_created_by_name = substr($created_by_name_exp[0], 0, 1). '' .substr($created_by_name_exp[1], 0, 1);
+                                    }else{
+                                        $short_created_by_name = substr($created_by_name_exp[0], 0, 1);
+                                    }
+                                }//end if
+
+                                $comment_description1 = $rows->comment_description;
+                                if($comment_description1 != null){
+                                $comment_description = json_decode($comment_description1);
+                                    if(sizeof($comment_description) > 0){
+                                        for($i = 0; $i < sizeof($comment_description); $i++){
+                                            $obj_id = $comment_description[$i]->obj_id;
+                                            $reply_text = $comment_description[$i]->reply_text;
+                                            $replied_by = $comment_description[$i]->replied_by;
+                                            $emp_name = $comment_description[$i]->emp_name;
+                                            $email = $comment_description[$i]->email;
+                                            $replied_at = $comment_description[$i]->replied_at;
+
+                                            $emp_name_exp = explode(" ", $emp_name);
+                                            if(sizeof($emp_name_exp) > 1){
+                                                $short_name = substr($emp_name_exp[0], 0, 1). '' .substr($emp_name_exp[1], 0, 1);
+                                            }else{
+                                                $short_name = substr($emp_name_exp[0], 0, 1);
+                                            }
+
+                                            ?>
+                                            <li class="position-relative list-style-none mb-3">
+                                                <div class="ticket" data-toggle="tooltip" data-placement="top"
+                                                    title="<?=$emp_name?> <?=$email?>">
+                                                    <span class=""><?=$short_name?></span>
+                                                </div>
+                                                <div class="margin-l">
+                                                    <div class="bg-dark d-flex hd-style py-3 border-top-all-rd">
+                                                        <p class="m-0 ms-3 me-3"><a href="#" class="text-light"><?=$email?></a></p>
+                                                        <span><?=time_elapsed_string($replied_at)?></span>
+                                                    </div>
+                                                    <div class="comment-content py-3 border-bottom-all-rd">
+                                                        <p class="ms-3"><?=$reply_text?></p>
+                                                        <!-- <p class="ms-3 mb-0">
+                                                            <a href="#"><i class="fa fa-file-image-o"></i>
+                                                                file_example_PNG_500kB.png</a>
+                                                        </p> -->
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <?php
+                                        }//end for
                                     }
                                 }
-                            
-                                if (!$full) $string = array_slice($string, 0, 1);
-                                return $string ? implode(', ', $string) . ' ago' : 'just now';
-                            }
+                                ?>
+                                
 
-                            $accepted_by = $rows->accepted_by;
-                            $accepted_by_name = $rows->accepted_by_name;
-                            $accepted_at = $rows->accepted_at;
-                            $last_updated = $rows->last_updated;
-                            $max_allowed_time = $rows->max_allowed_time;
-
-                            $temp_deadline = date('Y-m-d H:i:s', strtotime($accepted_at. ' + '.$max_allowed_time.' hours'));
-                            $temp_deadline = date('Y-m-d H:i:s', strtotime($temp_deadline. ' - '.'24 hours'));
-                            //echo 'temp_deadline: ' . $temp_deadline;
-                            $holidayCount = 0;
-                            for($x = 0; $x < sizeof($holiday_list); $x++){
-                                if($holiday_list[$x]->hl_date > $accepted_at && $holiday_list[$x]->hl_date <= $temp_deadline){
-                                    $holidayCount++;
-                                }//end if
-                            }//end for
-                            $max_allowed_time = $max_allowed_time + ($holidayCount * 24);
-                            $deadline = date('Y-m-d H:i:s', strtotime($accepted_at. ' + '.$max_allowed_time.' hours'));
-                            //echo 'deadline: ' . $deadline;
-                            
-                            $short_accepted_by_name = '';
-                            if($accepted_by_name != ''){
-                                $accepted_by_name_exp = explode(" ", $accepted_by_name);
-                                if(sizeof($accepted_by_name_exp) > 1){
-                                    $short_accepted_by_name = substr($accepted_by_name_exp[0], 0, 1). '' .substr($accepted_by_name_exp[1], 0, 1);
-                                }else{
-                                    $short_accepted_by_name = substr($accepted_by_name_exp[0], 0, 1);
-                                }
-                            }//end if
-
-                            $short_created_by_name = '';
-                            $created_by_name = $rows->emp_name;
-                            if($created_by_name != ''){
-                                $created_by_name_exp = explode(" ", $created_by_name);
-                                if(sizeof($created_by_name_exp) > 1){
-                                    $short_created_by_name = substr($created_by_name_exp[0], 0, 1). '' .substr($created_by_name_exp[1], 0, 1);
-                                }else{
-                                    $short_created_by_name = substr($created_by_name_exp[0], 0, 1);
-                                }
-                            }//end if
-
-                            $comment_description1 = $rows->comment_description;
-                            if($comment_description1 != null){
-                            $comment_description = json_decode($comment_description1);
-                                if(sizeof($comment_description) > 0){
-                                    for($i = 0; $i < sizeof($comment_description); $i++){
-                                        $obj_id = $comment_description[$i]->obj_id;
-                                        $reply_text = $comment_description[$i]->reply_text;
-                                        $replied_by = $comment_description[$i]->replied_by;
-                                        $emp_name = $comment_description[$i]->emp_name;
-                                        $email = $comment_description[$i]->email;
-                                        $replied_at = $comment_description[$i]->replied_at;
-
-                                        $emp_name_exp = explode(" ", $emp_name);
-                                        if(sizeof($emp_name_exp) > 1){
-                                            $short_name = substr($emp_name_exp[0], 0, 1). '' .substr($emp_name_exp[1], 0, 1);
-                                        }else{
-                                            $short_name = substr($emp_name_exp[0], 0, 1);
-                                        }
-
-                                        ?>
-                                        <li class="position-relative list-style-none mb-3">
-                                            <div class="ticket" data-toggle="tooltip" data-placement="top"
-                                                title="<?=$emp_name?> <?=$email?>">
-                                                <span class=""><?=$short_name?></span>
-                                            </div>
-                                            <div class="margin-l">
-                                                <div class="bg-dark d-flex hd-style py-3 border-top-all-rd">
-                                                    <p class="m-0 ms-3 me-3"><a href="#" class="text-light"><?=$email?></a></p>
-                                                    <span><?=time_elapsed_string($replied_at)?></span>
-                                                </div>
-                                                <div class="comment-content py-3 border-bottom-all-rd">
-                                                    <p class="ms-3"><?=$reply_text?></p>
-                                                    <!-- <p class="ms-3 mb-0">
-                                                        <a href="#"><i class="fa fa-file-image-o"></i>
-                                                            file_example_PNG_500kB.png</a>
-                                                    </p> -->
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <?php
-                                    }//end for
-                                }
-                            }
-                            ?>
-                            
-
-                        </ul>
-                        <div class="mt-5">
+                            </ul>
+                        </div>
+                       
+                        <div class="mt-5 border border-dark p-3">
                             <div><h3>Leave a comment</h3></div>
                             <form action="" name="s_myFormName" id="s_myFormName">
                                 <textarea name="reply_text" id="reply_text" class="col-lg-12 col-md-12" ></textarea>
                                 <div class="custom-file mt-4">
                                     <input id="fileInput" type="file" class="custom-file-input">                                    
                                 </div>
-                                <div class="col-md-12 mt-4 float-right">
+                                <hr>
+                                <div class="col-md-12 mt-4 text-center">
                                     <button class="btn btn-primary" type="button" id="s_submitForm" data-ticket_id="<?=$rows->ticket_id?>">Reply <i class="fa fa-reply"></i>
                                     </button>
                                 </div>

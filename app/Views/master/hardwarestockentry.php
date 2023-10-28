@@ -33,8 +33,15 @@
             <!-- Navbar End -->
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-lg-5 col-md-6 col-10 bg-light py-2 text-center border-bottom-all-rd">
-                        <h5 class="text-primary">Hardware Stock Entry</h5>
+                    <div class="container-fluid">
+                      <nav aria-label="breadcrumb" class="row bg-breadcrumb">
+                        <ol class="breadcrumb my-0 ms-2">
+                          <li class="breadcrumb-item">
+                            <span>Home</span>
+                          </li>
+                          <li class="breadcrumb-item active"><span>Hardware Stock Entry</span></li>
+                        </ol>
+                      </nav>
                     </div>
                 </div>
             </div>
@@ -87,7 +94,7 @@
                         </div>
                         <div class="modal-body">
                             <form class="needs-validation" id="s_myFormName" method="post">
-                                <div class="form-row">
+                                <div class="form-row row">
                                     <?php
                                     if (!empty(session()->getFlashdata('success'))) { ?>
                                     <div class="alert alert-success">
