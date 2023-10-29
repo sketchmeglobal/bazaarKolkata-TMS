@@ -24,61 +24,70 @@
                         <span class="text-light"><?=$user_level_name?></span>
                     </div>
                 </div>
+                
+                <?php
+                $session = session();
+                if($session->user_level == '1') {
+                    $router = service('router'); 
+                    $controller  = $router->controllerName();  
+                    $words = explode('\\', $controller);
+                    $showword = trim($words[count($words) - 1], '\\');
+                    //echo 'showword: '. $showword;
+
+                    $dashboard_show_hide = '';
+                    if($showword == 'DashboardC'){
+                        $dashboard_show_hide = 'active';
+                    }
+
+                    $master_show_hide = '';
+                    if($showword == 'HeadofficeC' || $showword == 'WarehouseC' || $showword == 'OutletC' || $showword == 'DepartmentC' || $showword == 'DesignationC' || $showword == 'EmployeeC' || $showword == 'HardwareNameC' || $showword == 'HardwareStockEntryC' || $showword == 'SeverityC' || $showword == 'HolidayC'){
+                        $master_show_hide = 'show active';
+                    }
+
+                    $tickets_show_hide = '';
+                    if($showword == 'NewticketC' || $showword == 'AllticketC'){
+                        $tickets_show_hide = 'show active';
+                    }
+
+                    $hardware_show_hide = '';
+                    if($showword == 'IssuehardwareC'){
+                        $hardware_show_hide = 'show active';
+                    }
+                ?>
+                
                 <div class="navbar-nav w-100">
-                    <a href="<?= base_url('admin/dashboard') ?>" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href="<?= base_url('admin/dashboard') ?>" class="nav-item nav-link <?=$dashboard_show_hide?>"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
 
                     <div class="nav-item dropdown">
-                        <?php
-                        $session = session();
-                        if($session->user_level == '1') {
-                        ?>
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Masters</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="<?= base_URL('admin/head-office')?>" class="dropdown-item">Head Office</a>
-                            <a href="<?= base_URL('admin/warehouse')?>" class="dropdown-item">Warehouse</a>
-                            <a href="<?= base_URL('admin/outlet')?>" class="dropdown-item">Outlet</a>
-                            <a href="<?= base_URL('admin/department')?>" class="dropdown-item">Department</a>
-                            <a href="<?= base_URL('admin/designation')?>" class="dropdown-item">Designation</a>
-                            <a href="<?= base_URL('admin/employee')?>" class="dropdown-item">Employee</a>
-                            <a href="<?= base_URL('admin/hardware-name')?>" class="dropdown-item">Hardware Name</a>
-                            <a href="<?= base_URL('admin/hardwarestockentry')?>" class="dropdown-item">H/W Stock Entry</a>
-                            <a href="<?= base_URL('admin/severity')?>" class="dropdown-item">Severity</a>
-                            <a href="<?= base_URL('admin/holiday')?>" class="dropdown-item">Holiday</a>
+                        <a href="#" class="nav-link dropdown-toggle <?=$master_show_hide?>" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Masters</a>
+                        <div class="dropdown-menu bg-transparent border-0 <?=$master_show_hide?>">
+                            <a href="<?= base_URL('admin/head-office')?>" class="dropdown-item <?=($showword == 'HeadofficeC') ? 'active' : ''?>">Head Office</a>
+                            <a href="<?= base_URL('admin/warehouse')?>" class="dropdown-item <?=($showword == 'WarehouseC') ? 'active' : ''?>">Warehouse</a>
+                            <a href="<?= base_URL('admin/outlet')?>" class="dropdown-item <?=($showword == 'OutletC') ? 'active' : ''?>">Outlet</a>
+                            <a href="<?= base_URL('admin/department')?>" class="dropdown-item <?=($showword == 'DepartmentC') ? 'active' : ''?>">Department</a>
+                            <a href="<?= base_URL('admin/designation')?>" class="dropdown-item <?=($showword == 'DesignationC') ? 'active' : ''?>">Designation</a>
+                            <a href="<?= base_URL('admin/employee')?>" class="dropdown-item <?=($showword == 'EmployeeC') ? 'active' : ''?>">Employee</a>
+                            <a href="<?= base_URL('admin/hardware-name')?>" class="dropdown-item <?=($showword == 'HardwareNameC') ? 'active' : ''?>">Hardware Name</a>
+                            <a href="<?= base_URL('admin/hardwarestockentry')?>" class="dropdown-item <?=($showword == 'HardwareStockEntryC') ? 'active' : ''?>">H/W Stock Entry</a>
+                            <a href="<?= base_URL('admin/severity')?>" class="dropdown-item <?=($showword == 'SeverityC') ? 'active' : ''?>">Severity</a>
+                            <a href="<?= base_URL('admin/holiday')?>" class="dropdown-item <?=($showword == 'HolidayC') ? 'active' : ''?>">Holiday</a>
                         </div>
-                        <?php } ?>
-                        <!-- <div class="dropdown-menu bg-transparent border-0">
-                            <a href="<?= base_URL('admin/site-hierancy')?>" class="dropdown-item">Site Hierarchy</a>
-                            <a href="<?= base_URL('admin/sr-association')?>" class="dropdown-item">SR Association</a>
-                            <a href="<?= base_URL('admin/severity-mapping')?>" class="dropdown-item">Severity Mapping</a>
-                            <a href="<?= base_URL('admin/intranet-massaging')?>" class="dropdown-item">Intranet Massaging</a>
-                        </div> -->
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-list me-2"></i>Tickets</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="<?= base_url('admin/new-ticket')  ?>" class="dropdown-item">New Ticket </a>
-                            <a href="<?= base_url('admin/all-tickets')  ?>" class="dropdown-item">All Tickets</a>
-                            <!-- <a href="<?= base_url('admin/all-tickets')  ?>" class="dropdown-item">Unassigned Tickets</a>
-                            <a href="<?= base_url('admin/all-tickets')  ?>" class="dropdown-item">Assigned Tickets</a>
-                            <a href="<?= base_url('admin/all-tickets')  ?>" class="dropdown-item">Closed Ticket</a>
-                            <a href="<?= base_url('admin/all-tickets')  ?>" class="dropdown-item">My Tickets</a>
-                            <a href="<?= base_url('admin/all-tickets')  ?>" class="dropdown-item">Following</a> -->
-                        </div>
+                        <?php } ?>                    
                     </div>
 
-                    <!-- <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Users</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="<?= base_url('admin/all-users') ?>" class="dropdown-item">All Users</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle <?=$tickets_show_hide?>" data-bs-toggle="dropdown"><i class="fa fa-list me-2"></i>Tickets</a>
+                        <div class="dropdown-menu bg-transparent border-0 <?=$tickets_show_hide?>">
+                            <a href="<?= base_url('admin/new-ticket')  ?>" class="dropdown-item <?=($showword == 'NewticketC') ? 'active' : ''?>">New Ticket </a>
+                            <a href="<?= base_url('admin/all-tickets')  ?>" class="dropdown-item <?=($showword == 'AllticketC') ? 'active' : ''?>">All Tickets</a>
                         </div>
-                    </div> -->
+                    </div>
+                    
                     <?php if($session->user_level == '1' || $session->user_level == '3'){ ?>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Hardware</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="<?= base_url('admin/issue-return-hardware') ?>" class="dropdown-item">Issue / Return</a>
-                            <!-- <a href="<?= base_url('admin/issue-hardware') ?>" class="dropdown-item">Issue</a>
-                            <a href="<?= base_url('admin/return-hardware') ?>" class="dropdown-item">Return</a> -->
+                        <a href="#" class="nav-link dropdown-toggle <?=$hardware_show_hide?>" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Hardware</a>
+                        <div class="dropdown-menu bg-transparent border-0 <?=$hardware_show_hide?>">
+                            <a href="<?= base_url('admin/issue-return-hardware') ?>" class="dropdown-item <?=($showword == 'IssuehardwareC') ? 'active' : ''?>">Issue / Return</a>
                         </div>
                     </div>
                     <?php } ?>

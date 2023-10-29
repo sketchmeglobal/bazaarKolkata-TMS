@@ -248,6 +248,7 @@
                                 //console.log(JSON.stringify(data));
                                 console.log('status: ' + data.status);
                                 if(data.status == true ){
+                                    window.location.href = 'hardwarestockentry';
                                     $('#hw_idError').html('');
                                     $('#serial_noError').html('');
                                     $('#metaData').html('');
