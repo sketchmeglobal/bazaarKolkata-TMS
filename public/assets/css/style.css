@@ -166,8 +166,8 @@
 
 .sidebar .navbar .navbar-nav .nav-item.dropdown{margin-bottom:7px;margin-top:7px;}
 
-.sidebar .navbar .dropdown-item { padding-left: 55px;color: #fff; position:relative;transition:1s all }
-.sidebar .navbar .dropdown-item:after{content: '';border-bottom: 1px dashed #737e90;display: block;position: relative;top: 5px;margin-bottom:10px;}
+.sidebar .navbar .dropdown-item { padding-left: 55px;color: #fff; position:relative;transition:1s all;Margin-bottom:10px }
+.sidebar .navbar .dropdown-item:after{content: '';border-bottom: 1px dashed #737e90;display: block;position: relative;top: 5px;}
 .sidebar .navbar .dropdown-item:hover,.sidebar .navbar  .dropdown-item:focus{background:transparent;color:#ffefef;padding-left: 60px;transition:0.6s all;}
 
 .content .navbar .navbar-nav .nav-link {
