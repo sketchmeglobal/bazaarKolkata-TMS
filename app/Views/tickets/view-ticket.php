@@ -179,9 +179,9 @@ $session = session();
                             <div><h3>Leave a comment</h3></div>
                             <form action="" name="s_myFormName" id="s_myFormName">
                                 <textarea name="reply_text" id="reply_text" class="col-lg-12 col-md-12" ></textarea>
-                                <div class="custom-file mt-4">
+                                <!-- <div class="custom-file mt-4">
                                     <input id="fileInput" type="file" class="custom-file-input">                                    
-                                </div>
+                                </div> -->
                                 <hr>
                                 <div class="col-md-12 mt-4 text-center">
                                     <button class="btn btn-primary" type="button" id="s_submitForm" data-ticket_id="<?=$rows->ticket_id?>">Reply <i class="fa fa-reply"></i>

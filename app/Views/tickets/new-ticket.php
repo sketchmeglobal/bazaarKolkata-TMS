@@ -102,9 +102,9 @@
                                                 <label for="exampleFormControlInput1">Description</label>
                                                 <textarea name="ticket_description" id="ticket_description" style="min-height: 150px;min-width: 550px;"></textarea>
 
-                                                <div class="custom-file mt-4">
+                                                <!-- <div class="custom-file mt-4">
                                                     <input id="fileInput" type="file" class="custom-file-input">
-                                                </div>
+                                                </div> -->
 
                                                 <div class="col-md-12 mt-4 float-right">
                                                     <button class="btn btn-primary" type="button" id="s_submitForm" >Send <i class="fa fa-reply"></i>

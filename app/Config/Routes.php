@@ -94,6 +94,9 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'removeTableDataTC', 'Master\TickecategoryC::removeTableDataTC');
     $routes->match(['get', 'post'], 'getTableDataTC', 'Master\TickecategoryC::getTableDataTC');
 
+    //Category Solution
+    $routes->match(['get', 'post'], 'solutions', 'Master\SolutionsC::index');
+
     //Tickets
     $routes->match(['get', 'post'], 'new-ticket', 'NewticketC::index');
     $routes->match(['get', 'post'], 'formValidationTIC', 'NewticketC::formValidationTIC');
