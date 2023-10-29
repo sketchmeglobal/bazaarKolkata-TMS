@@ -4,69 +4,58 @@ namespace App\Controllers\Master;
 
 use App\Controllers\BaseController;
 use App\Models\AuthM;
-use App\Models\Master\HardwareStockEntryM;
+use App\Models\Master\TickecategoryM;
 
-class HardwareStockEntryC extends BaseController
+class TickecategoryC extends BaseController
 {
    public function index(){ 
       $session = session();
       if($session->logged_in == '') {
           return redirect()->to('logout');
       }else{
-         $head_officeM = new HardwareStockEntryM();            
-         $data['rows'] = $head_officeM->getHwWithSerialNo();             
-         $data['hw_rows'] = $head_officeM->getDeviceNameList();           
-         return view('master/hardwarestockentry', $data);
+          $head_officeM = new TickecategoryM();           
+          $data['rows'] = $head_officeM->getAllTicketCategory();            
+          $data['tt_rows'] = $head_officeM->getAllTicketTopic();           
+         return view('master/ticket-category', $data);
       }
    }
 
-   public function formValidationHWS(){
+   public function formValidationTC(){
       if($this->request->isAJAX()) {
          $query = service('request')->getPost('query');
-         $hw_id = $query['hw_id'];
-         $serial_no = $query['serial_no'];
+         $topic_id = $query['topic_id'];
+         $ticket_category_name = $query['ticket_category_name'];
          $table_id = $query['table_id'];
-         $deviceMetaData = $query['deviceMetaData'];
 
          $return_data = array();
          $status = true;
          $session = session();
-         $officeM = new HardwareStockEntryM();
+         $officeM = new TickecategoryM();
             
          $validation = \Config\Services::validation();
          $validation->setRules([
-            'hw_id' => 'required',
-            'serial_no' => 'required',
+            'topic_id' => 'required',
+            'ticket_category_name' => 'required',
             'table_id' => 'required'
          ]);
 
          $data = [
-            'hw_id'   => $hw_id,
-            'serial_no'   => $serial_no,
+            'topic_id' => $topic_id,
+            'ticket_category_name' => $ticket_category_name,
             'table_id' => $table_id
          ];
-         $validatedData = array();         
-
-         $postData = [
-            'hw_id'   => $hw_id,
-            'serial_no'   => $serial_no,
-            'table_id' => $table_id,
-            'deviceMetaData' => $deviceMetaData
-         ];
+         $validatedData = array();
 
          if ($validation->run($data)) {
             $validatedData = $validation->getValidated(); 
             //print_r($validatedData);
-            $result = $officeM->insertTableData($postData);
+            $result = $officeM->insertTableData($validatedData);
 
-            //echo '****** return form model *******';
-            //echo json_encode($result);
-            //echo 'ho id: ' . $result['ho_id'];
-            $ho_id = 0;
+            $ticket_category_id = 0;
             if($result['status'] == true){
                $status = true;
-               $ho_id = $result['ho_id'];
-               $return_data['ho_id'] = $ho_id;
+               $ticket_category_id = $result['ticket_category_id'];
+               $return_data['ticket_category_id'] = $ticket_category_id;
             }else{
                $status = false; 
             }
@@ -84,14 +73,14 @@ class HardwareStockEntryC extends BaseController
      }
    }
 
-   public function removeTableDataHWS(){
+   public function removeTableDataTC(){
       if($this->request->isAJAX()) {
          $return_data = array();
          $status = true;
-         $officeM = new HardwareStockEntryM();
+         $officeM = new TickecategoryM();
 
          $table_id = service('request')->getPost('table_id');
-         $result = $officeM->removeTableDataHWS($table_id);
+         $result = $officeM->removeTableDataTC($table_id);
          if($result['status'] == true){
 
          }
@@ -101,14 +90,14 @@ class HardwareStockEntryC extends BaseController
       echo json_encode($return_data);
    }//end 
 
-   public function getTableDataHWS(){
+   public function getTableDataTC(){
       if($this->request->isAJAX()) {
          $return_data = array();
          $status = true;
-         $officeM = new HardwareStockEntryM();
+         $officeM = new TickecategoryM();
 
          $table_id = service('request')->getPost('table_id');
-         $result = $officeM->getTableDataHWS($table_id);
+         $result = $officeM->getTableDataTC($table_id);
          if($result['status'] == true){
             $status = true;
             $row = $result['row'];

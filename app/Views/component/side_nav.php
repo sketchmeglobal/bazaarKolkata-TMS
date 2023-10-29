@@ -40,7 +40,7 @@
                     }
 
                     $master_show_hide = '';
-                    if($showword == 'HeadofficeC' || $showword == 'WarehouseC' || $showword == 'OutletC' || $showword == 'DepartmentC' || $showword == 'DesignationC' || $showword == 'EmployeeC' || $showword == 'HardwareNameC' || $showword == 'HardwareStockEntryC' || $showword == 'SeverityC' || $showword == 'HolidayC' || $showword == 'TicketopicC'){
+                    if($showword == 'HeadofficeC' || $showword == 'WarehouseC' || $showword == 'OutletC' || $showword == 'DepartmentC' || $showword == 'DesignationC' || $showword == 'EmployeeC' || $showword == 'HardwareNameC' || $showword == 'HardwareStockEntryC' || $showword == 'SeverityC' || $showword == 'HolidayC' || $showword == 'TicketopicC' || $showword == 'TickecategoryC'){
                         $master_show_hide = 'show active';
                     }
 
@@ -72,6 +72,7 @@
                             <a href="<?= base_URL('admin/severity')?>" class="dropdown-item <?=($showword == 'SeverityC') ? 'active' : ''?>">Severity</a>
                             <a href="<?= base_URL('admin/holiday')?>" class="dropdown-item <?=($showword == 'HolidayC') ? 'active' : ''?>">Holiday</a>
                             <a href="<?= base_URL('admin/ticket-topic')?>" class="dropdown-item <?=($showword == 'TicketopicC') ? 'active' : ''?>">Ticket Topic</a>
+                            <a href="<?= base_URL('admin/ticket-category')?>" class="dropdown-item <?=($showword == 'TickecategoryC') ? 'active' : ''?>">Ticket Category</a>
                         </div>
                         <?php } ?>                    
                     </div>

@@ -39,7 +39,7 @@
                           <li class="breadcrumb-item">
                             <span>Home</span>
                           </li>
-                          <li class="breadcrumb-item active"><span>Ticket Topic</span></li>
+                          <li class="breadcrumb-item active"><span>Ticket Category</span></li>
                         </ol>
                       </nav>
                     </div>
@@ -56,21 +56,23 @@
                             <thead>
                                 <tr>
                                     <th>Sl No</th>
-                                    <th>Topic Name</th>
+                                    <th>Topic Type</th>
+                                    <th>Topic Category</th>
                                     <th>Acction</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if ($head) : 
+                                <?php if ($rows) : 
                                     $i = 1;
                                     ?>
-                                <?php foreach ($head as $office) : ?>
+                                <?php foreach ($rows as $row) : ?>
                                 <tr>
                                     <td><?=$i?></td>
-                                    <td><?=$office['topic_name']?></td>
+                                    <td><?=$row->topic_name?></td>
+                                    <td><?=$row->ticket_category_name?></td>
                                     <td class="d-flex justify-content-evenly">
-                                        <a href="javascript: void(0);" class="edit_class" data-table_id="<?=$office['topic_id']?>"><i class="fa fa-edit"></i></a>
-                                        <a class="remove" href="javascript: void(0);" data-table_id="<?=$office['topic_id']?>"><i class="fas fa-times"></i></a>
+                                        <a href="javascript: void(0);" class="edit_class" data-table_id="<?=$row->ticket_category_id?>"><i class="fa fa-edit"></i></a>
+                                        <a class="remove" href="javascript: void(0);" data-table_id="<?=$row->ticket_category_id?>"><i class="fas fa-times"></i></a>
                                     </td>
                                 </tr>
                                 <?php 
@@ -90,7 +92,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="text-primary modal-title" id="exampleModalLongTitle"> Ticket Topic
+                            <h5 class="text-primary modal-title" id="exampleModalLongTitle"> Ticket Category
                             </h5>
 
                             <button type="button" class=" btn btn-lg btn-primary btn-lg-square back-to-topclose"
@@ -106,11 +108,25 @@
                                         <?php echo session()->getFlashdata('success'); ?>
                                     </div>
                                     <?php } ?>
+
                                     <div class="col-md-4 mb-1">
-                                        <label for="topic_name">Topic Name</label>
-                                        <input type="text" class="form-control" name="topic_name" id="topic_name" required
+                                        <label for="topic_id"> Topic Type </label>
+                                        <select class="form-control" id="topic_id" name="topic_id">
+                                            <option value="0">Select</option>
+                                            <?php if($tt_rows): ?>
+                                            <?php foreach($tt_rows as $tt_row): ?>
+                                            <option value="<?=$tt_row->topic_id?>"><?=$tt_row->topic_name?> </option>
+                                            <?php endforeach ?>
+                                            <?php endif ?>
+                                        </select>
+                                        <span class="error" id="topic_idError"> </span>
+                                    </div>
+
+                                    <div class="col-md-4 mb-1">
+                                        <label for="ticket_category_name">Topic Name</label>
+                                        <input type="text" class="form-control" name="ticket_category_name" id="ticket_category_name" required
                                             value="<?= isset($name) ? $name : '' ?>">
-                                        <span class="error" id="topic_nameError">
+                                        <span class="error" id="ticket_category_nameError">
                                             <?=(isset($validation['name']) ? $validation['name'] : '' ); ?>
                                         </span>
                                     </div>
@@ -144,19 +160,30 @@
             //$("#s_myFormName").validate();
             //Validation Form
             function validateForm(){
-                $topic_name = $('#topic_name').val().replace(/^\s+|\s+$/gm,'');
+                $ticket_category_name = $('#ticket_category_name').val().replace(/^\s+|\s+$/gm,'');
+                $topic_id = $('#topic_id').val();
                 
                 $status = true;
                 $formValidMsg = '';
                 
-                if($topic_name == ''){
+                if($topic_id == '0'){
                     $status = false;
-                    $formValidMsg += 'Please enter Head office name';
-                    $('#topic_name').removeClass('is-valid');
-                    $('#topic_name').addClass('is-invalid');
+                    $formValidMsg += 'Please select topic name';
+                    $('#topic_id').removeClass('is-valid');
+                    $('#topic_id').addClass('is-invalid');
                 }else{
-                    $('#topic_name').removeClass('is-invalid');
-                    $('#topic_name').addClass('is-valid');
+                    $('#topic_id').removeClass('is-invalid');
+                    $('#topic_id').addClass('is-valid');
+                }
+                
+                if($ticket_category_name == ''){
+                    $status = false;
+                    $formValidMsg += ', Category name';
+                    $('#ticket_category_name').removeClass('is-valid');
+                    $('#ticket_category_name').addClass('is-invalid');
+                }else{
+                    $('#ticket_category_name').removeClass('is-invalid');
+                    $('#ticket_category_name').addClass('is-valid');
                 }
 
                 $('#formValidMsg').html($formValidMsg);
@@ -180,14 +207,17 @@
 
                     if($formVallidStatus == true){
                         $table_id = $('#table_id').val();
+                        $topic_id_text = $('#topic_id option:selected').text();
+
                         $query = {
-                            topic_name: $topic_name,
+                            topic_id: $topic_id,
+                            ticket_category_name: $ticket_category_name,
                             table_id: $table_id
                         };
 
                         console.log('form validated, save data & populate the data table')
                         $.ajax({  
-                            url: '<?php echo base_url('admin/formValidationTT'); ?>',
+                            url: '<?php echo base_url('admin/formValidationTC'); ?>',
                             type: 'post',
                             dataType:'json',
                             data:{query: $query},
@@ -195,17 +225,18 @@
                                 console.log(JSON.stringify(data));
                                 console.log('status: ' + data.status);
                                 if(data.status == true ){
-                                    $('#topic_nameError').html('');
+                                    $('#ticket_category_nameError').html('');
                         
                                     $('#formValidMsg').hide();
                                     $("#s_myFormName").trigger("reset");
 
-                                    if(parseInt(data.topic_id) > 0){
+                                    if(parseInt(data.ticket_category_id) > 0){
                                         //Creat the row
                                         var row = $('<tr>')
-                                            .append('<td>'+data.topic_id+'</td>')
-                                            .append('<td>'+$topic_name+'</td>')
-                                            .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'+data.topic_id+'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'+data.topic_id+'"></i></a></td>')
+                                            .append('<td>'+data.ticket_category_id+'</td>')
+                                            .append('<td>'+$topic_id_text+'</td>')
+                                            .append('<td>'+$ticket_category_name+'</td>')
+                                            .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'+data.ticket_category_id+'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'+data.ticket_category_id+'"></i></a></td>')
 
                                         //Prepend row with Table
                                         //myTable.row.add(row);
@@ -245,14 +276,14 @@
             })
 
             //Delete Data
-            $(".remove").click(function() {
+            $('#myTable').on('click', '.remove', function(){
                 if(confirm("Are You Sure? This Process Can\'t be Undone.")){
                     $table_id = $(this).data('table_id');
                     $(this).closest('tr').remove();
                     //console.log('Delete table_id: ' + $table_id);
 
                     $.ajax({  
-                        url: '<?php echo base_url('admin/removeTableDataTT'); ?>',
+                        url: '<?php echo base_url('admin/removeTableDataTC'); ?>',
                         type: 'post',
                         dataType:'json',
                         data:{table_id: $table_id},
@@ -269,12 +300,12 @@
             });
 
             //Edit Data
-            $(".edit_class").click(function() {
+            $('#myTable').on('click', '.edit_class', function(){
                 $table_id = $(this).data('table_id');
                 //console.log('Delete table_id: ' + $table_id);
 
                 $.ajax({  
-                    url: '<?php echo base_url('admin/getTableDataTT'); ?>',
+                    url: '<?php echo base_url('admin/getTableDataTC'); ?>',
                     type: 'post',
                     dataType:'json',
                     data:{table_id: $table_id},
@@ -282,8 +313,9 @@
                         console.log(JSON.stringify(data));
                         //console.log('status: ' + data.status);
                         if(data.status == true ){
-                            $('#topic_name').val(data.result.topic_name);
-                            $('#table_id').val(data.result.topic_id);
+                            $('#topic_id').val(data.result.topic_id);
+                            $('#ticket_category_name').val(data.result.ticket_category_name);
+                            $('#table_id').val(data.result.ticket_category_id);
                             $('#myModal').modal('show');
                         }
                     }  

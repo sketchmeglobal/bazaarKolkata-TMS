@@ -88,6 +88,12 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'removeTableDataTT', 'Master\TicketopicC::removeTableDataTT');
     $routes->match(['get', 'post'], 'getTableDataTT', 'Master\TicketopicC::getTableDataTT');
 
+    //Ticket Category    
+    $routes->match(['get', 'post'], 'ticket-category', 'Master\TickecategoryC::index');
+    $routes->match(['get', 'post'], 'formValidationTC', 'Master\TickecategoryC::formValidationTC');
+    $routes->match(['get', 'post'], 'removeTableDataTC', 'Master\TickecategoryC::removeTableDataTC');
+    $routes->match(['get', 'post'], 'getTableDataTC', 'Master\TickecategoryC::getTableDataTC');
+
     //Tickets
     $routes->match(['get', 'post'], 'new-ticket', 'NewticketC::index');
     $routes->match(['get', 'post'], 'formValidationTIC', 'NewticketC::formValidationTIC');
