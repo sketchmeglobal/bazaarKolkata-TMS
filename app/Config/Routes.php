@@ -82,6 +82,12 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'removeTableDataHL', 'Master\HolidayC::removeTableDataHL');
     $routes->match(['get', 'post'], 'getTableDataHL', 'Master\HolidayC::getTableDataHL');
 
+    //Ticket Topic Type    
+    $routes->match(['get', 'post'], 'ticket-topic', 'Master\TicketopicC::index');
+    $routes->match(['get', 'post'], 'formValidationTT', 'Master\TicketopicC::formValidationTT');
+    $routes->match(['get', 'post'], 'removeTableDataTT', 'Master\TicketopicC::removeTableDataTT');
+    $routes->match(['get', 'post'], 'getTableDataTT', 'Master\TicketopicC::getTableDataTT');
+
     //Tickets
     $routes->match(['get', 'post'], 'new-ticket', 'NewticketC::index');
     $routes->match(['get', 'post'], 'formValidationTIC', 'NewticketC::formValidationTIC');
