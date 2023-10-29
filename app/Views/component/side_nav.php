@@ -32,7 +32,7 @@
                     $controller  = $router->controllerName();  
                     $words = explode('\\', $controller);
                     $showword = trim($words[count($words) - 1], '\\');
-                    echo 'showword: '. $showword;
+                    //echo 'showword: '. $showword;
 
                     $dashboard_show_hide = '';
                     if($showword == 'DashboardC'){
