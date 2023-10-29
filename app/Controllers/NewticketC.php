@@ -27,6 +27,7 @@ class NewticketC extends BaseController
          $session = session();
          $logged_in = $session->logged_in;
          $emp_id = $session->emp_id;
+         $ol_id = $session->ol_id;
          
          $query = service('request')->getPost('query');
          $topic_id = $query['topic_id'];
@@ -39,7 +40,6 @@ class NewticketC extends BaseController
 
          $return_data = array();
          $status = true;
-         $session = session();
          $officeM = new NewticketM();
             
          $validation = \Config\Services::validation();
@@ -65,7 +65,8 @@ class NewticketC extends BaseController
                'authority_cc' => $authority_cc,
                'ticket_purpose' => $ticket_purpose,
                'ticket_description' => $ticket_description,
-               'created_by' => $emp_id
+               'created_by' => $emp_id,
+               'ol_id' => $ol_id
             ];
             
             $result = $officeM->insertTableData($post_data);

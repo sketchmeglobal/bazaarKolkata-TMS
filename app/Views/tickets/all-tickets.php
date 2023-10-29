@@ -175,7 +175,7 @@
     <?= view('component/js') ?>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <script>
-    let table = new DataTable('#myTable');
+    //let table = new DataTable('#myTable');
     </script>
 
     <script>

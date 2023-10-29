@@ -100,24 +100,25 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'getDeviceSerialonHIS', 'IssuehardwareC::getDeviceSerialonHIS');
 
     //Return Hardware
-    $routes->match(['get', 'post'], 'return-hardware', 'ReturnhardwareC::index');
+    //$routes->match(['get', 'post'], 'return-hardware', 'ReturnhardwareC::index');
 
     //above links are working
 
 
     //$routes->match(['get', 'post'], 'all-tickets', 'DashboardC::all_tickets');
-    $routes->match(['get', 'post'], 'profile', 'DashboardC::profile');
+    /*$routes->match(['get', 'post'], 'profile', 'DashboardC::profile');
     $routes->match(['get', 'post'], 'sr-association', 'DashboardC::sr_association');
     $routes->match(['get', 'post'], 'severity-mapping', 'DashboardC::severity');
     $routes->match(['get', 'post'], 'intranet-massaging', 'DashboardC::internet_masg');
-    $routes->match(['get', 'post'], 'all-users', 'DashboardC::all_users');
+    $routes->match(['get', 'post'], 'all-users', 'DashboardC::all_users');*/
+
 });
 
 // FOR VIEW TICKETS ONLY
-$routes->group('tickets-view', static function ($routes) {
+/*$routes->group('tickets-view', static function ($routes) {
     $routes->match(['get', 'post'], 'view1', 'DashboardC::view_tickets1');
     $routes->match(['get', 'post'], 'view2', 'DashboardC::view_tickets2');
 });
 
 $routes->get('/example/customers', 'Example::customers');
-$routes->post('/example/customers', 'Example::customers');
+$routes->post('/example/customers', 'Example::customers');*/

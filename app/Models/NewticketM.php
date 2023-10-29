@@ -57,6 +57,7 @@ class NewticketM extends Model
       $ticket_purpose = $validatedData['ticket_purpose'];
       $ticket_description = $validatedData['ticket_description'];
       $created_by = $validatedData['created_by'];
+      $ol_id = $validatedData['ol_id'];
 
       $fields_array = [
         'topic_id' => $topic_id,
@@ -66,7 +67,8 @@ class NewticketM extends Model
         'authority_cc' => $authority_cc,
         'ticket_purpose' => $ticket_purpose,
         'ticket_description' => $ticket_description,
-        'created_by' => $created_by
+        'created_by' => $created_by,
+        'ol_id' => $ol_id
       ];
       
       //insert query

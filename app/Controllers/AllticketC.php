@@ -13,8 +13,9 @@ class AllticketC extends BaseController
       if($session->logged_in == '') {
           return redirect()->to('logout');
       }else{               
-         $head_officeM = new AllticketM();                
-         $data['rows'] = $head_officeM->getAllTickets();
+         $head_officeM = new AllticketM();  
+         $ol_id = $session->ol_id;              
+         $data['rows'] = $head_officeM->getAllTickets($ol_id);
          return view('tickets/all-tickets', $data);
       }
    }   
