@@ -113,6 +113,7 @@ class EmployeeM extends Model
       $return_data = array();
 
       $this->db->table('employee')->where('emp_id', $table_id)->delete();
+      $this->db->table('users')->where('emp_id', $table_id)->delete();
 
       $return_data['status'] = $status;
       return $return_data;
@@ -172,7 +173,7 @@ class EmployeeM extends Model
           $nestedData['secondary_phone'] = $result[$i]->secondary_phone;
           $nestedData['email_id'] = $result[$i]->email_id;
           $nestedData['desig_name'] = $result[$i]->desig_name;
-          $nestedData['action'] = '<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'.$result[$i]->emp_id.'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'.$result[$i]->emp_id.'"></i></a></td>';
+          $nestedData['action'] = '<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'.$result[$i]->emp_id.'"><i class="fa fa-edit"></i></a> <a class="remove_class" href="javascript: void(0);" data-table_id="'.$result[$i]->emp_id.'"><i class="fas fa-times"></i></a></td>';
 
           $counter++;
           array_push($data, $nestedData);

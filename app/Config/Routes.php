@@ -54,7 +54,7 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'employee', 'Master\EmployeeC::index');
     $routes->match(['get', 'post'], 'formValidationEM', 'Master\EmployeeC::formValidationEM');
     $routes->match(['get', 'post'], 'removeTableDataEM', 'Master\EmployeeC::removeTableDataEM');
-    $routes->match(['get', 'post'], 'getTableDataEM', 'Master\DesignationC::getTableDataEM');
+    $routes->match(['get', 'post'], 'getTableDataEM', 'Master\EmployeeC::getTableDataEM');
     $routes->match(['get', 'post'], 'getDesigTableDataEM', 'Master\EmployeeC::getDesigTableDataEM');
     $routes->match(['get', 'post'], 'getDesignationEM', 'Master\EmployeeC::getDesignationEM');
 

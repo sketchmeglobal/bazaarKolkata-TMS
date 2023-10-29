@@ -294,7 +294,7 @@
             })
 
             //Delete Data
-            $(".remove").click(function() {
+            $('#myTable').on('click', '.remove', function(){
                 if(confirm("Are You Sure? This Process Can\'t be Undone.")){
                     $table_id = $(this).data('table_id');
                     $(this).closest('tr').remove();
@@ -318,7 +318,7 @@
             });
 
             //Edit Data
-            $(".edit_class").click(function() {
+            $('#myTable').on('click', '.edit_class', function(){
                 $table_id = $(this).data('table_id');
                 //console.log('Delete table_id: ' + $table_id);
 

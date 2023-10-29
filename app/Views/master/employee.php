@@ -294,8 +294,8 @@
                             dataType:'json',
                             data:{query: $query},
                             success:function(data){
-                                console.log(JSON.stringify(data));
-                                console.log('status: ' + data.status);
+                                //console.log(JSON.stringify(data));
+                                //console.log('status: ' + data.status);
                                 if(data.status == true ){
                                     $('#emp_nameError').html('');
                                     $('#primary_phoneError').html('');
@@ -312,7 +312,7 @@
                                             .append('<td>'+$secondary_phone+'</td>')
                                             .append('<td>'+$email_id+'</td>')
                                             .append('<td>'+$desig_name+'</td>')
-                                            .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'+data.emp_id+'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'+data.emp_id+'"></i></a></td>')
+                                            .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'+data.emp_id+'"><i class="fa fa-edit"></i></a> <a class="remove_class" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'+data.emp_id+'"></i></a></td>')
 
                                         //Prepend row with Table
                                         //myTable.row.add(row);
@@ -354,12 +354,13 @@
                 $('#myModal').modal('hide');
             })
 
-            //Delete Data
-            $(".remove").click(function() {
+            //Delete Data            
+            $('#myTable').on('click', '.remove_class', function(){
+                $table_id = $(this).data('table_id');
+                console.log('Delete table_id: ' + $table_id);
+
                 if(confirm("Are You Sure? This Process Can\'t be Undone.")){
-                    $table_id = $(this).data('table_id');
                     $(this).closest('tr').remove();
-                    //console.log('Delete table_id: ' + $table_id);
 
                     $.ajax({  
                         url: '<?php echo base_url('admin/removeTableDataEM'); ?>',
@@ -379,7 +380,7 @@
             });
 
             //Edit Data
-            $(".edit_class").click(function() {
+            $('#myTable').on('click', '.edit_class', function(){
                 $table_id = $(this).data('table_id');
                 console.log('Edit table_id: ' + $table_id);
 
@@ -397,6 +398,8 @@
                             $('#secondary_phone').val(data.result.secondary_phone);
                             $('#email_id').val(data.result.email_id);
                             $('#table_id').val(data.result.emp_id);
+                            $('#dg_id').val(data.result.dg_id);
+                            $('#user_level').val(data.result.user_level);
                             $('#myModal').modal('show');
                         }
                     }  
