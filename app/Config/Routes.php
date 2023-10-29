@@ -99,6 +99,8 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'getTableDataHIS', 'IssuehardwareC::getTableDataHIS');
     $routes->match(['get', 'post'], 'getDeviceSerialonHIS', 'IssuehardwareC::getDeviceSerialonHIS');
 
+    $routes->post('ajax_fetch_topic_category', 'NewticketC::ajax_fetch_topic_category');
+    $routes->post('ajax_fetch_solutions', 'NewticketC::ajax_fetch_solutions');
     //Return Hardware
     //$routes->match(['get', 'post'], 'return-hardware', 'ReturnhardwareC::index');
 

@@ -42,7 +42,7 @@
 
                     <div class="col-md-12 bg-light mt-3" style="border-radius:5px;">
                         <div class="row py-4">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <form class="needs-validation" novalidate name="s_myFormName" id="s_myFormName">
                                     <div class="row">
                                         <div class="col-md-6 col-12 ">
@@ -68,12 +68,7 @@
                                             <div class="form-group">
                                                 <label for="ticket_category">Category</label>
                                                 <select class="form-control" id="ticket_category" name="ticket_category">
-                                                    <option value="0" >Select</option>
-                                                    <?php if ($category_rows) : ?>
-                                                        <?php foreach ($category_rows as $category_row) : ?>
-                                                            <option value="<?=$category_row->ticket_category_id?>"><?=$category_row->ticket_category_name?></option>
-                                                        <?php endforeach ?>
-                                                    <?php endif ?>
+                                                    <option value="">Select Topic</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -124,59 +119,13 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="col-md-4 col-12">
+                            <div class="col-md-6 col-12">
                                 <div class="card-header text-center">
                                     <h6 class="text-primary">Read Knowledge Base Before Inquiring</h6>
                                 </div>
                                 <div>
                                     <div id="accordion">
-                                        <div class="card">
-                                            <div class="card-header" id="headingOne">
-                                                <h5 class="mb-0">
-                                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                        Category name1
-                                                    </button>
-                                                </h5>
-                                            </div>
-
-                                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                                                <div class="card-body">
-                                                    Some placeholder content for the first accordion panel.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-header" id="headingTwo">
-                                                <h5 class="mb-0">
-                                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                        Category name 2
-                                                    </button>
-                                                </h5>
-                                            </div>
-                                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                                                <div class="card-body">
-                                                    Some placeholder content for the second accordion panel. This panel
-                                                    is hidden by default.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-header" id="headingThree">
-                                                <h5 class="mb-0">
-                                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                        Category name 3
-                                                    </button>
-                                                </h5>
-                                            </div>
-                                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                                                <div class="card-body">
-
-                                                    And lastly, the placeholder content for the third and final
-                                                    accordion panel. This panel is hidden by default.
-
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -337,6 +286,35 @@
 
             }, 500)    
         })
+
+        //on topic change
+        $('#topic_id').on('change', function (){
+            topic_id = $(this).val();
+            $.ajax({
+                url: "<?= base_url('admin/ajax_fetch_topic_category') ?>",
+                method: "post",
+                dataType: 'json',
+                data: {'topic_id':topic_id,},
+                success: function(returnData){
+                    $('#ticket_category').html(returnData);
+                    $('#accordion').html('');
+                },
+            });
+        });
+
+        //on category change
+        $('#ticket_category').on('change', function (){
+            ticket_category_id = $(this).val();
+            $.ajax({
+                url: "<?= base_url('admin/ajax_fetch_solutions') ?>",
+                method: "post",
+                dataType: 'json',
+                data: {'ticket_category_id':ticket_category_id,},
+                success: function(returnData){
+                    $('#accordion').html(returnData);
+                },
+            });
+        });
     </script>
 
 </body>

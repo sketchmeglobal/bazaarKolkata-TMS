@@ -202,4 +202,43 @@ class NewticketC extends BaseController
       echo json_encode($return_data);
    }//end
 
+   public function ajax_fetch_topic_category() {
+      $topic_id = service('request')->getPost('topic_id');
+      $NewticketM = new NewticketM();
+      $category_rows = $NewticketM->getCategoryMasterByTopicId($topic_id);
+
+      $html = '<option value="">Select</option>';
+      foreach ($category_rows as $row) {
+          $html .= '<option value="'.$row->ticket_category_id.'">'.$row->ticket_category_name.'</option>';
+      }
+      echo json_encode($html);
+  }
+
+  public function ajax_fetch_solutions() {
+      $ticket_category_id = service('request')->getPost('ticket_category_id');
+      $NewticketM = new NewticketM();
+      $solution_rows = $NewticketM->getSolutionByCategoryId($ticket_category_id);
+
+      $html = '';
+      $counter = 1;
+      foreach ($solution_rows as $row) {
+          $html .= '<div class="card">
+                      <div class="card-header" id="heading_'.$counter.'">
+                          <h5 class="mb-0">
+                              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse_'.$counter.'" aria-expanded="false" aria-controls="collapse_'.$counter.'">
+                                  Solution '.$counter.'
+                              </button>
+                          </h5>
+                      </div>
+                      <div id="collapse_'.$counter.'" class="collapse" aria-labelledby="heading_'.$counter.'" data-parent="#accordion">
+                          <div class="card-body">
+                              '.$row->solution.'
+                          </div>
+                      </div>
+                  </div>';
+          $counter++;
+      }
+      echo json_encode($html);
+  }
+  
 }

@@ -227,6 +227,22 @@ class NewticketM extends Model
       return $category_rows;
     }//end function
 
+    public function getCategoryMasterByTopicId($topic_id){
+      $category_rows = $this->db->table('ticket_category_master')
+          ->select('*')
+          ->where(['row_status' => 1, 'topic_id' => $topic_id])
+          ->get()->getResult();
+      return $category_rows;
+  }
+
+  public function getSolutionByCategoryId($ticket_category_id){
+      $solution_rows = $this->db->table('ticket_category_solutions')
+          ->select('*')
+          ->where(['row_status' => 1, 'ticket_category_id' => $ticket_category_id])
+          ->get()->getResult();
+      return $solution_rows;
+  }
+
     public function getSeverityMaster(){
       $severty_rows = $this->db->table('ticket_severity_master')->select('*')->where(['row_status' => 1])->get()->getResult();
       return $severty_rows;

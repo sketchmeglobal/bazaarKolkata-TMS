@@ -32,7 +32,7 @@
                     $controller  = $router->controllerName();  
                     $words = explode('\\', $controller);
                     $showword = trim($words[count($words) - 1], '\\');
-                    //echo 'showword: '. $showword;
+                    echo 'showword: '. $showword;
 
                     $dashboard_show_hide = '';
                     if($showword == 'DashboardC'){
@@ -45,7 +45,7 @@
                     }
 
                     $tickets_show_hide = '';
-                    if($showword == 'NewticketC' || $showword == 'AllticketC'){
+                    if($showword == 'NewticketC' || $showword == 'AllticketC' || $showword == 'ViewticketC'){
                         $tickets_show_hide = 'show active';
                     }
 
@@ -79,7 +79,7 @@
                         <a href="#" class="nav-link dropdown-toggle <?=$tickets_show_hide?>" data-bs-toggle="dropdown"><i class="fa fa-list me-2"></i>Tickets</a>
                         <div class="dropdown-menu bg-transparent border-0 <?=$tickets_show_hide?>">
                             <a href="<?= base_url('admin/new-ticket')  ?>" class="dropdown-item <?=($showword == 'NewticketC') ? 'active' : ''?>">New Ticket </a>
-                            <a href="<?= base_url('admin/all-tickets')  ?>" class="dropdown-item <?=($showword == 'AllticketC') ? 'active' : ''?>">All Tickets</a>
+                            <a href="<?= base_url('admin/all-tickets')  ?>" class="dropdown-item <?=($showword == 'AllticketC' || $showword == 'ViewticketC') ? 'active' : ''?>">All Tickets</a>
                         </div>
                     </div>
                     
