@@ -101,7 +101,36 @@
                                         <?php echo session()->getFlashdata('success'); ?>
                                     </div>
                                     <?php } ?>
-
+                                    <div class="col-12">
+                                        <div class="form-row row bg-bk text-white p-2"> 
+                                            <div class="form-group col-md-4">
+                                                <label class="text-white" for="customLabel">Custom Label</label>
+                                                <input type="text" class="form-control" name="customLabel" id="customLabel">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="text-white" for="customValue">Custom Value</label>
+                                                <input type="text" class="form-control" name="customValue" id="customValue">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="text-white" for="addNew">Action</label><br>
+                                                <input class="btn btn-primary" type="button" value="Add New" name="submit" id="addNew">
+                                            </div>
+                                        </div>
+                                        <div class="form-row mt-3" id="metaData">
+                                            <table class="table" id="tableMetaData">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Label</th>
+                                                        <th>Value</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>    
+                                    </div>
+                                    
                                     <div class="form-group col-md-6">
                                         <label for="hw_id">Device Name</label>
                                         <select class="form-control" id="hw_id" name="hw_id">
@@ -121,29 +150,11 @@
                                         <span class="error" id="serial_noError"> </span>
                                     </div>
                                 </div>
-
-                                <div class="form-row" id="metaData"></div>
-
-                                <div class="form-row"> 
-                                        <div class="form-group col-md-4">
-                                            <label for="customLabel">Custom Label</label>
-                                            <input type="text" class="form-control" name="customLabel" id="customLabel">
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="customValue">Custom Value</label>
-                                            <input type="text" class="form-control" name="customValue" id="customValue">
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            
-                                            <input class="btn btn-primary" type="button" value="Add New" name="submit" id="addNew">
-                                        </div>
-
-                                </div>
-
+                                
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                         <label for="s_parentDesignation">&nbsp;</label>
-                                        <input class="btn btn-primary py-2 w-100 mb-1" type="button" value="Save" name="submit" id="s_submitForm">
+                                        <input class="btn btn-primary py-2 w-50 mt-4" type="button" value="Save" name="submit" id="s_submitForm">
                                     </div>
                                 </div>
                                 <input type="hidden" id="table_id" name="table_id" value="0">
@@ -324,7 +335,7 @@
                     dataType:'json',
                     data:{table_id: $table_id},
                     success:function(data){
-                        console.log(JSON.stringify(data));
+                        //console.log(JSON.stringify(data));
                         //console.log('status: ' + data.status);
                         if(data.status == true ){
                             $('#hw_id').val(data.result.hw_id);
@@ -336,7 +347,7 @@
                             }else{
                                 $metaData = [];
                             }
-                            populateMetaData($metaData);
+                            populateMetaData($metaData, 'existing', $table_id);
 
                             $('#myModal').modal('show');
                         }
@@ -358,7 +369,7 @@
                 $('#customLabel').val('');
                 $('#customValue').val('');
                 console.log(JSON.stringify($metaData))
-                populateMetaData($metaData);
+                populateMetaData($metaData, 'new', '');
                 
             })
 
@@ -366,12 +377,44 @@
                 $metaData = [];
             })
 
-            function populateMetaData($metaData){
+            function populateMetaData($metaData, $type, $table_id){
+                if($type == 'existing'){
+                    $status_text = 'Saved';
+                 }else{ 
+                    $status_text = 'Waiting to be saved';
+                 }
+
                 $metaDataText = "";
+                //$('#metaData').find('table tbody').html($metaDataText);
                 for(var i = 0; i < $metaData.length; i++){
-                    $metaDataText += $metaData[i].customLabel +": "+ $metaData[i].customValue + "<br>";
+                    $metaDataText += '<tr>';
+                    $metaDataText += '<td>' + $metaData[i].customLabel +"</td><td>"+ $metaData[i].customValue + '</td>';
+                    $metaDataText += '<td>'+$status_text+ '</td>';                    
+                    $metaDataText += '<td> <a class="remove_items" href="javascript: void(0);" data-table_id="'+$table_id+'" data-obj_id="'+ $metaData[i].objId +'"><i class="fas fa-times"></i></a> </td></tr>'; 
                 }//end for
 
-                $('#metaData').html($metaDataText);
+                $('#metaData').find('table tbody').html($metaDataText);
             }
+
+            
+            $('#tableMetaData').on('click', '.remove_items', function(){
+                $objId = $(this).data('obj_id');
+                $table_id = $(this).data('table_id');
+                console.log('table_id: ' + $table_id + ' Delete objId: ' + $objId);
+
+                if(confirm("Are You Sure? This Process Can\'t be Undone.")){
+                    $filteredMetaData = [];
+                    for(var $i = 0; $i < $metaData.length; $i++){
+                        if($metaData[$i].objId != $objId){
+                            $filteredMetaData.push($metaData[$i])
+                        }
+                    }//end for
+                    $metaData = [];
+                    $metaData = $filteredMetaData;
+                    populateMetaData($metaData, 'new', $table_id)
+                    //$( "#s_submitForm" ).trigger( "click" );
+                }
+            });
+
+
             </script>
