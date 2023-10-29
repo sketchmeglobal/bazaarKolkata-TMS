@@ -62,10 +62,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if ($head) : ?>
+                                <?php if ($head) : 
+                                    $i = 1; ?>
                                 <?php foreach ($head as $office) : ?>
                                 <tr>
-                                    <td><?=$office['id']?></td>
+                                    <td><?=$i?></td>
                                     <td><?=$office['ho_name']?></td>
                                     <td><?=$office['ho_location']?></td>
                                     <td class="d-flex justify-content-evenly">
@@ -73,7 +74,9 @@
                                         <a class="remove" href="javascript: void(0);" data-table_id="<?=$office['id']?>"><i class="fas fa-times"></i></a>
                                     </td>
                                 </tr>
-                                <?php endforeach ?>
+                                <?php 
+                                $i++;
+                                endforeach ?>
                                 <?php endif ?>
 
                             </tbody>

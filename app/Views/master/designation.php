@@ -251,7 +251,7 @@
                                     if(parseInt(data.dg_id) > 0){
                                         //Creat the row
                                         var row = $('<tr>')
-                                            .append('<td>'+data.dg_id+'</td>')
+                                            .append('<td>1</td>')
                                             .append('<td>'+$desig_name+'</td>')
                                             .append('<td>'+$desig_priority+'</td>')
                                             .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'+data.dg_id+'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'+data.dg_id+'"></i></a></td>')

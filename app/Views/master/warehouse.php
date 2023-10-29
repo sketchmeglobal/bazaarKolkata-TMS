@@ -63,9 +63,11 @@
                             </thead>
                             <tbody>
                                 <?php if ($rows) : ?>
-                                <?php foreach ($rows as $row) : ?>
+                                <?php 
+                                    $i = 1;
+                                    foreach ($rows as $row) : ?>
                                 <tr>
-                                    <td><?=$row['wh_id']?></td>
+                                    <td><?=$i?></td>
                                     <td><?=$row['wh_name']?></td>
                                     <td><?=$row['wh_location']?></td>
                                     <td class="d-flex justify-content-evenly">
@@ -73,7 +75,9 @@
                                         <a class="remove" href="javascript: void(0);" data-table_id="<?=$row['wh_id']?>"><i class="fas fa-times"></i></a>
                                     </td>
                                 </tr>
-                                <?php endforeach ?>
+                                <?php 
+                                $i++;
+                                endforeach ?>
                                 <?php endif ?>
 
                             </tbody>

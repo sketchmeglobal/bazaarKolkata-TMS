@@ -63,9 +63,11 @@
                             </thead>
                             <tbody>
                                 <?php if ($rows) : ?>
-                                <?php foreach ($rows as $row) : ?>
+                                <?php 
+                                    $i = 1;
+                                    foreach ($rows as $row) : ?>
                                 <tr>
-                                    <td><?=$row->hw_sl_id?></td>
+                                    <td><?=$i?></td>
                                     <td><?=$row->hw_name?>(<?=$row->hw_code?>)</td>
                                     <td><?=$row->serial_no?></td>
                                     <td class="d-flex justify-content-evenly">
@@ -73,7 +75,9 @@
                                         <a class="remove" href="javascript: void(0);" data-table_id="<?=$row->hw_sl_id?>"><i class="fas fa-times"></i></a>
                                     </td>
                                 </tr>
-                                <?php endforeach ?>
+                                <?php 
+                                $i++;
+                                endforeach ?>
                                 <?php endif ?>
 
                             </tbody>
