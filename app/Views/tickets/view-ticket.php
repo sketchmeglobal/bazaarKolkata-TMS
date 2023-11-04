@@ -281,6 +281,9 @@ $session = session();
                                         <button class="btn btn-primary btn-lg" type="button" id="accept_ticket" data-ticket_id="<?=$rows->ticket_id?>" style="width: 100%;">Update</button>
                                     </div>
                                     <div class="d-flex align-items-center px-2 py-2">
+                                        <button class="btn btn-primary btn-lg" type="button" id="summary_eport" data-ticket_id="<?=$rows->ticket_id?>" style="width: 100%;">Summary Report</button>
+                                    </div>
+                                    <div class="d-flex align-items-center px-2 py-2">
                                         <span id="ticket_stat_msg"> </span>
                                     </div>                                
                                 </div>
@@ -453,6 +456,17 @@ $session = session();
                 //alert(data.message)
             }  
         });
+    })
+
+    
+    $('#summary_eport').on('click', function(){
+        // Select the button you want to disable.  
+        $ticket_id = $(this).data('ticket_id');
+        //window.location.href = 'summary_eport/'+$ticket_id;
+        var anchor = document.createElement('a');
+        anchor.href = '../summary_report/'+$ticket_id;
+        anchor.target="_blank";
+        anchor.click();
     })
 
     //countdown timer

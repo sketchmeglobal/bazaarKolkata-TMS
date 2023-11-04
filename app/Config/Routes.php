@@ -116,6 +116,10 @@ $routes->group('admin', static function ($routes) {
 
     $routes->post('ajax_fetch_topic_category', 'NewticketC::ajax_fetch_topic_category');
     $routes->post('ajax_fetch_solutions', 'NewticketC::ajax_fetch_solutions');
+
+    //Report Section    
+    $routes->match(['get', 'post'], 'summary_report/(:num)', 'SummaryreportC::index/$1');
+    
     //Return Hardware
     //$routes->match(['get', 'post'], 'return-hardware', 'ReturnhardwareC::index');
 
