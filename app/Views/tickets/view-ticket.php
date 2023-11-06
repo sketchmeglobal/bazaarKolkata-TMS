@@ -280,9 +280,11 @@ $session = session();
                                     <div class="d-flex align-items-center px-2 py-2">
                                         <button class="btn btn-primary btn-lg" type="button" id="accept_ticket" data-ticket_id="<?=$rows->ticket_id?>" style="width: 100%;">Update</button>
                                     </div>
-                                    <div class="d-flex align-items-center px-2 py-2">
-                                        <button class="btn btn-primary btn-lg" type="button" id="summary_eport" data-ticket_id="<?=$rows->ticket_id?>" style="width: 100%;">Summary Report</button>
+                                    
+                                    <div class="d-flex align-items-center px-2 py-2" id="summary_report_div" >
+                                        <button class="btn btn-primary btn-lg" type="button" id="summary_report" data-ticket_id="<?=$rows->ticket_id?>" style="width: 100%;">Summary Report</button>
                                     </div>
+                                    
                                     <div class="d-flex align-items-center px-2 py-2">
                                         <span id="ticket_stat_msg"> </span>
                                     </div>                                
@@ -446,6 +448,20 @@ $session = session();
                     if(data.deadline != ''){
                         onCountdown(data.deadline);
                     }
+
+                    console.log('ticket_status_id: ' + $ticket_status_id)
+
+                    if($ticket_status_id == 8){
+                        console.log('if part: ');
+                        //$('#summary_report_div').show();
+                        //$("#summary_report_div").css({ display: "block" });
+                        $("#summary_report_div").attr("display", "block");
+                    }else{
+                        console.log('else part: ');
+                        //$('#summary_report_div').hide();                        
+                        //$("#summary_report_div").css({ display: "none" });
+                        $("#summary_report_div").attr("display", "none");
+                    }
                 }else{
                     $('#ticket_status_1').html($ticket_status_text);
                     $('#ticket_status_2').html($ticket_status_text);
@@ -459,10 +475,9 @@ $session = session();
     })
 
     
-    $('#summary_eport').on('click', function(){
+    $('#summary_report').on('click', function(){
         // Select the button you want to disable.  
         $ticket_id = $(this).data('ticket_id');
-        //window.location.href = 'summary_eport/'+$ticket_id;
         var anchor = document.createElement('a');
         anchor.href = '../summary_report/'+$ticket_id;
         anchor.target="_blank";

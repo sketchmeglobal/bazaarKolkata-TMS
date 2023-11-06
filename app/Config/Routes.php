@@ -119,6 +119,8 @@ $routes->group('admin', static function ($routes) {
 
     //Report Section    
     $routes->match(['get', 'post'], 'summary_report/(:num)', 'SummaryreportC::index/$1');
+    $routes->match(['get', 'post'], 'inventory-stock', 'InventorystockC::index');
+    $routes->match(['get', 'post'], 'formValidationRIS', 'InventorystockC::formValidationRIS');
     
     //Return Hardware
     //$routes->match(['get', 'post'], 'return-hardware', 'ReturnhardwareC::index');

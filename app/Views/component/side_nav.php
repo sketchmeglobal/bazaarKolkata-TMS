@@ -53,6 +53,11 @@
                     if($showword == 'IssuehardwareC'){
                         $hardware_show_hide = 'show active';
                     }
+
+                    $reports_show_hide = '';
+                    if($showword == 'InventorystockC'){
+                        $reports_show_hide = 'show active';
+                    }
                 ?>
                 
                 <div class="navbar-nav w-100">
@@ -91,6 +96,15 @@
                         <a href="#" class="nav-link dropdown-toggle <?=$hardware_show_hide?>" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Hardware</a>
                         <div class="dropdown-menu bg-transparent border-0 <?=$hardware_show_hide?>">
                             <a href="<?= base_url('admin/issue-return-hardware') ?>" class="dropdown-item <?=($showword == 'IssuehardwareC') ? 'active' : ''?>">Issue / Return</a>
+                        </div>
+                    </div>
+                    <?php } ?>
+                    
+                    <?php if($session->user_level == '1' || $session->user_level == '3'){ ?>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle <?=$reports_show_hide?>" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Report</a>
+                        <div class="dropdown-menu bg-transparent border-0 <?=$reports_show_hide?>">
+                            <a href="<?= base_url('admin/inventory-stock') ?>" class="dropdown-item <?=($showword == 'InventorystockC') ? 'active' : ''?>">Inventory Stock</a>
                         </div>
                     </div>
                     <?php } ?>
