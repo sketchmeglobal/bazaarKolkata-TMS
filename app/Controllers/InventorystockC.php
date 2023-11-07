@@ -14,7 +14,7 @@ class InventorystockC extends BaseController
           return redirect()->to('logout');
       }else{
          $head_officeM = new InventorystockM();                
-         $data['rows'] = $head_officeM->getAllFilteredHardware();    
+         //$data['rows'] = $head_officeM->getAllFilteredHardware();    
          $data['hw_rows'] = $head_officeM->getDeviceNameList(); 
          return view('reports/inventorystock', $data);
       }
