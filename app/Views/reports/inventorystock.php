@@ -38,7 +38,7 @@
             <div></div>
             <div class="container">
                 <div class="row">
-                    <form class="needs-validation" novalidate name="s_myFormName" id="s_myFormName" action="<?php echo base_url('admin/formValidationRIS'); ?>" method="post" target="_blank">
+                    <form class="needs-validation" novalidate name="s_myFormName" id="s_myFormName" action="<?php echo base_url('admin/inventory-stock-report'); ?>" method="post" target="_blank">
                         <div class="form-row row"> 
                             <div class="col-md-3 mb-1">
                                 <label for="ticketNo">Type</label>
@@ -82,7 +82,7 @@
 
                     <div class="form-row row"> 
                         <div class="col-md-12 mb-1">
-                            <span style="color: #f00; display: none;" id="formValidMsg">Errro</span>
+                            <span style="color: #f00; display: none;" id="formValidMsg"></span>
                         </div>
                     </div>  
                 </div>
@@ -123,43 +123,11 @@
                     hw_sl_id: $hw_sl_id
                 };
 
+                $('#s_submitForm_spinner').hide();
+                $('#s_submitForm_spinner_text').hide();
+                $('#s_submitForm_text').show();
+                $('#formValidMsg').show();
                 
-                // $.ajax({  
-                //     url: '<?php echo base_url('admin/formValidationRIS'); ?>',
-                //     type: 'post',
-                //     dataType:'json',
-                //     data:{query: $query},
-                //     success:function(data){
-                //         console.log(JSON.stringify(data));
-                //         console.log('status: ' + data.status);
-                //         /*if(data.status == true ){
-                //             if(parseInt(data.issue_return_id) > 0){
-                //                 //Creat the row
-                //                 var row = $('<tr>')
-                //                     .append('<td>1</td>')
-                //                     .append('<td>'+$ticketNo+'</td>')
-                //                     .append('<td>'+$hw_text+'</td>')
-                //                     .append('<td>'+$hw_sl_text+'</td>')
-                //                     .append('<td>'+$issueNote+'</td>')
-                //                     .append('<td>'+$issue_or_return_text+'</td>')
-                //                     .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'+data.issue_return_id+'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'+data.issue_return_id+'"></i></a></td>')
-
-                //                 //Prepend row with Table
-                //                 //myTable.row.add(row);
-                //                 $('#myTable tbody').prepend(row);
-                //             }
-                //             //Hide Modal
-                //             $('#myModal').modal('hide');
-                //         }else{
-                //             console.log('validation' + JSON.stringify(data.validation));
-                //             $validation = data.validation;
-                //             for($i in $validation){
-                //                 console.log($i + '' + $validation[$i])
-                //                 $('#'+$i+'Error').html($validation[$i])
-                //             }
-                //         }*/
-                //     }  
-                // });
             }//end if  
         })
 

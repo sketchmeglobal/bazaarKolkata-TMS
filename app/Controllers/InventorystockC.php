@@ -21,44 +21,32 @@ class InventorystockC extends BaseController
    }   
 
    public function formValidationRIS(){
-      //if($this->request->isAJAX()) {
-         $query = service('request')->getPost('query');
-         $issue_or_return = $query['issue_or_return'];
-         $hw_id = $query['hw_id'];
-         $hw_sl_id = $query['hw_sl_id'];
+      $issue_or_return = $this->request->getVar('issue_or_return');
+      $hw_id = $this->request->getVar('hw_id');
+      $hw_sl_id = $this->request->getVar('hw_sl_id');
 
-         $return_data = array();
-         $status = true;
-         $session = session();
-         $officeM = new InventorystockM();           
+      //echo 'issue_or_return: ' . $issue_or_return.' hw_id: '.$hw_id.' hw_sl_id: '.$hw_sl_id;
+      //die;
 
-         $post_data = [
-            'issue_or_return' => $issue_or_return,
-            'hw_id' => $hw_id,
-            'hw_sl_id' => $hw_sl_id
-         ];
+      $return_data = array();
+      $status = true;
+      $session = session();
+      $officeM = new InventorystockM();           
+
+      $post_data = [
+         'issue_or_return' => $issue_or_return,
+         'hw_id' => $hw_id,
+         'hw_sl_id' => $hw_sl_id
+      ];
+      
+      $result = $officeM->getAllFilteredHardware($post_data);
+      
+      $issue_return_id = 0;
+      $data['rows'] = $result;  
+      $data['hw_rows'] = $officeM->getDeviceNameList(); 
+
+      return view('reports/inventory_stock_report', $data);    
          
-         $result = $officeM->getAllFilteredHardware($post_data);
-         
-         $issue_return_id = 0;
-         $data['rows'] = $result;  
-         $data['hw_rows'] = $officeM->getDeviceNameList(); 
-
-         print_($data);
-         /*if($result['status'] == true){
-            $status = true;
-            $issue_return_id = $result['issue_return_id'];
-            $return_data['issue_return_id'] = $issue_return_id;
-         }else{
-            $status = false; 
-         }
-         
-         $return_data['status'] = $status;*/
-
-         //return view('reports/inventorystock', $data);
-         //echo json_encode($return_data);
-         //var_dump($this->request->getPost('query'));
-     //}
    }
 
      public function checkTicketStatus(){
