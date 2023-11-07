@@ -282,7 +282,7 @@ $session = session();
                                     </div>
                                     
                                     <div class="d-flex align-items-center px-2 py-2" id="summary_report_div" >
-                                        <button class="btn btn-primary btn-lg" type="button" id="summary_report" data-ticket_id="<?=$rows->ticket_id?>" style="width: 100%;">Summary Report</button>
+                                        <button class="btn btn-primary btn-lg" type="button" id="summary_report" data-ticket_id="<?=$rows->ticket_id?>" style="width: 100%;">Sr. Req. Rep.</button>
                                     </div>
                                     
                                     <div class="d-flex align-items-center px-2 py-2">

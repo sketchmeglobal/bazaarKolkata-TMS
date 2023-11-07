@@ -141,6 +141,7 @@
                                         </div>
                                     </div>
                                     <input type="hidden" id="table_id" name="table_id" value="0">
+                                    <input type="hidden" id="ticket_id" name="ticket_id" value="0">
                                 </form>
                                 
                             </div>
@@ -253,6 +254,7 @@
                     $hw_id = $('#hw_id').val();
                     $hw_sl_id = $('#hw_sl_id').val();
                     $issueNote = $('#issueNote').val();
+                    $ticket_id = $('#ticket_id').val();
 
                     $hw_text = $('#hw_id option:selected').text();
                     $hw_sl_text = $('#hw_sl_id option:selected').text();
@@ -263,7 +265,8 @@
                         hw_id: $hw_id,
                         hw_sl_id: $hw_sl_id,
                         issueNote: $issueNote,
-                        table_id: $table_id
+                        table_id: $table_id,
+                        ticket_id: $ticket_id
                     };
                     
                     $.ajax({  
@@ -332,6 +335,7 @@
                             $('#hw_sl_id').val(data.result.hw_sl_id);
                             $('#issueNote').val(data.result.issue_return_note);
                             $('#table_id').val(data.result.issue_return_id);
+                            $('#ticket_id').val(data.result.ticket_id);
                             $('#myModal').modal('show');
                         }, 300)
                     }
@@ -360,6 +364,7 @@
             $ticketNo = $('#ticketNo').val();
             console.log('ticketNo: ' + $ticketNo);
             $ticket_found = false;
+            $ticket_id = 0;
 
             $.ajax({  
                 url: '<?php echo base_url('admin/check-ticket-status'); ?>',
@@ -369,12 +374,14 @@
                 success:function(data){
                     //console.log(JSON.stringify(data));
                     if(data.status == false ){
-                        $ticket_found = false;
+                        $ticket_found = false; 
                         $('#ticketNoError').html(data.message);                        
                         $('#ticketNo').removeClass('is-valid');
                         $('#ticketNo').addClass('is-invalid');
                     }else{
                         $ticket_found = true;
+                        $ticket_id = data.ticket_id;
+                        $('#ticket_id').val($ticket_id);
                         $('#ticketNo').removeClass('is-invalid');
                         $('#ticketNo').addClass('is-valid');
                     }
@@ -407,7 +414,7 @@
             if($issue_or_return == '1'){
                 $('#issueNote').val('New Hardware issued');
             }else if($issue_or_return == '2'){
-                $('#issueNote').val('New Hardware returned');
+                $('#issueNote').val('Old Hardware returned');
             }else{
                 $('#issueNote').val('');                
             }

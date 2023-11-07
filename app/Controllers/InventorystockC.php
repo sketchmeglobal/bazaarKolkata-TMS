@@ -21,7 +21,7 @@ class InventorystockC extends BaseController
    }   
 
    public function formValidationRIS(){
-      if($this->request->isAJAX()) {
+      //if($this->request->isAJAX()) {
          $query = service('request')->getPost('query');
          $issue_or_return = $query['issue_or_return'];
          $hw_id = $query['hw_id'];
@@ -44,6 +44,7 @@ class InventorystockC extends BaseController
          $data['rows'] = $result;  
          $data['hw_rows'] = $officeM->getDeviceNameList(); 
 
+         print_($data);
          /*if($result['status'] == true){
             $status = true;
             $issue_return_id = $result['issue_return_id'];
@@ -54,10 +55,10 @@ class InventorystockC extends BaseController
          
          $return_data['status'] = $status;*/
 
-         return view('reports/inventorystock', $data);
+         //return view('reports/inventorystock', $data);
          //echo json_encode($return_data);
          //var_dump($this->request->getPost('query'));
-     }
+     //}
    }
 
      public function checkTicketStatus(){

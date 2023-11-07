@@ -38,7 +38,7 @@
             <div></div>
             <div class="container">
                 <div class="row">
-                    <form class="needs-validation" novalidate name="s_myFormName" id="s_myFormName">
+                    <form class="needs-validation" novalidate name="s_myFormName" id="s_myFormName" action="<?php echo base_url('admin/formValidationRIS'); ?>" method="post" target="_blank">
                         <div class="form-row row"> 
                             <div class="col-md-3 mb-1">
                                 <label for="ticketNo">Type</label>
@@ -71,7 +71,7 @@
                             
                             <div class="col-md-3 pt-4">
                                 <label for="s_parentDesignation">&nbsp;</label>
-                                <button class="btn  btn-primary" type="button" id="s_submitForm" >
+                                <button class="btn  btn-primary" type="submit" id="s_submitForm" >
                                     <span class="spinner-border spinner-border-sm" role="status" style="display: none;" id="s_submitForm_spinner"></span>
                                     <span class="load-text" style="display: none;" id="s_submitForm_spinner_text">Loading...</span>
                                     <span class="btn-text" id="s_submitForm_text">Search</span>
@@ -122,43 +122,44 @@
                     hw_id: $hw_id,
                     hw_sl_id: $hw_sl_id
                 };
-                
-                $.ajax({  
-                    url: '<?php echo base_url('admin/formValidationRIS'); ?>',
-                    type: 'post',
-                    dataType:'json',
-                    data:{query: $query},
-                    success:function(data){
-                        console.log(JSON.stringify(data));
-                        console.log('status: ' + data.status);
-                        /*if(data.status == true ){
-                            if(parseInt(data.issue_return_id) > 0){
-                                //Creat the row
-                                var row = $('<tr>')
-                                    .append('<td>1</td>')
-                                    .append('<td>'+$ticketNo+'</td>')
-                                    .append('<td>'+$hw_text+'</td>')
-                                    .append('<td>'+$hw_sl_text+'</td>')
-                                    .append('<td>'+$issueNote+'</td>')
-                                    .append('<td>'+$issue_or_return_text+'</td>')
-                                    .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'+data.issue_return_id+'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'+data.issue_return_id+'"></i></a></td>')
 
-                                //Prepend row with Table
-                                //myTable.row.add(row);
-                                $('#myTable tbody').prepend(row);
-                            }
-                            //Hide Modal
-                            $('#myModal').modal('hide');
-                        }else{
-                            console.log('validation' + JSON.stringify(data.validation));
-                            $validation = data.validation;
-                            for($i in $validation){
-                                console.log($i + '' + $validation[$i])
-                                $('#'+$i+'Error').html($validation[$i])
-                            }
-                        }*/
-                    }  
-                });
+                
+                // $.ajax({  
+                //     url: '<?php echo base_url('admin/formValidationRIS'); ?>',
+                //     type: 'post',
+                //     dataType:'json',
+                //     data:{query: $query},
+                //     success:function(data){
+                //         console.log(JSON.stringify(data));
+                //         console.log('status: ' + data.status);
+                //         /*if(data.status == true ){
+                //             if(parseInt(data.issue_return_id) > 0){
+                //                 //Creat the row
+                //                 var row = $('<tr>')
+                //                     .append('<td>1</td>')
+                //                     .append('<td>'+$ticketNo+'</td>')
+                //                     .append('<td>'+$hw_text+'</td>')
+                //                     .append('<td>'+$hw_sl_text+'</td>')
+                //                     .append('<td>'+$issueNote+'</td>')
+                //                     .append('<td>'+$issue_or_return_text+'</td>')
+                //                     .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'+data.issue_return_id+'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'+data.issue_return_id+'"></i></a></td>')
+
+                //                 //Prepend row with Table
+                //                 //myTable.row.add(row);
+                //                 $('#myTable tbody').prepend(row);
+                //             }
+                //             //Hide Modal
+                //             $('#myModal').modal('hide');
+                //         }else{
+                //             console.log('validation' + JSON.stringify(data.validation));
+                //             $validation = data.validation;
+                //             for($i in $validation){
+                //                 console.log($i + '' + $validation[$i])
+                //                 $('#'+$i+'Error').html($validation[$i])
+                //             }
+                //         }*/
+                //     }  
+                // });
             }//end if  
         })
 
@@ -259,7 +260,7 @@
             if($issue_or_return == '1'){
                 $('#issueNote').val('New Hardware issued');
             }else if($issue_or_return == '2'){
-                $('#issueNote').val('New Hardware returned');
+                $('#issueNote').val('Old Hardware returned');
             }else{
                 $('#issueNote').val('');                
             }

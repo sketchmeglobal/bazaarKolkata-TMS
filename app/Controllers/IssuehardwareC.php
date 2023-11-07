@@ -29,6 +29,7 @@ class IssuehardwareC extends BaseController
          $hw_sl_id = $query['hw_sl_id'];
          $issueNote = $query['issueNote'];
          $table_id = $query['table_id'];
+         $ticket_id = $query['ticket_id'];
 
          $return_data = array();
          $status = true;
@@ -40,14 +41,16 @@ class IssuehardwareC extends BaseController
             'ticketNo' => 'required',
             'hw_id' => 'required',
             'hw_sl_id' => 'required',
-            'table_id' => 'required'
+            'table_id' => 'required',
+            'ticket_id' => 'required'
          ]);
 
          $data = [
             'ticketNo' => $ticketNo,
             'hw_id' => $hw_id,
             'hw_sl_id' => $hw_sl_id,
-            'table_id' => $table_id
+            'table_id' => $table_id,
+            'ticket_id' => $ticket_id
          ];
          $validatedData = array();
 
@@ -61,7 +64,8 @@ class IssuehardwareC extends BaseController
                'hw_id' => $hw_id,
                'hw_sl_id' => $hw_sl_id,
                'issueNote' => $issueNote,
-               'table_id' => $table_id
+               'table_id' => $table_id,
+               'ticket_id' => $ticket_id
             ];
             
             $result = $officeM->insertTableData($post_data);
@@ -96,11 +100,13 @@ class IssuehardwareC extends BaseController
          $return_data = array();
          $status = true;
          $message = '';
+         $ticket_id = 0;
          $officeM = new IssuehardwareM();
 
          $ticketNo = service('request')->getPost('ticketNo');
          $result = $officeM->checkTicketStatus($ticketNo);
          if($result['status'] == true){
+            $ticket_id = $result['ticket_id'];
             $status = true;            
          }else{
             $status = false;
@@ -110,6 +116,7 @@ class IssuehardwareC extends BaseController
 
       $return_data['status'] = $status;
       $return_data['message'] = $message;
+      $return_data['ticket_id'] = $ticket_id;
       echo json_encode($return_data);
    }//end 
 

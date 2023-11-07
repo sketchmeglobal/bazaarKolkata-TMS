@@ -16,7 +16,9 @@ class SummaryreportC extends BaseController
           $head_officeM = new SummaryreportM();                
          $data['rows'] = $head_officeM->getTicketDetails($ticket_id);               
          $data['tic_stat_rows'] = $head_officeM->getTicketStatus();             
-         $data['holiday_list'] = $head_officeM->getHolidayList();
+         $data['holiday_list'] = $head_officeM->getHolidayList();           
+         $data['return_lists'] = $head_officeM->getReturnList($ticket_id);          
+         $data['issue_lists'] = $head_officeM->getIssueList($ticket_id);
          return view('reports/summary_report', $data);
       }
    } 

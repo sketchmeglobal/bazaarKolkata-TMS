@@ -54,7 +54,7 @@ class IssuehardwareM extends Model
       $hw_sl_id = $validatedData['hw_sl_id'];
       $issueNote = $validatedData['issueNote'];
       $issue_or_return = $validatedData['issue_or_return'];
-      $ticket_id = 0;
+      $ticket_id = $validatedData['ticket_id'];
       $issue_return_id = 0;
 
       $fields_array = [
@@ -165,12 +165,14 @@ class IssuehardwareM extends Model
 
     public function checkTicketStatus($ticketNo){
       $status = true;
+      $ticket_id = 0;
       $return_data = array();
 
       $row = $this->db->table('ticket_details')->select('*')->where([ 'ticket_number' => $ticketNo ])->get()->getResult();
       $arr_size = sizeof($row);
       if($arr_size > 0){
         $ticket_status = $row[0]->ticket_status;
+        $ticket_id = $row[0]->ticket_id;
         if($ticket_status == 8){
           $status = true;
           $message = 'SR Requested and Approved';
@@ -185,6 +187,7 @@ class IssuehardwareM extends Model
 
       $return_data['status'] = $status;
       $return_data['message'] = $message;
+      $return_data['ticket_id'] = $ticket_id;
       return $return_data;
     }//end function   
 
