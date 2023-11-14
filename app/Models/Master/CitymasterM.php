@@ -40,9 +40,33 @@ class CitymasterM extends Model
     protected $afterDelete    = [];      
 
     public function getAllTicketCategory(){
+      $all_state_city = array();
       $rows = $this->db->table('state_master')->select('*')->where(['row_status' => 1, 'parent_id !=' => 0])->get()->getResult();
-      return $rows;
+      //$query = "SELECT parent_state.state_id, parent_state.parent_id, parent_state.state_name, parent_state.city_name FROM `state_master` as parent_state LEFT JOIN state_master AS child_state ON child_state.state_id = parent_state.parent_id";
+      //$rows = $this->db->query($query)->getResult();
+      for($i = 0; $i < sizeof($rows); $i++){
+        $state_id = $rows[$i]->state_id;
+        $parent_id = $rows[$i]->parent_id;
+        $city_name = $rows[$i]->city_name;
+        //echo 'parent_id: '. $parent_id;
+        //echo "<br>";
+        $row_sub = $this->db->table('state_master')->select('state_name')->where(['row_status' => 1, 'state_id' => $parent_id])->get()->getResult();
+        $state_name = $row_sub[0]->state_name;
+        //echo 'state_name: '. $state_name;
+        //print_r($row_sub);
+
+        $city_state = new \stdClass();
+        $city_state->state_id = $state_id;
+        $city_state->parent_id = $parent_id;
+        $city_state->city_name = $city_name;
+        $city_state->state_name = $state_name;
+        array_push($all_state_city, $city_state);
+      }//end for
+      //die;
+      return $all_state_city;
     }//end function
+
+    //SELECT parent_state.state_name, parent_state.city_name FROM `state_master` as parent_state LEFT JOIN state_master AS child_state ON child_state.state_id = parent_state.parent_id;
 
     public function insertTableData($validatedData){
       $status = true;

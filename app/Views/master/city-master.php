@@ -68,7 +68,7 @@
                                 <?php foreach ($rows as $row) : ?>
                                 <tr>
                                     <td><?=$i?></td>
-                                    <td><?=$row->parent_id?></td>
+                                    <td><?=$row->state_name?></td>
                                     <td><?=$row->city_name?></td>
                                     <td class="d-flex justify-content-evenly">
                                         <a href="javascript: void(0);" class="edit_class" data-table_id="<?=$row->state_id?>" data-parent_id="<?=$row->parent_id?>"><i class="fa fa-edit"></i></a>
