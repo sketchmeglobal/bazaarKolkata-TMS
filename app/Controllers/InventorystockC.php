@@ -23,10 +23,8 @@ class InventorystockC extends BaseController
    public function formValidationRIS(){
       $issue_or_return = $this->request->getVar('issue_or_return');
       $hw_id = $this->request->getVar('hw_id');
-      $hw_sl_id = $this->request->getVar('hw_sl_id');
-
-      //echo 'issue_or_return: ' . $issue_or_return.' hw_id: '.$hw_id.' hw_sl_id: '.$hw_sl_id;
-      //die;
+      $from_date = $this->request->getVar('from_date');
+      $to_date = $this->request->getVar('to_date');
 
       $return_data = array();
       $status = true;
@@ -36,7 +34,8 @@ class InventorystockC extends BaseController
       $post_data = [
          'issue_or_return' => $issue_or_return,
          'hw_id' => $hw_id,
-         'hw_sl_id' => $hw_sl_id
+         'from_date' => $from_date,
+         'to_date' => $to_date
       ];
       
       $result = $officeM->getAllFilteredHardware($post_data);

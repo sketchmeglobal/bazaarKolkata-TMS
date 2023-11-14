@@ -58,7 +58,7 @@
                                     <th>Sl No</th>
                                     <th>Category Name</th>
                                     <th>Solution</th>
-                                    <th>Acction</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>

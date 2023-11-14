@@ -58,7 +58,7 @@
                                     <th>Sl No</th>
                                     <th>Device Name</th>
                                     <th>Device Serial No</th>
-                                    <th>Acction</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -294,7 +294,8 @@
             })
 
             //Add Data
-            $('#addNewRecord').on('click', function() {
+            $('#addNewRecord').on('click', function() {                
+                $metaData = [];
                 $("#s_myFormName").trigger("reset");
                 $('#table_id').val('0');
                 $('#myModal').modal('show');

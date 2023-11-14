@@ -57,7 +57,7 @@
                                 <tr>
                                     <th>Sl No</th>
                                     <th>Topic Name</th>
-                                    <th>Acction</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>

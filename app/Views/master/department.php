@@ -58,7 +58,7 @@
                                     <th>Sl No</th>
                                     <th>Department Name</th>
                                     <th>Department Code</th>
-                                    <th>Acction</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -113,7 +113,7 @@
                                         </span>
                                     </div>
                                     <div class="col-md-4 mb-1">
-                                        <label for="dept_code">Department Department</label>
+                                        <label for="dept_code">Department Short Name</label>
                                         <input minlength="5" type="text" class="form-control" name="dept_code"
                                             id="dept_code" required
                                             value="<?= isset($address) ? $address : '' ?>">
@@ -165,16 +165,6 @@
                     $('#dept_name').removeClass('is-invalid');
                     $('#dept_name').addClass('is-valid');
                 }
-
-                if($dept_code == ''){
-                    $status = false;
-                    $formValidMsg += ', location';
-                    $('#dept_code').removeClass('is-valid');
-                    $('#dept_code').addClass('is-invalid');
-                }else{
-                    $('#dept_code').removeClass('is-invalid');
-                    $('#dept_code').addClass('is-valid');
-                } 
 
                 $('#formValidMsg').html($formValidMsg);
 

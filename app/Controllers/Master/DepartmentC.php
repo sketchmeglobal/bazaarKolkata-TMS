@@ -33,22 +33,27 @@ class DepartmentC extends BaseController
             
          $validation = \Config\Services::validation();
          $validation->setRules([
-            'dept_name' => 'required|min_length[5]',
-            'dept_code' => 'required|min_length[5]',
+            'dept_name' => 'required',
             'table_id' => 'required'
          ]);
 
          $data = [
             'dept_name'   => $dept_name,
+            'table_id' => $table_id
+         ];
+
+         $post_data = [
+            'dept_name'   => $dept_name,
             'dept_code'   => $dept_code,
             'table_id' => $table_id
          ];
+
          $validatedData = array();
 
          if ($validation->run($data)) {
             $validatedData = $validation->getValidated(); 
             //print_r($validatedData);
-            $result = $officeM->insertTableData($validatedData);
+            $result = $officeM->insertTableData($post_data);
 
             //echo '****** return form model *******';
             //echo json_encode($result);

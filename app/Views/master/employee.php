@@ -306,7 +306,7 @@
                                     if(parseInt(data.emp_id) > 0){
                                         //Creat the row
                                         var row = $('<tr>')
-                                            .append('<td>'+data.emp_id+'</td>')
+                                            .append('<td>1</td>')
                                             .append('<td>'+$emp_name+'</td>')
                                             .append('<td>'+$primary_phone+'</td>')
                                             .append('<td>'+$secondary_phone+'</td>')

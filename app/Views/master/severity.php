@@ -58,7 +58,7 @@
                                     <th>Sl No</th>
                                     <th>Severity Name</th>
                                     <th>Max. Allowed Time(Hour)</th>
-                                    <th>Acction</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -27,45 +27,49 @@
                 
                 <?php
                 $session = session();
-                if($session->user_level == '1') {
-                    $router = service('router'); 
-                    $controller  = $router->controllerName();  
-                    $words = explode('\\', $controller);
-                    $showword = trim($words[count($words) - 1], '\\');
-                    //echo 'showword: '. $showword;
+                
+                $router = service('router'); 
+                $controller  = $router->controllerName();  
+                $words = explode('\\', $controller);
+                $showword = trim($words[count($words) - 1], '\\');
+                //echo 'showword: '. $showword;
 
-                    $dashboard_show_hide = '';
-                    if($showword == 'DashboardC'){
-                        $dashboard_show_hide = 'active';
-                    }
+                $dashboard_show_hide = '';
+                if($showword == 'DashboardC'){
+                    $dashboard_show_hide = 'active';
+                }
 
-                    $master_show_hide = '';
-                    if($showword == 'HeadofficeC' || $showword == 'WarehouseC' || $showword == 'OutletC' || $showword == 'DepartmentC' || $showword == 'DesignationC' || $showword == 'EmployeeC' || $showword == 'HardwareNameC' || $showword == 'HardwareStockEntryC' || $showword == 'SeverityC' || $showword == 'HolidayC' || $showword == 'TicketopicC' || $showword == 'TickecategoryC' || $showword == 'SolutionsC'){
-                        $master_show_hide = 'show active';
-                    }
+                $master_show_hide = '';
+                if($showword == 'StatemasterC' || $showword == 'CitymasterC' || $showword == 'HeadofficeC' || $showword == 'WarehouseC' || $showword == 'OutletC' || $showword == 'DepartmentC' || $showword == 'DesignationC' || $showword == 'EmployeeC' || $showword == 'HardwareNameC' || $showword == 'HardwareStockEntryC' || $showword == 'SeverityC' || $showword == 'HolidayC' || $showword == 'TicketopicC' || $showword == 'TickecategoryC' || $showword == 'SolutionsC'){
+                    $master_show_hide = 'show active';
+                }
 
-                    $tickets_show_hide = '';
-                    if($showword == 'NewticketC' || $showword == 'AllticketC' || $showword == 'ViewticketC'){
-                        $tickets_show_hide = 'show active';
-                    }
+                $tickets_show_hide = '';
+                if($showword == 'NewticketC' || $showword == 'AllticketC' || $showword == 'ViewticketC'){
+                    $tickets_show_hide = 'show active';
+                }
 
-                    $hardware_show_hide = '';
-                    if($showword == 'IssuehardwareC'){
-                        $hardware_show_hide = 'show active';
-                    }
+                $hardware_show_hide = '';
+                if($showword == 'IssuehardwareC'){
+                    $hardware_show_hide = 'show active';
+                }
 
-                    $reports_show_hide = '';
-                    if($showword == 'InventorystockC'){
-                        $reports_show_hide = 'show active';
-                    }
+                $reports_show_hide = '';
+                if($showword == 'InventorystockC' || $showword == 'UserstaskreportC'){
+                    $reports_show_hide = 'show active';
+                }
+                
                 ?>
                 
                 <div class="navbar-nav w-100">
                     <a href="<?= base_url('admin/dashboard') ?>" class="nav-item nav-link <?=$dashboard_show_hide?>"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
 
+                    <?php if($session->user_level == '1') {?>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle <?=$master_show_hide?>" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Masters</a>
                         <div class="dropdown-menu bg-transparent border-0 <?=$master_show_hide?>">
+                            <a href="<?= base_URL('admin/state-master')?>" class="dropdown-item <?=($showword == 'StatemasterC') ? 'active' : ''?>">State</a>
+                            <a href="<?= base_URL('admin/city-master')?>" class="dropdown-item <?=($showword == 'CitymasterC') ? 'active' : ''?>">City</a>
                             <a href="<?= base_URL('admin/head-office')?>" class="dropdown-item <?=($showword == 'HeadofficeC') ? 'active' : ''?>">Head Office</a>
                             <a href="<?= base_URL('admin/warehouse')?>" class="dropdown-item <?=($showword == 'WarehouseC') ? 'active' : ''?>">Warehouse</a>
                             <a href="<?= base_URL('admin/outlet')?>" class="dropdown-item <?=($showword == 'OutletC') ? 'active' : ''?>">Outlet</a>
@@ -79,9 +83,9 @@
                             <a href="<?= base_URL('admin/ticket-topic')?>" class="dropdown-item <?=($showword == 'TicketopicC') ? 'active' : ''?>">Ticket Topic</a>
                             <a href="<?= base_URL('admin/ticket-category')?>" class="dropdown-item <?=($showword == 'TickecategoryC') ? 'active' : ''?>">Ticket Category</a>
                             <a href="<?= base_URL('admin/solutions')?>" class="dropdown-item <?=($showword == 'SolutionsC') ? 'active' : ''?>">Solutions</a>
-                        </div>
-                        <?php } ?>                    
+                        </div>                  
                     </div>
+                    <?php } ?>  
 
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle <?=$tickets_show_hide?>" data-bs-toggle="dropdown"><i class="fa fa-list me-2"></i>Tickets</a>
@@ -91,20 +95,21 @@
                         </div>
                     </div>
                     
-                    <?php if($session->user_level == '1' || $session->user_level == '3'){ ?>
+                    <?php if($session->user_level == '1' || $session->user_level == '2' || $session->user_level == '3'){ ?>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle <?=$hardware_show_hide?>" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Hardware</a>
+                        <a href="#" class="nav-link dropdown-toggle <?=$hardware_show_hide?>" data-bs-toggle="dropdown"><i class="fa fa-list me-2"></i>Hardware</a>
                         <div class="dropdown-menu bg-transparent border-0 <?=$hardware_show_hide?>">
                             <a href="<?= base_url('admin/issue-return-hardware') ?>" class="dropdown-item <?=($showword == 'IssuehardwareC') ? 'active' : ''?>">Issue / Return</a>
                         </div>
                     </div>
                     <?php } ?>
                     
-                    <?php if($session->user_level == '1' || $session->user_level == '3'){ ?>
+                    <?php if($session->user_level == '1' || $session->user_level == '2' || $session->user_level == '3'){ ?>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle <?=$reports_show_hide?>" data-bs-toggle="dropdown"><i class="fa fa-users me-2"></i>Report</a>
+                        <a href="#" class="nav-link dropdown-toggle <?=$reports_show_hide?>" data-bs-toggle="dropdown"><i class="fa fa-list me-2"></i>Report</a>
                         <div class="dropdown-menu bg-transparent border-0 <?=$reports_show_hide?>">
                             <a href="<?= base_url('admin/inventory-stock') ?>" class="dropdown-item <?=($showword == 'InventorystockC') ? 'active' : ''?>">Inventory Stock</a>
+                            <a href="<?= base_url('admin/user-task-search') ?>" class="dropdown-item <?=($showword == 'UserstaskreportC') ? 'active' : ''?>">User's Task report</a>
                         </div>
                     </div>
                     <?php } ?>

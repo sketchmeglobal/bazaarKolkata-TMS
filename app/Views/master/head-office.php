@@ -58,7 +58,7 @@
                                     <th>Sl No</th>
                                     <th>Head Office Name</th>
                                     <th>Head Office Location</th>
-                                    <th>Acction</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>

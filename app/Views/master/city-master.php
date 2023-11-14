@@ -33,13 +33,13 @@
             <!-- Navbar End -->
             <div class="container">
                 <div class="row justify-content-center">
-                <div class="container-fluid">
+                    <div class="container-fluid">
                       <nav aria-label="breadcrumb" class="row bg-breadcrumb">
                         <ol class="breadcrumb my-0 ms-2">
                           <li class="breadcrumb-item">
                             <span>Home</span>
                           </li>
-                          <li class="breadcrumb-item active"><span>Hardware Name</span></li>
+                          <li class="breadcrumb-item active"><span>City Master</span></li>
                         </ol>
                       </nav>
                     </div>
@@ -56,23 +56,23 @@
                             <thead>
                                 <tr>
                                     <th>Sl No</th>
-                                    <th>Hardware Name</th>
-                                    <th>Hardware Code</th>
+                                    <th>State</th>
+                                    <th>City</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if ($rows) : ?>
-                                <?php 
+                                <?php if ($rows) : 
                                     $i = 1;
-                                    foreach ($rows as $row) : ?>
+                                    ?>
+                                <?php foreach ($rows as $row) : ?>
                                 <tr>
                                     <td><?=$i?></td>
-                                    <td><?=$row['hw_name']?></td>
-                                    <td><?=$row['hw_code']?></td>
+                                    <td><?=$row->parent_id?></td>
+                                    <td><?=$row->city_name?></td>
                                     <td class="d-flex justify-content-evenly">
-                                        <a href="javascript: void(0);" class="edit_class" data-table_id="<?=$row['hw_id']?>"><i class="fa fa-edit"></i></a>
-                                        <a class="remove" href="javascript: void(0);" data-table_id="<?=$row['hw_id']?>"><i class="fas fa-times"></i></a>
+                                        <a href="javascript: void(0);" class="edit_class" data-table_id="<?=$row->state_id?>" data-parent_id="<?=$row->parent_id?>"><i class="fa fa-edit"></i></a>
+                                        <a class="remove" href="javascript: void(0);" data-table_id="<?=$row->state_id?>" data-parent_id="<?=$row->parent_id?>"><i class="fas fa-times"></i></a>
                                     </td>
                                 </tr>
                                 <?php 
@@ -92,9 +92,12 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="text-primary modal-title" id="exampleModalLongTitle">Hardware Name</h5>
+                            <h5 class="text-primary modal-title" id="exampleModalLongTitle"> City Master
+                            </h5>
 
-                            <button type="button" class=" btn btn-lg btn-primary btn-lg-square back-to-topclose" data-dismiss="modal" aria-label="Close" id="closeModal1"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class=" btn btn-lg btn-primary btn-lg-square back-to-topclose"
+                                data-dismiss="modal" aria-label="Close" id="closeModal1"><span
+                                    aria-hidden="true">&times;</span></button>
                         </div>
                         <div class="modal-body">
                             <form class="needs-validation" id="s_myFormName" method="post">
@@ -105,22 +108,31 @@
                                         <?php echo session()->getFlashdata('success'); ?>
                                     </div>
                                     <?php } ?>
+
                                     <div class="col-md-4 mb-1">
-                                        <label for="hw_name">Hardware Name</label>
-                                        <input type="text" class="form-control" name="hw_name" id="hw_name" required
-                                            value="<?= isset($name) ? $name : '' ?>">
-                                        <span class="error" id="hw_nameError"> </span>
-                                    </div>
-                                    <div class="col-md-4 mb-1">
-                                        <label for="hw_code">Hardware Code</label>
-                                        <input minlength="5" type="text" class="form-control" name="hw_code" id="hw_code" required
-                                            value="">
-                                        <span class="error" id="hw_codeError"> </span>
+                                        <label for="state_id">State</label>
+                                        <select class="form-control" id="state_id" name="state_id">
+                                            <option value="0">Select</option>
+                                            <?php if($state_rows): ?>
+                                            <?php foreach($state_rows as $state_row): ?>
+                                            <option value="<?=$state_row->state_id?>"><?=$state_row->state_name?> </option>
+                                            <?php endforeach ?>
+                                            <?php endif ?>
+                                        </select>
+                                        <span class="error" id="state_idError"> </span>
                                     </div>
 
                                     <div class="col-md-4 mb-1">
+                                        <label for="city_name">City Name</label>
+                                        <input type="text" class="form-control" name="city_name" id="city_name" required
+                                            value="<?= isset($name) ? $name : '' ?>">
+                                        <span class="error" id="city_nameError">
+                                            <?=(isset($validation['name']) ? $validation['name'] : '' ); ?>
+                                        </span>
+                                    </div>
+                                    <div class="col-md-4 mt-4">
                                         <label for="s_parentDesignation">&nbsp;</label>
-                                        <input class="btn btn-primary py-2 w-50 mt-4" type="button" value="Save" name="submit" id="s_submitForm">
+                                        <input class="btn btn-primary py-2 w-50 mb-1" type="button" value="Save" name="submit" id="s_submitForm">
                                     </div>
                                 </div>
                                 <input type="hidden" id="table_id" name="table_id" value="0">
@@ -148,31 +160,31 @@
             //$("#s_myFormName").validate();
             //Validation Form
             function validateForm(){
-                $hw_name = $('#hw_name').val().replace(/^\s+|\s+$/gm,'');
-                $hw_code = $('#hw_code').val().replace(/^\s+|\s+$/gm,'');
+                $city_name = $('#city_name').val().replace(/^\s+|\s+$/gm,'');
+                $state_id = $('#state_id').val();
                 
                 $status = true;
                 $formValidMsg = '';
                 
-                if($hw_name == ''){
+                if($state_id == '0'){
                     $status = false;
-                    $formValidMsg += 'Please enter Hardware Name';
-                    $('#hw_name').removeClass('is-valid');
-                    $('#hw_name').addClass('is-invalid');
+                    $formValidMsg += 'Please select topic name';
+                    $('#state_id').removeClass('is-valid');
+                    $('#state_id').addClass('is-invalid');
                 }else{
-                    $('#hw_name').removeClass('is-invalid');
-                    $('#hw_name').addClass('is-valid');
+                    $('#state_id').removeClass('is-invalid');
+                    $('#state_id').addClass('is-valid');
                 }
-
-                if($hw_code == ''){
+                
+                if($city_name == ''){
                     $status = false;
-                    $formValidMsg += ', Code';
-                    $('#hw_code').removeClass('is-valid');
-                    $('#hw_code').addClass('is-invalid');
+                    $formValidMsg += ', City name';
+                    $('#city_name').removeClass('is-valid');
+                    $('#city_name').addClass('is-invalid');
                 }else{
-                    $('#hw_code').removeClass('is-invalid');
-                    $('#hw_code').addClass('is-valid');
-                } 
+                    $('#city_name').removeClass('is-invalid');
+                    $('#city_name').addClass('is-valid');
+                }
 
                 $('#formValidMsg').html($formValidMsg);
 
@@ -195,15 +207,17 @@
 
                     if($formVallidStatus == true){
                         $table_id = $('#table_id').val();
+                        $state_id_text = $('#state_id option:selected').text();
+
                         $query = {
-                            hw_name: $hw_name,
-                            hw_code: $hw_code,
+                            state_id: $state_id,
+                            city_name: $city_name,
                             table_id: $table_id
                         };
 
                         console.log('form validated, save data & populate the data table')
                         $.ajax({  
-                            url: '<?php echo base_url('admin/formValidationHW'); ?>',
+                            url: '<?php echo base_url('admin/formValidationCM'); ?>',
                             type: 'post',
                             dataType:'json',
                             data:{query: $query},
@@ -211,19 +225,18 @@
                                 console.log(JSON.stringify(data));
                                 console.log('status: ' + data.status);
                                 if(data.status == true ){
-                                    $('#hw_nameError').html('');
-                                    $('#hw_codeError').html('');
+                                    $('#city_nameError').html('');
                         
                                     $('#formValidMsg').hide();
                                     $("#s_myFormName").trigger("reset");
 
-                                    if(parseInt(data.ho_id) > 0){
+                                    if(parseInt(data.state_id) > 0){
                                         //Creat the row
                                         var row = $('<tr>')
-                                            .append('<td>'+data.ho_id+'</td>')
-                                            .append('<td>'+$hw_name+'</td>')
-                                            .append('<td>'+$hw_code+'</td>')
-                                            .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'+data.ho_id+'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'+data.ho_id+'"></i></a></td>')
+                                            .append('<td>'+data.state_id+'</td>')
+                                            .append('<td>'+$state_id_text+'</td>')
+                                            .append('<td>'+$city_name+'</td>')
+                                            .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'+data.state_id+'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'+data.state_id+'"></i></a></td>')
 
                                         //Prepend row with Table
                                         //myTable.row.add(row);
@@ -263,14 +276,14 @@
             })
 
             //Delete Data
-            $(".remove").click(function() {
+            $('#myTable').on('click', '.remove', function(){
                 if(confirm("Are You Sure? This Process Can\'t be Undone.")){
                     $table_id = $(this).data('table_id');
                     $(this).closest('tr').remove();
                     //console.log('Delete table_id: ' + $table_id);
 
                     $.ajax({  
-                        url: '<?php echo base_url('admin/removeTableDataHW'); ?>',
+                        url: '<?php echo base_url('admin/removeTableDataCM'); ?>',
                         type: 'post',
                         dataType:'json',
                         data:{table_id: $table_id},
@@ -287,12 +300,12 @@
             });
 
             //Edit Data
-            $(".edit_class").click(function() {
+            $('#myTable').on('click', '.edit_class', function(){
                 $table_id = $(this).data('table_id');
                 //console.log('Delete table_id: ' + $table_id);
 
                 $.ajax({  
-                    url: '<?php echo base_url('admin/getTableDataHW'); ?>',
+                    url: '<?php echo base_url('admin/getTableDataCM'); ?>',
                     type: 'post',
                     dataType:'json',
                     data:{table_id: $table_id},
@@ -300,9 +313,9 @@
                         console.log(JSON.stringify(data));
                         //console.log('status: ' + data.status);
                         if(data.status == true ){
-                            $('#hw_name').val(data.result.hw_name);
-                            $('#hw_code').val(data.result.hw_code);
-                            $('#table_id').val(data.result.hw_id);
+                            $('#state_id').val(data.result.parent_id);
+                            $('#city_name').val(data.result.city_name);
+                            $('#table_id').val(data.result.state_id);
                             $('#myModal').modal('show');
                         }
                     }  

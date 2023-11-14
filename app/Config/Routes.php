@@ -19,6 +19,18 @@ $routes->match(['get', 'post'], '/auth', 'DashboardC::index');
 $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'dashboard', 'DashboardC::index');
 
+    //State Master
+    $routes->match(['get', 'post'], 'state-master', 'Master\StatemasterC::index');
+    $routes->match(['get', 'post'], 'formValidationST', 'Master\StatemasterC::formValidationST');
+    $routes->match(['get', 'post'], 'removeTableDataST', 'Master\StatemasterC::removeTableDataST');
+    $routes->match(['get', 'post'], 'getTableDataST', 'Master\StatemasterC::getTableDataST');
+
+    //City Master    
+    $routes->match(['get', 'post'], 'city-master', 'Master\CitymasterC::index');
+    $routes->match(['get', 'post'], 'formValidationCM', 'Master\CitymasterC::formValidationCM');
+    $routes->match(['get', 'post'], 'removeTableDataCM', 'Master\CitymasterC::removeTableDataCM');
+    $routes->match(['get', 'post'], 'getTableDataCM', 'Master\CitymasterC::getTableDataCM');
+
     //Head Office
     $routes->match(['get', 'post'], 'head-office', 'Master\HeadofficeC::index');
     $routes->match(['get', 'post'], 'formValidation', 'Master\HeadofficeC::formValidation');
@@ -121,6 +133,8 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'summary_report/(:num)', 'SummaryreportC::index/$1');
     $routes->match(['get', 'post'], 'inventory-stock', 'InventorystockC::index');
     $routes->match(['get', 'post'], 'inventory-stock-report', 'InventorystockC::formValidationRIS');
+    $routes->match(['get', 'post'], 'user-task-search', 'UserstaskreportC::index');
+    $routes->match(['get', 'post'], 'user-task-report', 'UserstaskreportC::getSearchResult');
     
     //Return Hardware
     //$routes->match(['get', 'post'], 'return-hardware', 'ReturnhardwareC::index');

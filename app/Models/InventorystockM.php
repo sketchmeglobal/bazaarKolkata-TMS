@@ -41,8 +41,11 @@ class InventorystockM extends Model
 
     public function getAllFilteredHardware($post_data){
       $issue_or_return = $post_data['issue_or_return'];
+      $hw_id = $post_data['hw_id'];
+      $from_date = $post_data['from_date'];
+      $to_date = $post_data['to_date'];
 
-      $rows = $this->db->table('hw_issue_return')->select('hw_issue_return.issue_return_id, hw_issue_return.ticket_id, hw_issue_return.ticket_no, hw_issue_return.hw_id, hw_issue_return.hw_sl_id, hw_issue_return.issue_or_return, hw_issue_return.issue_return_note, hardware.hw_name, hardware.hw_code, hardware_serial.serial_no')->join('hardware', 'hardware.hw_id = hw_issue_return.hw_id')->join('hardware_serial', 'hardware_serial.hw_id = hw_issue_return.hw_id')->where(['hw_issue_return.row_status' => 1, 'hw_issue_return.issue_or_return' => $issue_or_return])->limit(100)->get()->getResult();
+      $rows = $this->db->table('hw_issue_return')->select('hw_issue_return.issue_return_id, hw_issue_return.ticket_id, hw_issue_return.ticket_no, hw_issue_return.hw_id, hw_issue_return.hw_sl_id, hw_issue_return.issue_or_return, hw_issue_return.issue_return_note, hardware.hw_name, hardware.hw_code, hardware_serial.serial_no')->join('hardware', 'hardware.hw_id = hw_issue_return.hw_id')->join('hardware_serial', 'hardware_serial.hw_id = hw_issue_return.hw_id')->where(['hw_issue_return.row_status' => 1, 'hw_issue_return.issue_or_return' => $issue_or_return, 'hw_issue_return.hw_id' => $hw_id])->limit(100)->get()->getResult();
       return $rows;
     }//end function 
 

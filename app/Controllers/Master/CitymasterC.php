@@ -4,98 +4,82 @@ namespace App\Controllers\Master;
 
 use App\Controllers\BaseController;
 use App\Models\AuthM;
-use App\Models\Master\HardwareStockEntryM;
+use App\Models\Master\CitymasterM;
 
-class HardwareStockEntryC extends BaseController
+class CitymasterC extends BaseController
 {
    public function index(){ 
       $session = session();
       if($session->logged_in == '') {
           return redirect()->to('logout');
       }else{
-         $head_officeM = new HardwareStockEntryM();            
-         $data['rows'] = $head_officeM->getHwWithSerialNo();             
-         $data['hw_rows'] = $head_officeM->getDeviceNameList();           
-         return view('master/hardwarestockentry', $data);
+          $head_officeM = new CitymasterM();           
+          $data['rows'] = $head_officeM->getAllTicketCategory();            
+          $data['state_rows'] = $head_officeM->getAllStates();           
+         return view('master/city-master', $data);
       }
    }
 
-   public function formValidationHWS(){
+   public function formValidationCM(){
       if($this->request->isAJAX()) {
          $query = service('request')->getPost('query');
-         $hw_id = $query['hw_id'];
-         $serial_no = $query['serial_no'];
+         $state_id = $query['state_id'];
+         $city_name = $query['city_name'];
          $table_id = $query['table_id'];
-         if(isset($query['deviceMetaData'])){
-            $deviceMetaData = $query['deviceMetaData'];
-         }else{
-            $deviceMetaData = array();
-         }
 
          $return_data = array();
          $status = true;
          $session = session();
-         $officeM = new HardwareStockEntryM();
+         $officeM = new CitymasterM();
             
          $validation = \Config\Services::validation();
          $validation->setRules([
-            'hw_id' => 'required',
-            'serial_no' => 'required',
+            'state_id' => 'required',
+            'city_name' => 'required',
             'table_id' => 'required'
          ]);
 
          $data = [
-            'hw_id'   => $hw_id,
-            'serial_no'   => $serial_no,
+            'state_id' => $state_id,
+            'city_name' => $city_name,
             'table_id' => $table_id
          ];
-         $validatedData = array();         
-
-         $postData = [
-            'hw_id'   => $hw_id,
-            'serial_no'   => $serial_no,
-            'table_id' => $table_id,
-            'deviceMetaData' => $deviceMetaData
-         ];
+         $validatedData = array();
 
          if ($validation->run($data)) {
             $validatedData = $validation->getValidated(); 
             //print_r($validatedData);
-            $result = $officeM->insertTableData($postData);
+            $result = $officeM->insertTableData($validatedData);
 
-            //echo '****** return form model *******';
-            //echo json_encode($result);
-            //echo 'ho id: ' . $result['ho_id'];
-            $ho_id = 0;
+            $state_id = 0;
             if($result['status'] == true){
                $status = true;
-               $ho_id = $result['ho_id'];
-               $return_data['ho_id'] = $ho_id;
+               $state_id = $result['state_id'];
+               $city_name = $result['city_name'];
+               $return_data['state_id'] = $state_id;
+               $return_data['city_name'] = $city_name;
             }else{
                $status = false; 
             }
-
             
          }else {
             $return_data['validation'] = $validation->getErrors();
             $status = false;
          } 
-
          $return_data['status'] = $status;
-
          echo json_encode($return_data);
          //var_dump($this->request->getPost('query'));
      }
    }
 
-   public function removeTableDataHWS(){
+   public function removeTableDataCM(){
       if($this->request->isAJAX()) {
          $return_data = array();
          $status = true;
-         $officeM = new HardwareStockEntryM();
+         $officeM = new CitymasterM();
 
          $table_id = service('request')->getPost('table_id');
-         $result = $officeM->removeTableDataHWS($table_id);
+         $result = $officeM->removeTableDataCM($table_id);
          if($result['status'] == true){
 
          }
@@ -105,14 +89,14 @@ class HardwareStockEntryC extends BaseController
       echo json_encode($return_data);
    }//end 
 
-   public function getTableDataHWS(){
+   public function getTableDataCM(){
       if($this->request->isAJAX()) {
          $return_data = array();
          $status = true;
-         $officeM = new HardwareStockEntryM();
+         $officeM = new CitymasterM();
 
          $table_id = service('request')->getPost('table_id');
-         $result = $officeM->getTableDataHWS($table_id);
+         $result = $officeM->getTableDataCM($table_id);
          if($result['status'] == true){
             $status = true;
             $row = $result['row'];

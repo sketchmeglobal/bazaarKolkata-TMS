@@ -58,7 +58,7 @@
                                     <th>Sl No</th>
                                     <th>Ware House Name</th>
                                     <th>Ware House Location</th>
-                                    <th>Acction</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>

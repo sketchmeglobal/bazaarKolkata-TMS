@@ -58,7 +58,7 @@
                                     <th>Sl No</th>
                                     <th>Topic Type</th>
                                     <th>Topic Category</th>
-                                    <th>Acction</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -51,7 +51,7 @@
                                     <th>Serial No</th>
                                     <th>Note</th>
                                     <th>Type</th>
-                                    <th>Acction</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>

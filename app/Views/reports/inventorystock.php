@@ -41,7 +41,16 @@
                     <form class="needs-validation" novalidate name="s_myFormName" id="s_myFormName" action="<?php echo base_url('admin/inventory-stock-report'); ?>" method="post" target="_blank">
                         <div class="form-row row"> 
                             <div class="col-md-3 mb-1">
-                                <label for="ticketNo">Type</label>
+                                <label for="from_date">From date</label>
+                                <input type="date" class="form-control" id="from_date" name="from_date">
+                            </div> 
+                            <div class="col-md-3 mb-1">
+                                <label for="to_date">To Date</label>
+                                <input type="date" class="form-control" id="to_date" name="to_date">
+                            </div> 
+
+                            <div class="col-md-3 mb-1">
+                                <label for="issue_or_return">Type</label>
                                 <select class="form-control" id="issue_or_return" name="issue_or_return">
                                     <option value="0">Select</option>
                                     <option value="1">Issue</option>
@@ -59,15 +68,7 @@
                                     <?php endif ?>
                                 </select>
                                 <span class="error" id="hw_idError"> </span> 
-                            </div>
-
-                            <div class="col-md-3 mb-1">
-                                <label for="hw_sl_id">Serial No</label>
-                                <select class="form-control" id="hw_sl_id" name="hw_sl_id">
-                                    <option value="0">Select</option>
-                                </select>
-                                <span class="error" id="hw_sl_idError"> </span> 
-                            </div>                              
+                            </div>                             
                             
                             <div class="col-md-3 pt-4">
                                 <label for="s_parentDesignation">&nbsp;</label>
@@ -101,14 +102,17 @@
         $('#s_submitForm').click(function(){
             $issue_or_return = $('#issue_or_return').val();
             $hw_id = $('#hw_id').val();
-            $hw_sl_id = $('#hw_sl_id').val();
+            $from_date = $('#from_date').val();
+            $to_date = $('#to_date').val();
 
             $('#s_submitForm_spinner').show();
             $('#s_submitForm_spinner_text').show();
             $('#s_submitForm_text').hide();
             $('#formValidMsg').hide();
 
-            if($issue_or_return == 0 && $hw_id == 0 && $hw_sl_id == 0){                
+            $('#formValidMsg').html('');
+            
+            if($issue_or_return == 0 && $hw_id == 0 && $from_date == '' && $to_date == ''){                
                 $('#formValidMsg').html('Please select any of the search parameter');
                 $('#formValidMsg').show();
 
@@ -120,13 +124,14 @@
                 $query = {
                     issue_or_return: $issue_or_return,
                     hw_id: $hw_id,
-                    hw_sl_id: $hw_sl_id
+                    from_date: $from_date,
+                    to_date: $to_date
                 };
 
                 $('#s_submitForm_spinner').hide();
                 $('#s_submitForm_spinner_text').hide();
                 $('#s_submitForm_text').show();
-                $('#formValidMsg').show();
+                $('#formValidMsg').hide();
                 
             }//end if  
         })
@@ -150,7 +155,7 @@
                             $('#issue_or_return').val(data.result.issue_or_return);
                             $('#ticketNo').val(data.result.ticket_no);
                             $('#hw_id').val(data.result.hw_id);
-                            $('#hw_sl_id').val(data.result.hw_sl_id);
+                            //$('#hw_sl_id').val(data.result.hw_sl_id);
                             $('#issueNote').val(data.result.issue_return_note);
                             $('#table_id').val(data.result.issue_return_id);
                             $('#myModal').modal('show');
@@ -171,7 +176,7 @@
                     console.log(JSON.stringify(data));
                     
                     if(data.status == true ){
-                        $('#hw_sl_id').html(data.option_text);
+                        //$('#hw_sl_id').html(data.option_text);
                     }
                 }  
             });//end ajak                
@@ -216,7 +221,7 @@
                 success:function(data){
                     //console.log(JSON.stringify(data));
                     if(data.status == true ){
-                        $('#hw_sl_id').html(data.option_text);
+                        //$('#hw_sl_id').html(data.option_text);
                     }
                 }  
             });//end ajak

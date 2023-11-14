@@ -39,7 +39,7 @@
                           <li class="breadcrumb-item">
                             <span>Home</span>
                           </li>
-                          <li class="breadcrumb-item active"><span>Hardware Name</span></li>
+                          <li class="breadcrumb-item active"><span> State</span></li>
                         </ol>
                       </nav>
                     </div>
@@ -56,8 +56,8 @@
                             <thead>
                                 <tr>
                                     <th>Sl No</th>
-                                    <th>Hardware Name</th>
-                                    <th>Hardware Code</th>
+                                    <th>State Name</th>
+                                    <th>State Code</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -68,18 +68,17 @@
                                     foreach ($rows as $row) : ?>
                                 <tr>
                                     <td><?=$i?></td>
-                                    <td><?=$row['hw_name']?></td>
-                                    <td><?=$row['hw_code']?></td>
+                                    <td><?=$row->state_name?></td>
+                                    <td><?=$row->state_code?></td>
                                     <td class="d-flex justify-content-evenly">
-                                        <a href="javascript: void(0);" class="edit_class" data-table_id="<?=$row['hw_id']?>"><i class="fa fa-edit"></i></a>
-                                        <a class="remove" href="javascript: void(0);" data-table_id="<?=$row['hw_id']?>"><i class="fas fa-times"></i></a>
+                                        <a href="javascript: void(0);" class="edit_class" data-table_id="<?=$row->state_id?>"><i class="fa fa-edit"></i></a>
+                                        <a class="remove" href="javascript: void(0);" data-table_id="<?=$row->state_id?>"><i class="fas fa-times"></i></a>
                                     </td>
                                 </tr>
                                 <?php 
                                 $i++;
                                 endforeach ?>
                                 <?php endif ?>
-
                             </tbody>
                         </table>
                     </div>
@@ -92,7 +91,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="text-primary modal-title" id="exampleModalLongTitle">Hardware Name</h5>
+                            <h5 class="text-primary modal-title" id="exampleModalLongTitle">State</h5>
 
                             <button type="button" class=" btn btn-lg btn-primary btn-lg-square back-to-topclose" data-dismiss="modal" aria-label="Close" id="closeModal1"><span aria-hidden="true">&times;</span></button>
                         </div>
@@ -106,16 +105,19 @@
                                     </div>
                                     <?php } ?>
                                     <div class="col-md-4 mb-1">
-                                        <label for="hw_name">Hardware Name</label>
-                                        <input type="text" class="form-control" name="hw_name" id="hw_name" required
+                                        <label for="state_name">State Name</label>
+                                        <input type="text" class="form-control" name="state_name" id="state_name" required
                                             value="<?= isset($name) ? $name : '' ?>">
-                                        <span class="error" id="hw_nameError"> </span>
+                                        <span class="error" id="state_nameError">
+                                            <?=(isset($validation['name']) ? $validation['name'] : '' ); ?>
+                                        </span>
                                     </div>
                                     <div class="col-md-4 mb-1">
-                                        <label for="hw_code">Hardware Code</label>
-                                        <input minlength="5" type="text" class="form-control" name="hw_code" id="hw_code" required
-                                            value="">
-                                        <span class="error" id="hw_codeError"> </span>
+                                        <label for="state_code">State Code</label>
+                                        <input minlength="5" type="text" class="form-control" name="state_code"
+                                            id="state_code" required
+                                            value="<?= isset($address) ? $address : '' ?>">
+                                        <span class="error" id="state_codeError"><?= (isset($validation['address']) ? $validation['address'] : ''); ?></span>
                                     </div>
 
                                     <div class="col-md-4 mb-1">
@@ -148,31 +150,21 @@
             //$("#s_myFormName").validate();
             //Validation Form
             function validateForm(){
-                $hw_name = $('#hw_name').val().replace(/^\s+|\s+$/gm,'');
-                $hw_code = $('#hw_code').val().replace(/^\s+|\s+$/gm,'');
+                $state_name = $('#state_name').val().replace(/^\s+|\s+$/gm,'');
+                $state_code = $('#state_code').val().replace(/^\s+|\s+$/gm,'');
                 
                 $status = true;
                 $formValidMsg = '';
                 
-                if($hw_name == ''){
+                if($state_name == ''){
                     $status = false;
-                    $formValidMsg += 'Please enter Hardware Name';
-                    $('#hw_name').removeClass('is-valid');
-                    $('#hw_name').addClass('is-invalid');
+                    $formValidMsg += 'Please enter State name';
+                    $('#state_name').removeClass('is-valid');
+                    $('#state_name').addClass('is-invalid');
                 }else{
-                    $('#hw_name').removeClass('is-invalid');
-                    $('#hw_name').addClass('is-valid');
+                    $('#state_name').removeClass('is-invalid');
+                    $('#state_name').addClass('is-valid');
                 }
-
-                if($hw_code == ''){
-                    $status = false;
-                    $formValidMsg += ', Code';
-                    $('#hw_code').removeClass('is-valid');
-                    $('#hw_code').addClass('is-invalid');
-                }else{
-                    $('#hw_code').removeClass('is-invalid');
-                    $('#hw_code').addClass('is-valid');
-                } 
 
                 $('#formValidMsg').html($formValidMsg);
 
@@ -196,14 +188,14 @@
                     if($formVallidStatus == true){
                         $table_id = $('#table_id').val();
                         $query = {
-                            hw_name: $hw_name,
-                            hw_code: $hw_code,
+                            state_name: $state_name,
+                            state_code: $state_code,
                             table_id: $table_id
                         };
 
                         console.log('form validated, save data & populate the data table')
                         $.ajax({  
-                            url: '<?php echo base_url('admin/formValidationHW'); ?>',
+                            url: '<?php echo base_url('admin/formValidationST'); ?>',
                             type: 'post',
                             dataType:'json',
                             data:{query: $query},
@@ -211,8 +203,8 @@
                                 console.log(JSON.stringify(data));
                                 console.log('status: ' + data.status);
                                 if(data.status == true ){
-                                    $('#hw_nameError').html('');
-                                    $('#hw_codeError').html('');
+                                    $('#state_nameError').html('');
+                                    $('#state_codeError').html('');
                         
                                     $('#formValidMsg').hide();
                                     $("#s_myFormName").trigger("reset");
@@ -221,8 +213,8 @@
                                         //Creat the row
                                         var row = $('<tr>')
                                             .append('<td>'+data.ho_id+'</td>')
-                                            .append('<td>'+$hw_name+'</td>')
-                                            .append('<td>'+$hw_code+'</td>')
+                                            .append('<td>'+$state_name+'</td>')
+                                            .append('<td>'+$state_code+'</td>')
                                             .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" data-table_id="'+data.ho_id+'"><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" data-table_id="'+data.ho_id+'"></i></a></td>')
 
                                         //Prepend row with Table
@@ -270,7 +262,7 @@
                     //console.log('Delete table_id: ' + $table_id);
 
                     $.ajax({  
-                        url: '<?php echo base_url('admin/removeTableDataHW'); ?>',
+                        url: '<?php echo base_url('admin/removeTableDataST'); ?>',
                         type: 'post',
                         dataType:'json',
                         data:{table_id: $table_id},
@@ -292,7 +284,7 @@
                 //console.log('Delete table_id: ' + $table_id);
 
                 $.ajax({  
-                    url: '<?php echo base_url('admin/getTableDataHW'); ?>',
+                    url: '<?php echo base_url('admin/getTableDataST'); ?>',
                     type: 'post',
                     dataType:'json',
                     data:{table_id: $table_id},
@@ -300,9 +292,9 @@
                         console.log(JSON.stringify(data));
                         //console.log('status: ' + data.status);
                         if(data.status == true ){
-                            $('#hw_name').val(data.result.hw_name);
-                            $('#hw_code').val(data.result.hw_code);
-                            $('#table_id').val(data.result.hw_id);
+                            $('#state_name').val(data.result.state_name);
+                            $('#state_code').val(data.result.state_code);
+                            $('#table_id').val(data.result.state_id);
                             $('#myModal').modal('show');
                         }
                     }  

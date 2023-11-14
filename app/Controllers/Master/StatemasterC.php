@@ -4,64 +4,56 @@ namespace App\Controllers\Master;
 
 use App\Controllers\BaseController;
 use App\Models\AuthM;
-use App\Models\Master\HardwareStockEntryM;
+use App\Models\Master\StatemasterM;
 
-class HardwareStockEntryC extends BaseController
+class StatemasterC extends BaseController
 {
-   public function index(){ 
+   public function index(){  
       $session = session();
       if($session->logged_in == '') {
           return redirect()->to('logout');
       }else{
-         $head_officeM = new HardwareStockEntryM();            
-         $data['rows'] = $head_officeM->getHwWithSerialNo();             
-         $data['hw_rows'] = $head_officeM->getDeviceNameList();           
-         return view('master/hardwarestockentry', $data);
+          $head_officeM = new StatemasterM();            
+         $data['rows'] = $head_officeM->getAllStates();            
+         return view('master/state', $data);
       }
    }
 
-   public function formValidationHWS(){
+   public function formValidationST(){
       if($this->request->isAJAX()) {
          $query = service('request')->getPost('query');
-         $hw_id = $query['hw_id'];
-         $serial_no = $query['serial_no'];
+         $state_name = $query['state_name'];
+         $state_code = $query['state_code'];
          $table_id = $query['table_id'];
-         if(isset($query['deviceMetaData'])){
-            $deviceMetaData = $query['deviceMetaData'];
-         }else{
-            $deviceMetaData = array();
-         }
 
          $return_data = array();
          $status = true;
          $session = session();
-         $officeM = new HardwareStockEntryM();
+         $officeM = new StatemasterM();
             
          $validation = \Config\Services::validation();
          $validation->setRules([
-            'hw_id' => 'required',
-            'serial_no' => 'required',
+            'state_name' => 'required',
             'table_id' => 'required'
          ]);
 
          $data = [
-            'hw_id'   => $hw_id,
-            'serial_no'   => $serial_no,
+            'state_name'   => $state_name,
             'table_id' => $table_id
          ];
-         $validatedData = array();         
 
-         $postData = [
-            'hw_id'   => $hw_id,
-            'serial_no'   => $serial_no,
-            'table_id' => $table_id,
-            'deviceMetaData' => $deviceMetaData
+         $post_data = [
+            'state_name'   => $state_name,
+            'state_code'   => $state_code,
+            'table_id' => $table_id
          ];
+
+         $validatedData = array();
 
          if ($validation->run($data)) {
             $validatedData = $validation->getValidated(); 
             //print_r($validatedData);
-            $result = $officeM->insertTableData($postData);
+            $result = $officeM->insertTableData($post_data);
 
             //echo '****** return form model *******';
             //echo json_encode($result);
@@ -88,16 +80,15 @@ class HardwareStockEntryC extends BaseController
      }
    }
 
-   public function removeTableDataHWS(){
+   public function removeTableDataST(){
       if($this->request->isAJAX()) {
          $return_data = array();
          $status = true;
-         $officeM = new HardwareStockEntryM();
+         $officeM = new StatemasterM();
 
          $table_id = service('request')->getPost('table_id');
-         $result = $officeM->removeTableDataHWS($table_id);
+         $result = $officeM->removeTableDataST($table_id);
          if($result['status'] == true){
-
          }
       }
 
@@ -105,14 +96,14 @@ class HardwareStockEntryC extends BaseController
       echo json_encode($return_data);
    }//end 
 
-   public function getTableDataHWS(){
+   public function getTableDataST(){
       if($this->request->isAJAX()) {
          $return_data = array();
          $status = true;
-         $officeM = new HardwareStockEntryM();
+         $officeM = new StatemasterM();
 
          $table_id = service('request')->getPost('table_id');
-         $result = $officeM->getTableDataHWS($table_id);
+         $result = $officeM->getTableDataST($table_id);
          if($result['status'] == true){
             $status = true;
             $row = $result['row'];

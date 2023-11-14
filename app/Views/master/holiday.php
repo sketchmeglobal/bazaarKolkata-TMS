@@ -58,7 +58,7 @@
                                     <th>Sl No</th>
                                     <th>Date</th>
                                     <th>Description</th>
-                                    <th>Acction</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>

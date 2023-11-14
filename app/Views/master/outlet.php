@@ -58,7 +58,7 @@
                                     <th>Sl No</th>
                                     <th>Outlet Name</th>
                                     <th>Outlet Location</th>
-                                    <th>Acction</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
