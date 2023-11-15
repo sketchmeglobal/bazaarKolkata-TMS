@@ -15,8 +15,10 @@ class IntramessageC extends BaseController
       }else{
           $head_officeM = new IntramessageM();   
           $session = session();
-          $emp_id = $session->emp_id;         
-         $data['rows'] = $head_officeM->getAllMessage($emp_id);            
+          $emp_id = $session->emp_id;   
+          $dg_id = $session->dg_id;       
+          $data['designation'] = $head_officeM->getAllDesignation();       
+         $data['rows'] = $head_officeM->getAllMessage($emp_id, $dg_id);            
          return view('message/intranet-messaging', $data);
       }
    }
@@ -26,7 +28,7 @@ class IntramessageC extends BaseController
          $query = service('request')->getPost('query');
          $message = $query['message'];
          $end_date = $query['end_date'];
-         //$table_id = $query['table_id'];
+         $dg_id = $query['dg_id'];
 
          $return_data = array();
          $status = true;
@@ -37,19 +39,22 @@ class IntramessageC extends BaseController
          $validation = \Config\Services::validation();
          $validation->setRules([
             'message' => 'required|min_length[5]',
-            'end_date' => 'required|min_length[1]'
+            'end_date' => 'required|min_length[1]',
+            'dg_id' => 'required|min_length[1]'
          ]);
 
          $data = [
             'message'   => $message,
-            'end_date'   => $end_date
+            'end_date'   => $end_date,
+            'dg_id' => $dg_id
          ];
          $validatedData = array();
 
          $pose_data = [
             'message'   => $message,
             'end_date'   => $end_date,
-            'emp_id' => $emp_id
+            'emp_id' => $emp_id,
+            'dg_id' => $dg_id
          ];
 
          if ($validation->run($data)) {

@@ -47,6 +47,7 @@ class AuthController extends BaseController
                         'email'        => $data[0]->email,
                         'user_level'   => $data[0]->user_level,
                         'ol_id'        => $data[0]->ol_id,
+                        'dg_id'        => $data[0]->dg_id,
                         'user_level_name'=> $data[0]->user_level_name,
                         'logged_in'    => TRUE
                     ];

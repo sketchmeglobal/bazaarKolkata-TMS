@@ -168,8 +168,7 @@
                                             <?php 
                                             $i++;
                                             endforeach ?>
-                                            <?php endif ?>
-                                                
+                                            <?php endif ?>                                                
                                         </select>
                                     </div>
                                     

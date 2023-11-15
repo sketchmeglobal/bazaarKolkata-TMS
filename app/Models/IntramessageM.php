@@ -40,8 +40,8 @@ class IntramessageM extends Model
     protected $afterDelete    = [];
 
 
-    public function getAllMessage($emp_id){
-      $rows = $this->db->table('intra_messaging')->select('intra_messaging.im_id, intra_messaging.from_emp_id, intra_messaging.message, intra_messaging.sent_date, intra_messaging.end_date, intra_messaging.read_unread, employee.emp_name')->join('employee', 'employee.emp_id = intra_messaging.from_emp_id')->where(['intra_messaging.row_status' => 1, 'from_emp_id !=' => $emp_id])->limit(100)->get()->getResult();
+    public function getAllMessage($emp_id, $dg_id){
+      $rows = $this->db->table('intra_messaging')->select('intra_messaging.im_id, intra_messaging.from_emp_id, intra_messaging.message, intra_messaging.sent_date, intra_messaging.end_date, intra_messaging.read_unread, employee.emp_name')->join('employee', 'employee.emp_id = intra_messaging.from_emp_id')->where(['intra_messaging.row_status' => 1, 'intra_messaging.to_dg_id' => $dg_id])->limit(100)->get()->getResult();
       return $rows;
     }//end function 
 
@@ -53,6 +53,7 @@ class IntramessageM extends Model
 
       $fields_array = [
         'from_emp_id' => $validatedData['emp_id'],
+        'to_dg_id' => $validatedData['dg_id'],
         'message' => $validatedData['message'],
         'end_date' => $validatedData['end_date']
       ];
@@ -143,6 +144,11 @@ class IntramessageM extends Model
       $ol_rows = $this->db->table('oultlet')->select('*')->where(['row_status' => 1])->get()->getResult();
       return $ol_rows;
     }//end function
+
+    public function getAllDesignation(){
+      $designation = $this->db->table('designation')->select('*')->where(['row_status' => 1])->limit(100)->get()->getResult();
+      return $designation;
+    }//end function 
 
 
 }

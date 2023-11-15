@@ -68,6 +68,24 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-4 col-12 ">
+                                    <div class="form-group">
+                                        <label for="dg_id">Designation</label>
+                                        <select class="form-control" id="dg_id" name="dg_id">
+                                            <option value="0">Select</option>
+                                            <?php if ($designation) : ?>
+                                            <?php 
+                                            $i = 1;
+                                            foreach ($designation as $desig) : ?>
+                                                <option value="<?=$desig->dg_id?>"><?=$desig->desig_name?></option>                                            
+                                            <?php 
+                                            $i++;
+                                            endforeach ?>
+                                            <?php endif ?>                                                
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <div class="col-md-12 mt-4 float-right">
@@ -76,11 +94,11 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <span class="col-md-12 mt-4 float-left" id="formValidMsg" style="color: #f00;"></apan>
-
                             </div>
                         </form>
+
+                        <span class="col-md-12 mt-4 float-left" id="formValidMsg" style="color: #f00;"></apan>
+                        <span class="col-md-12 mt-4 float-left" id="formSuccMsg" style="color: #0f0;"> </apan>
                     </div>
                     <!-- Send Message box -->
 
@@ -135,6 +153,7 @@
             function validateForm(){
                 $message = $('#message').val().replace(/^\s+|\s+$/gm,'');
                 $end_date = $('#end_date').val().replace(/^\s+|\s+$/gm,'');
+                $dg_id = $('#dg_id').val();
                 
                 $status = true;
                 $formValidMsg = '';
@@ -151,12 +170,22 @@
 
                 if($end_date == ''){
                     $status = false;
-                    $formValidMsg += ', and select end date';
+                    $formValidMsg += ', select end date';
                     $('#end_date').removeClass('is-valid');
                     $('#end_date').addClass('is-invalid');
                 }else{
                     $('#end_date').removeClass('is-invalid');
                     $('#end_date').addClass('is-valid');
+                } 
+
+                if($dg_id == '0'){
+                    $status = false;
+                    $formValidMsg += ', and select designation';
+                    $('#dg_id').removeClass('is-valid');
+                    $('#dg_id').addClass('is-invalid');
+                }else{
+                    $('#dg_id').removeClass('is-invalid');
+                    $('#dg_id').addClass('is-valid');
                 } 
 
                 $('#formValidMsg').html($formValidMsg);
@@ -173,16 +202,16 @@
                 $('#s_submitForm_spinner').show();
                 $('#s_submitForm_spinner_text').show();
                 $('#s_submitForm_text').hide();
-                $('#formValidMsg').hide();
+                $('#formValidMsg').html('');
 
                 setTimeout(function(){
                     $formVallidStatus = validateForm();
 
-                    if($formVallidStatus == true){  
-                        
+                    if($formVallidStatus == true){                         
                         $query = {
                             message: $message,
-                            end_date: $end_date
+                            end_date: $end_date,
+                            dg_id: $dg_id
                         };
 
                         console.log('form validated, save data & populate the data table')
@@ -195,23 +224,15 @@
                                 console.log(JSON.stringify(data));
                                 console.log('status: ' + data.status);
                                 if(data.status == true ){
-                                    $('#messageError').html('');
-                                    $('#end_dateError').html('');
+                                    //$('#messageError').html('');
+                                    //$('#end_dateError').html('');
                         
-                                    $('#formValidMsg').hide();
+                                    $('#formValidMsg').html('');
                                     $("#s_myFormName").trigger("reset");
 
                                     if(parseInt(data.im_id) > 0){
-                                        //Creat the row
-                                        var row = $('<tr>')
-                                            .append('<td>1</td>')
-                                            .append('<td>'+$message+'</td>')
-                                            .append('<td>'+$end_date+'</td>')
-                                            .append('<td class="d-flex justify-content-evenly"><a href="javascript: void(0);" class="edit_class" ><i class="fa fa-edit"></i></a> <a class="remove" href="javascript: void(0);"><i class="fas fa-times" ></i></a></td>')
-
-                                        //Prepend row with Table
-                                        //myTable.row.add(row);
-                                        $('#myTable tbody').prepend(row);
+                                        console.log('Your message sent successfully');
+                                        $('#formSuccMsg').html('Your message sent successfully');
                                     }
 
                                     //Hide Modal
@@ -228,7 +249,7 @@
                         });
                     }else{
                         console.log('form validation Error')                    
-                        $('#formValidMsg').show();
+                        //$('#formValidMsg').show();
                     }
 
                 }, 500)    
