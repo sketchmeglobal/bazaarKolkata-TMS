@@ -51,6 +51,9 @@ class EmployeeM extends Model
       $wh_id = $validatedData['wh_id'];
       $ol_id = $validatedData['ol_id'];
       $user_level = $validatedData['user_level'];
+      $state_name = $validatedData['state_name'];
+      $city_name = $validatedData['city_name'];
+
       $primary_phone = $validatedData['primary_phone'];
       $email_id = $validatedData['email_id'];
       $password =  hash('sha512', $primary_phone);
@@ -60,6 +63,8 @@ class EmployeeM extends Model
         'ho_id' => $ho_id,
         'wh_id' => $wh_id,
         'ol_id' => $ol_id,
+        'state_id' => $state_name,
+        'city_id' => $city_name,
         'emp_name' => $validatedData['emp_name'],
         'primary_phone' => $validatedData['primary_phone'],
         'secondary_phone' => $validatedData['secondary_phone'],
@@ -212,6 +217,28 @@ class EmployeeM extends Model
     public function getAllUserLevel(){
       $u_level_rows = $this->db->table('user_level')->select('*')->where(['row_status' => 1])->get()->getResult();
       return $u_level_rows;
+    }//end function
+
+    public function getAllStates(){
+      $tt_rows = $this->db->table('state_master')->select('*')->where(['row_status' => 1, 'parent_id' => 0])->get()->getResult();
+      return $tt_rows;
+    }//end function 
+
+    public function getCityList($state_name){
+      $status = true;
+      $return_data = array();      
+
+      $row = $this->db->table('state_master')->select('*')->where(['parent_id' => $state_name ])->get()->getResult();
+
+      $option_text = '<option value="0">Select</option>';
+      for($i = 0; $i < sizeof($row); $i++){
+        $option_text .= '<option value="'.$row[$i]->state_id.'">'.$row[$i]->city_name.'</option>';
+      }//end for
+
+      $return_data['status'] = $status;
+      $return_data['option_text'] = $option_text;
+
+      return $return_data;
     }//end function
 
 

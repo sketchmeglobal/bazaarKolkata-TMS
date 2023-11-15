@@ -59,6 +59,11 @@
                     $reports_show_hide = 'show active';
                 }
                 
+                $intra_message_show_hide = '';
+                if($showword == 'IntramessageC'){
+                    $intra_message_show_hide = 'active';
+                }
+
                 ?>
                 
                 <div class="navbar-nav w-100">
@@ -114,7 +119,7 @@
                     </div>
                     <?php } ?>
 
-                    <!-- <a href="<?= base_url('admin/profile')  ?>" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Profile</a> -->
+                    <a href="<?= base_url('admin/intranet-messaging')  ?>" class="nav-item nav-link <?=$intra_message_show_hide?>"><i class="fa fa-user me-2"></i>Intranet Messaging</a>
                 </div>
             </nav>
         </div>

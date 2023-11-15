@@ -174,6 +174,25 @@
                                             <?php endif ?>
                                         </select>
                                     </div>
+                                    
+                                    <div class="col-md-4 mb-1">
+                                        <label for="state_name">State Name</label>
+                                        <select class="form-control" id="state_name" name="state_name">
+                                            <option value="0">Select</option>
+                                            <?php if($state_rows): ?>
+                                            <?php foreach($state_rows as $state_row): ?>
+                                            <option value="<?=$state_row->state_id?>"><?=$state_row->state_name?> </option>
+                                            <?php endforeach ?>
+                                            <?php endif ?>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-1">
+                                        <label for="city_name">City Name</label>
+                                        <select class="form-control" id="city_name" name="city_name">
+                                            <option value="0">Select</option>
+                                        </select>
+                                    </div>
 
                                     <div class="col-md-4 mb-1">
                                         <span class="error" id="formError">  </span>
@@ -209,6 +228,8 @@
                 $emp_name = $('#emp_name').val().replace(/^\s+|\s+$/gm,'');
                 $primary_phone = $('#primary_phone').val().replace(/^\s+|\s+$/gm,'');
                 $user_level = $('#user_level').val();
+                $state_name = $('#state_name').val();
+                $city_name = $('#city_name').val();
                 
                 $status = true;
                 $formValidMsg = 'Please enter';
@@ -243,6 +264,26 @@
                     $('#user_level').addClass('is-valid');
                 } 
 
+                if($state_name == '0'){
+                    $status = false;
+                    $formValidMsg += ', State Name';
+                    $('#state_name').removeClass('is-valid');
+                    $('#state_name').addClass('is-invalid');
+                }else{
+                    $('#state_name').removeClass('is-invalid');
+                    $('#state_name').addClass('is-valid');
+                } 
+
+                if($city_name == '0'){
+                    $status = false;
+                    $formValidMsg += ', City Name';
+                    $('#city_name').removeClass('is-valid');
+                    $('#city_name').addClass('is-invalid');
+                }else{
+                    $('#city_name').removeClass('is-invalid');
+                    $('#city_name').addClass('is-valid');
+                } 
+
 
                 $('#formValidMsg').html($formValidMsg);
 
@@ -273,6 +314,8 @@
                         $dg_id = $('#dg_id').val();
                         $desig_name = $('#dg_id option:selected').text();
                         $user_level = $('#user_level').val();
+                        $state_name = $('#state_name').val();
+                        $city_name = $('#city_name').val();
                         
                         $query = {
                             emp_name: $emp_name,
@@ -284,7 +327,9 @@
                             ho_id: $ho_id,
                             wh_id: $wh_id,
                             ol_id: $ol_id,
-                            user_level: $user_level                            
+                            user_level: $user_level,
+                            state_name: $state_name,
+                            city_name: $city_name                              
                         };
 
                         console.log('form validated, save data & populate the data table')
@@ -400,6 +445,10 @@
                             $('#table_id').val(data.result.emp_id);
                             $('#dg_id').val(data.result.dg_id);
                             $('#user_level').val(data.result.user_level);
+                            $('#state_name').val(data.result.state_id).trigger('change');
+                            setTimeout(function(){
+                                $('#city_name').val(data.result.city_id).trigger('change');                                
+                            }, 1000);
                             $('#myModal').modal('show');
                         }
                     }  
@@ -508,4 +557,22 @@
                 });//end ajak                
             }//end fun
 
+
+            $('#state_name').on('change', function(){
+                $state_name = $('#state_name').val();
+                console.log('state_name: ' + $state_name);
+
+                $.ajax({  
+                    url: '<?php echo base_url('admin/get-city-list'); ?>',
+                    type: 'post',
+                    dataType: 'json',
+                    data:{state_name: $state_name},
+                    success:function(data){
+                        //console.log(JSON.stringify(data));
+                        if(data.status == true ){
+                            $('#city_name').html(data.option_text);
+                        }
+                    }  
+                });//end ajak
+            })
             </script>

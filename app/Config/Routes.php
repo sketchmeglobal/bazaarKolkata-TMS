@@ -64,6 +64,7 @@ $routes->group('admin', static function ($routes) {
 
     //Employee
     $routes->match(['get', 'post'], 'employee', 'Master\EmployeeC::index');
+    $routes->match(['get', 'post'], 'get-city-list', 'Master\EmployeeC::getCityList');
     $routes->match(['get', 'post'], 'formValidationEM', 'Master\EmployeeC::formValidationEM');
     $routes->match(['get', 'post'], 'removeTableDataEM', 'Master\EmployeeC::removeTableDataEM');
     $routes->match(['get', 'post'], 'getTableDataEM', 'Master\EmployeeC::getTableDataEM');
@@ -136,8 +137,9 @@ $routes->group('admin', static function ($routes) {
     $routes->match(['get', 'post'], 'user-task-search', 'UserstaskreportC::index');
     $routes->match(['get', 'post'], 'user-task-report', 'UserstaskreportC::getSearchResult');
     
-    //Return Hardware
-    //$routes->match(['get', 'post'], 'return-hardware', 'ReturnhardwareC::index');
+    //Intranet Messaging
+    $routes->match(['get', 'post'], 'intranet-messaging', 'IntramessageC::index');
+    $routes->match(['get', 'post'], 'formValidationIM', 'IntramessageC::formValidationIM');
 
     //above links are working
 
@@ -146,7 +148,6 @@ $routes->group('admin', static function ($routes) {
     /*$routes->match(['get', 'post'], 'profile', 'DashboardC::profile');
     $routes->match(['get', 'post'], 'sr-association', 'DashboardC::sr_association');
     $routes->match(['get', 'post'], 'severity-mapping', 'DashboardC::severity');
-    $routes->match(['get', 'post'], 'intranet-massaging', 'DashboardC::internet_masg');
     $routes->match(['get', 'post'], 'all-users', 'DashboardC::all_users');*/
 
 });

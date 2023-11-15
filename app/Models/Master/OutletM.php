@@ -50,8 +50,12 @@ class OutletM extends Model
       $return_data = array();
       $ho_id = 0;
       $table_id = $validatedData['table_id'];
+      $state_name = $validatedData['state_name'];
+      $city_name = $validatedData['city_name'];
 
       $fields_array = [
+        'state_id' => $state_name,
+        'city_id' => $city_name,
         'ol_name'     => $validatedData['ol_name'],
         'ol_location'  => $validatedData['ol_location'],
       ];
@@ -100,4 +104,9 @@ class OutletM extends Model
       $return_data['row'] = $row;
       return $return_data;
     }//end function
+
+    public function getAllStates(){
+      $tt_rows = $this->db->table('state_master')->select('*')->where(['row_status' => 1, 'parent_id' => 0])->get()->getResult();
+      return $tt_rows;
+    }//end function 
 }

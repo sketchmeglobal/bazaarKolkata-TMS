@@ -17,7 +17,8 @@ class EmployeeC extends BaseController
          $data['ho_rows'] = $head_officeM->getAllHeadOffice();           
          $data['wh_rows'] = $head_officeM->getAllWareHouse();           
          $data['ol_rows'] = $head_officeM->getAllOutlet();           
-         $data['u_level_rows'] = $head_officeM->getAllUserLevel();  
+         $data['u_level_rows'] = $head_officeM->getAllUserLevel();            
+         $data['state_rows'] = $head_officeM->getAllStates();    
 
          return view('master/employee', $data);
       }
@@ -36,6 +37,8 @@ class EmployeeC extends BaseController
          $wh_id = $query['wh_id'];
          $ol_id = $query['ol_id'];
          $user_level = $query['user_level'];
+         $state_name = $query['state_name'];
+         $city_name = $query['city_name'];
 
          $return_data = array();
          $status = true;
@@ -71,7 +74,9 @@ class EmployeeC extends BaseController
             'ho_id' => $ho_id,
             'wh_id' => $wh_id,
             'ol_id' => $ol_id,
-            'user_level' => $user_level
+            'user_level' => $user_level,
+            'state_name' => $state_name,
+            'city_name' => $city_name
          ];
 
          $validatedData = array();
@@ -182,6 +187,28 @@ class EmployeeC extends BaseController
          $result = $officeM->getDesigTableDataEM($ho_id, $wh_id, $ol_id);
          echo json_encode($result);
       }      
+   }//end 
+
+   public function getCityList(){
+      if($this->request->isAJAX()) {
+         $return_data = array();
+         $status = true;
+         $message = '';
+         $officeM = new EmployeeM();
+
+         $state_name = service('request')->getPost('state_name');
+         $result = $officeM->getCityList($state_name);
+         if($result['status'] == true){
+            $status = true;
+            $option_text = $result['option_text'];            
+         }else{
+            $status = false;
+         }
+      }
+
+      $return_data['status'] = $status;
+      $return_data['option_text'] = $option_text;
+      echo json_encode($return_data);
    }//end 
 
 }

@@ -13,8 +13,9 @@ class OutletC extends BaseController
       if($session->logged_in == '') {
           return redirect()->to('logout');
       }else{
-          $head_officeM = new OutletM();            
+         $head_officeM = new OutletM();            
          $data['rows'] = $head_officeM->findAll();            
+         $data['state_rows'] = $head_officeM->getAllStates();               
          return view('master/outlet', $data);
       }
    }
@@ -25,6 +26,8 @@ class OutletC extends BaseController
          $ol_name = $query['ol_name'];
          $ol_location = $query['ol_location'];
          $table_id = $query['table_id'];
+         $state_name = $query['state_name'];
+         $city_name = $query['city_name'];
 
          $return_data = array();
          $status = true;
@@ -45,10 +48,18 @@ class OutletC extends BaseController
          ];
          $validatedData = array();
 
+         $post_data = [
+            'ol_name'   => $ol_name,
+            'ol_location'   => $ol_location,
+            'table_id' => $table_id,
+            'state_name' => $state_name,
+            'city_name' => $city_name
+         ];
+
          if ($validation->run($data)) {
             $validatedData = $validation->getValidated(); 
             //print_r($validatedData);
-            $result = $officeM->insertTableData($validatedData);
+            $result = $officeM->insertTableData($post_data);
 
             //echo '****** return form model *******';
             //echo json_encode($result);
