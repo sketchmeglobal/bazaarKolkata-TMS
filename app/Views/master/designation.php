@@ -48,7 +48,7 @@
             <div></div>
             <div class="container">
                 <div class="row bg-light">
-                    <div class="col-md-12 my-2 px-4">
+                    <!-- <div class="col-md-12 my-2 px-4">
                         <div class="row">
                             <div class="col-lg-3 col-md-6 form-group">
                                 <label for="ho_id">H.O Name</label>
@@ -89,9 +89,9 @@
                             <span class="error" id="desigSearchError"></span>
 
                         </div>
-                    </div> 
+                    </div>  -->
 
-                    <div class="col-md-12 px-4" id="part_2" style="display: none">
+                    <div class="col-md-12 px-4" id="part_2" >
                         <button type="button" id="addNewRecord" class="btn btn-primary ms-2"
                             style="float: right; margin-bottom: 5px;">Add New</button>
 
@@ -105,6 +105,23 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php if ($rows) : ?>
+                                <?php 
+                                    $i = 1;
+                                    foreach ($rows as $row) : ?>
+                                <tr>
+                                    <td><?=$i?></td>
+                                    <td><?=$row->desig_name?></td>
+                                    <td><?=$row->desig_priority?></td>
+                                    <td class="d-flex justify-content-evenly">
+                                        <a href="javascript: void(0);" class="edit_class" data-table_id="<?=$row->dg_id?>"><i class="fa fa-edit"></i></a>
+                                        <a class="remove" href="javascript: void(0);" data-table_id="<?=$row->dg_id?>"><i class="fas fa-times"></i></a>
+                                    </td>
+                                </tr>
+                                <?php 
+                                $i++;
+                                endforeach ?>
+                                <?php endif ?>
                             </tbody>
                         </table>
                     </div>
@@ -218,18 +235,12 @@
                     $formVallidStatus = validateForm();
 
                     if($formVallidStatus == true){
-                        $table_id = $('#table_id').val();                        
-                        $ho_id = $('#ho_id').val();
-                        $wh_id = $('#wh_id').val();
-                        $ol_id = $('#ol_id').val();
+                        $table_id = $('#table_id').val();  
                         
                         $query = {
                             desig_name: $desig_name,
                             desig_priority: $desig_priority,
-                            table_id: $table_id,
-                            ho_id: $ho_id,
-                            wh_id: $wh_id,
-                            ol_id: $ol_id
+                            table_id: $table_id
                         };
 
                         console.log('form validated, save data & populate the data table')

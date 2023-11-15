@@ -160,6 +160,16 @@
                                         <label for="dg_id">Designation Name</label>
                                         <select class="form-control" id="dg_id" name="dg_id">
                                             <option value="0">Select</option>
+                                            <?php if ($designation) : ?>
+                                            <?php 
+                                            $i = 1;
+                                            foreach ($designation as $desig) : ?>
+                                                <option value="<?=$desig->dg_id?>"><?=$desig->desig_name?></option>                                            
+                                            <?php 
+                                            $i++;
+                                            endforeach ?>
+                                            <?php endif ?>
+                                                
                                         </select>
                                     </div>
                                     
@@ -362,6 +372,8 @@
                                         //Prepend row with Table
                                         //myTable.row.add(row);
                                         $('#myTable tbody').prepend(row);
+                                    }else{
+                                        populateDataTable();
                                     }
 
                                     //Hide Modal
@@ -481,7 +493,7 @@
                         $('#desigSearchError').html('Please choose any one of Head Office or Ware House or Outlet');
                     }else{
                         populateDataTable();
-                        getDesignationEM();
+                        //getDesignationEM();
                         $('#part_2').show();
                     }
 

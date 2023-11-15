@@ -13,7 +13,8 @@ class EmployeeC extends BaseController
       if($session->logged_in == '') {
           return redirect()->to('logout');
       }else{
-          $head_officeM = new EmployeeM();            
+          $head_officeM = new EmployeeM();             
+          $data['designation'] = $head_officeM->getAllDesignation();           
          $data['ho_rows'] = $head_officeM->getAllHeadOffice();           
          $data['wh_rows'] = $head_officeM->getAllWareHouse();           
          $data['ol_rows'] = $head_officeM->getAllOutlet();           

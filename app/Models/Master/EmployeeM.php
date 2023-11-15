@@ -241,5 +241,10 @@ class EmployeeM extends Model
       return $return_data;
     }//end function
 
+    public function getAllDesignation(){
+      $rows = $this->db->table('designation')->select('*')->where(['row_status' => 1])->limit(100)->get()->getResult();
+      return $rows;
+    }//end function 
+
 
 }

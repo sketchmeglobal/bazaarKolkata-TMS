@@ -14,7 +14,7 @@ class DesignationC extends BaseController
           return redirect()->to('logout');
       }else{
           $head_officeM = new DesignationM();            
-         $data['rows'] = $head_officeM->findAll();           
+         $data['rows'] = $head_officeM->getAllDesignation();           
          $data['ho_rows'] = $head_officeM->getAllHeadOffice();           
          $data['wh_rows'] = $head_officeM->getAllWareHouse();           
          $data['ol_rows'] = $head_officeM->getAllOutlet();            
@@ -28,9 +28,9 @@ class DesignationC extends BaseController
          $desig_name = $query['desig_name'];
          $desig_priority = $query['desig_priority'];
          $table_id = $query['table_id'];
-         $ho_id = $query['ho_id'];
-         $wh_id = $query['wh_id'];
-         $ol_id = $query['ol_id'];
+         // $ho_id = $query['ho_id'];
+         // $wh_id = $query['wh_id'];
+         // $ol_id = $query['ol_id'];
 
          $return_data = array();
          $status = true;
@@ -39,21 +39,15 @@ class DesignationC extends BaseController
             
          $validation = \Config\Services::validation();
          $validation->setRules([
-            'desig_name' => 'required|min_length[5]',
+            'desig_name' => 'required|min_length[1]',
             'desig_priority' => 'required|min_length[1]',
-            'table_id' => 'required',
-            'ho_id' => 'required',
-            'wh_id' => 'required',
-            'ol_id' => 'required'
+            'table_id' => 'required'
          ]);
 
          $data = [
             'desig_name'   => $desig_name,
             'desig_priority'   => $desig_priority,
-            'table_id' => $table_id,
-            'ho_id' => $ho_id,
-            'wh_id' => $wh_id,
-            'ol_id' => $ol_id
+            'table_id' => $table_id
          ];
          $validatedData = array();
 

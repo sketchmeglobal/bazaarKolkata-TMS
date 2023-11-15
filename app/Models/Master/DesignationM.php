@@ -40,26 +40,20 @@ class DesignationM extends Model
     protected $afterDelete    = [];
 
 
-    public function office($ins_data){
-      $this->db->table('designation')->insert($ins_data);
-      return true;
-    }
+    public function getAllDesignation(){
+      $rows = $this->db->table('designation')->select('*')->where(['row_status' => 1])->limit(100)->get()->getResult();
+      return $rows;
+    }//end function 
 
     public function insertTableData($validatedData){
       $status = true;
       $return_data = array();
-      $ho_id = 0;
+      $dg_id = 0;
       $table_id = $validatedData['table_id'];
-      $ho_id = $validatedData['ho_id'];
-      $wh_id = $validatedData['wh_id'];
-      $ol_id = $validatedData['ol_id'];
 
       $fields_array = [
-        'ho_id' => $ho_id,
-        'wh_id' => $wh_id,
-        'ol_id' => $ol_id,
         'desig_name' => $validatedData['desig_name'],
-        'desig_priority' => $validatedData['desig_priority'],
+        'desig_priority' => $validatedData['desig_priority']
       ];
 
       if($table_id > 0){

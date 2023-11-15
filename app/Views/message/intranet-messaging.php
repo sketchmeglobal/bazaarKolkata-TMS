@@ -60,7 +60,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mt-2">
                                 <div class="col-md-4 col-12 ">
                                     <div class="form-group">
                                         <label for="end_date">End date</label>
